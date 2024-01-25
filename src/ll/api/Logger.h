@@ -65,13 +65,14 @@ public:
             std::array<std::string, 5> const& fileFormat = {"[{0} {1}][{2}] {3}", "{:%F %T}.{:0>3}", "{}", "{}", "{}"}
         );
 
-        template <ll::concepts::IsString S, class... Args>
-        void operator()(S const& fmt, Args const&... args) const noexcept(sizeof...(args) == 0) {
-            if constexpr (sizeof...(args) == 0) {
-                print(fmt);
-            } else {
-                print(fmt::format(fmt::runtime(fmt), args...));
-            }
+        template <typename... Args>
+        void operator()(fmt::format_string<Args...> fmt, Args&&... args) const {
+            print(fmt::vformat(fmt.get(), fmt::make_format_args(args...)));
+        }
+
+        template <ll::concepts::IsString S>
+        void operator()(S const& msg) const {
+            print(msg);
         }
 
         void setPlayerOutputFunc(player_output_fn const& func) { playerOutputCallback = func; }
