@@ -7,7 +7,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.5.1] - 2023-01-19
+## [0.6.2] - 2024-01-29
+
+### Changed
+
+- Add move to parseSnbt
+- Refactoring FileWatcher
+- Remove useless output
+
+### Fixed
+
+- Fix scheduler remove
+- Export PluginManager virtual function
+
+## [0.6.1] - 2024-01-29
+
+### Changed
+
+- Add check to fromNetworkNbt
+
+### Fixed
+
+- Fix commandOutput bugs
+- add type to CommandOutputMessageType
+- Fix CommandOutput success&error
+
+## [0.6.0] - 2024-01-28
+
+### Added
+
+- Add initializer list to CompoundTag
+- Complete the size of RenderParams and VanillaTreeFeature, as well as VillageFeature, add their respective member variables to WorldBlockTarget and WorldGenContext
+- Add a virtual destructor to IBlockWorldGenAPI to ensure its size is correct
+- Add member variables to ChunkSource
+- Filler DistanceSortedActor struct
+- Dependency diagnostic for NativePlugin
+- Complete the member variables for Pos2d, the size for Block, and the parent class list for DividedPos2d
+- Revise the construction of buffer_span_mut and ActorBlockSyncMessage, and complete the member variables for ChunkLocalNoiseCache
+- Add member variables to Aquifer::FluidSample and Aquifer
+- Move fakeChangeDimension to api
+
+### Changed
+
+- Compress dim nbt data
+- Logger switch to format_string for compile time instantiate
+- Refactoring format string
+- Remove DimensionUtils
+
+### Fixed
+
+- Fix current_zone not working on old Windows and Wine
+- Fix snbt empty list bug
+- Fix CommandRegistry crash in using Symbol member
+- Fix CommandRegistry::Symbol abi
+- Fix the offset size error in member variable comments caused by changes in member variables.
+- Logger add override for msg only print
+- Fix some error in custom dimension
+- Fix LevelSeed64 crash
+- Fix dll deps load
+
+## [0.5.1] - 2024-01-19
 
 ### Added
 
@@ -31,7 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update enum classes with explicit underlying types
 - Fix FlatWorldGeneratorOptions
 
-## [0.5.0] - 2023-01-17
+## [0.5.0] - 2024-01-17
 
 ### Added
 
@@ -115,7 +174,10 @@ First preview release.
 
 For lip and tooth-hub test only.
 
-[unreleased]: https://github.com/LiteLDev/LeviLamina/compare/v0.4.2...HEAD
+[unreleased]: https://github.com/LiteLDev/LeviLamina/compare/v0.6.2...HEAD
+[0.6.2]: https://github.com/LiteLDev/LeviLamina/compare/v0.6.1...v0.6.2
+[0.6.1]: https://github.com/LiteLDev/LeviLamina/compare/v0.6.0...v0.6.1
+[0.6.0]: https://github.com/LiteLDev/LeviLamina/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/LiteLDev/LeviLamina/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/LiteLDev/LeviLamina/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/LiteLDev/LeviLamina/compare/v0.4.1...v0.4.2

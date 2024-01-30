@@ -2,13 +2,11 @@ on:
   push:
     paths:
       - .github/workflows/build_levilamina.yml
-      - scripts/localbdslibrary.lua
       - src/**
       - xmake.lua
   pull_request:
     paths:
       - .github/workflows/build_levilamina.yml
-      - scripts/localbdslibrary.lua
       - src/**
       - xmake.lua
   workflow_dispatch:
@@ -23,14 +21,13 @@ jobs:
 
       - uses: xmake-io/github-action-setup-xmake@v1
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ~/AppData/Local/.xmake
-            .xmake
-          key: xmake-levilamina-windows-x64-${{ github.sha }}
+          key: xmake-${{ hashFiles('xmake.lua') }}
           restore-keys: |
-            xmake-levilamina-windows-x64-
+            xmake-
 
       - run: |
           xmake repo -u
@@ -41,7 +38,7 @@ jobs:
       - run: |
           xmake -w -y
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: levilamina-windows-x64-${{ github.sha }}
           path: |
@@ -58,14 +55,13 @@ jobs:
 
       - uses: xmake-io/github-action-setup-xmake@v1
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ~/AppData/Local/.xmake
-            .xmake
-          key: xmake-levilamina-debug-windows-x64-${{ github.sha }}
+          key: xmake-${{ hashFiles('xmake.lua') }}
           restore-keys: |
-            xmake-levilamina-debug-windows-x64-
+            xmake-
 
       - run: |
           xmake repo -u
@@ -76,7 +72,7 @@ jobs:
       - run: |
           xmake -w -y
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: levilamina-debug-windows-x64-${{ github.sha }}
           path: |
@@ -93,14 +89,13 @@ jobs:
 
       - uses: xmake-io/github-action-setup-xmake@v1
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ~/AppData/Local/.xmake
-            .xmake
-          key: xmake-levilamina-with-tests-windows-x64-${{ github.sha }}
+          key: xmake-${{ hashFiles('xmake.lua') }}
           restore-keys: |
-            xmake-levilamina-with-tests-windows-x64-
+            xmake-
 
       - run: |
           xmake repo -u
@@ -111,7 +106,7 @@ jobs:
       - run: |
           xmake -w -y
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: levilamina-with-tests-windows-x64-${{ github.sha }}
           path: |
@@ -128,14 +123,13 @@ jobs:
 
       - uses: xmake-io/github-action-setup-xmake@v1
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ~/AppData/Local/.xmake
-            .xmake
-          key: xmake-levilamina-debug-with-tests-windows-x64-${{ github.sha }}
+          key: xmake-${{ hashFiles('xmake.lua') }}
           restore-keys: |
-            xmake-levilamina-debug-with-tests-windows-x64-
+            xmake-
 
       - run: |
           xmake repo -u
@@ -146,7 +140,7 @@ jobs:
       - run: |
           xmake -w -y
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: levilamina-debug-with-tests-windows-x64-${{ github.sha }}
           path: |
