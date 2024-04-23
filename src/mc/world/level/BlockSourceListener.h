@@ -5,6 +5,11 @@
 // auto generated inclusion list
 #include "mc/world/level/block/utils/BlockChangedEventTarget.h"
 
+class BlockSource;
+class BlockPos;
+class Actor;
+struct ActorBlockSyncMessage;
+
 class BlockSourceListener {
 public:
     // prevent constructor by default
@@ -29,7 +34,7 @@ public:
     // vIndex: 4, symbol:
     // ?onBlockChanged@BlockSourceListener@@UEAAXAEAVBlockSource@@AEBVBlockPos@@IAEBVBlock@@2HPEBUActorBlockSyncMessage@@W4BlockChangedEventTarget@@PEAVActor@@@Z
     virtual void
-    onBlockChanged(class BlockSource& source, class BlockPos const&, uint, class Block const&, class Block const&, int, struct ActorBlockSyncMessage const*, ::BlockChangedEventTarget, class Actor*);
+    onBlockChanged(class BlockSource& source, class BlockPos const& pos, uint layer, class Block const& block, class Block const& oldBlock, int updateFlags, struct ActorBlockSyncMessage const* syncMsg, ::BlockChangedEventTarget, class Actor*);
 
     // vIndex: 5, symbol: ?onBrightnessChanged@BlockSourceListener@@UEAAXAEAVBlockSource@@AEBVBlockPos@@@Z
     virtual void onBrightnessChanged(class BlockSource& source, class BlockPos const& pos);

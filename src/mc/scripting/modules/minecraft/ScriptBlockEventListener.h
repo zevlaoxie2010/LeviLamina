@@ -3,6 +3,7 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
+#include "mc/enums/PistonState.h"
 #include "mc/external/scripting/TypedObjectHandle.h"
 #include "mc/world/events/EventResult.h"
 
@@ -13,6 +14,7 @@ class Block;
 class BlockPos;
 class Dimension;
 class ItemStackBase;
+class Level;
 class Player;
 namespace ScriptModuleMinecraft { class IScriptWorldAfterEvents; }
 namespace Scripting { class WeakLifetimeScope; }
@@ -20,6 +22,7 @@ struct BlockNotificationEvent;
 struct ButtonPushEvent;
 struct ExplosionStartedEvent;
 struct LeverActionEvent;
+struct NewBlockID;
 struct PistonActionEvent;
 struct PressurePlatePopEvent;
 struct PressurePlatePushEvent;
@@ -55,21 +58,25 @@ public:
     virtual ::EventResult
     onBlockDestroyedByPlayer(class Player&, class Block const&, class BlockPos const&, class ItemStackBase const&, class ItemStackBase const&);
 
-    // vIndex: 3, symbol: __unk_vfn_3
-    virtual void __unk_vfn_3();
+    // vIndex: 3, symbol:
+    // ?onBlockInPosWillBeDestroyedByPlayer@BlockEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@AEBVBlockPos@@@Z
+    virtual ::EventResult onBlockInPosWillBeDestroyedByPlayer(class Player& player, class BlockPos const& pos);
 
-    // vIndex: 4, symbol: __unk_vfn_4
-    virtual void __unk_vfn_4();
+    // vIndex: 4, symbol:
+    // ?onBlockMovedByPiston@BlockEventListener@@UEAA?AW4EventResult@@AEBVBlockPos@@0W4PistonState@@@Z
+    virtual ::EventResult
+    onBlockMovedByPiston(class BlockPos const& pistonPos, class BlockPos const& blockPos, ::PistonState action);
 
-    // vIndex: 5, symbol: __unk_vfn_5
-    virtual void __unk_vfn_5();
+    // vIndex: 5, symbol:
+    // ?onBlockDestructionStopped@BlockEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@AEBVBlockPos@@H@Z
+    virtual ::EventResult onBlockDestructionStopped(class Player& player, class BlockPos const& blockPos, int progress);
 
     // vIndex: 6, symbol:
     // ?onBlockDestructionStarted@ScriptBlockEventListener@ScriptModuleMinecraft@@UEAA?AW4EventResult@@AEAVPlayer@@AEBVBlockPos@@E@Z
     virtual ::EventResult onBlockDestructionStarted(class Player&, class BlockPos const&, uchar);
 
-    // vIndex: 7, symbol: __unk_vfn_7
-    virtual void __unk_vfn_7();
+    // vIndex: 7, symbol: ?onBlockInteractedWith@BlockEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@AEBVBlockPos@@@Z
+    virtual ::EventResult onBlockInteractedWith(class Player& player, class BlockPos const& blockPos);
 
     // vIndex: 8, symbol:
     // ?onBlockExploded@ScriptBlockEventListener@ScriptModuleMinecraft@@UEAA?AW4EventResult@@AEAVDimension@@AEBVBlockPos@@AEBVBlock@@PEAVActor@@@Z
@@ -80,11 +87,13 @@ public:
         class Actor* source
     );
 
-    // vIndex: 9, symbol: __unk_vfn_9
-    virtual void __unk_vfn_9();
+    // vIndex: 9, symbol: ?onBlockModified@BlockEventListener@@UEAA?AW4EventResult@@AEBVBlockPos@@AEBVBlock@@1@Z
+    virtual ::EventResult
+    onBlockModified(class BlockPos const& pos, class Block const& oldBlock, class Block const& newBlock);
 
-    // vIndex: 10, symbol: __unk_vfn_10
-    virtual void __unk_vfn_10();
+    // vIndex: 10, symbol:
+    // ?onUnknownBlockReceived@BlockEventListener@@UEAA?AW4EventResult@@AEAVLevel@@AEBUNewBlockID@@G@Z
+    virtual ::EventResult onUnknownBlockReceived(class Level& level, struct NewBlockID const& blockId, ushort data);
 
     // vIndex: 11, symbol:
     // ?onEvent@?$EventListenerDispatcher@VBlockEventListener@@@@MEAA?AW4EventResult@@AEBUBlockNotificationEvent@@@Z
@@ -93,12 +102,12 @@ public:
     // vIndex: 12, symbol: __unk_vfn_12
     virtual void __unk_vfn_12();
 
-    // vIndex: 13, symbol: __unk_vfn_13
-    virtual void __unk_vfn_13();
-
-    // vIndex: 14, symbol:
+    // vIndex: 13, symbol:
     // ?onEvent@ScriptBlockEventListener@ScriptModuleMinecraft@@UEAA?AW4EventResult@@AEBUExplosionStartedEvent@@@Z
     virtual ::EventResult onEvent(struct ExplosionStartedEvent const&);
+
+    // vIndex: 14, symbol: __unk_vfn_14
+    virtual void __unk_vfn_14();
 
     // vIndex: 15, symbol: __unk_vfn_15
     virtual void __unk_vfn_15();

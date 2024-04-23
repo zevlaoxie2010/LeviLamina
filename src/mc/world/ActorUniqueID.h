@@ -9,17 +9,13 @@ namespace mce { class UUID; }
 
 struct ActorUniqueID {
 public:
-    int64 id;
-    ActorUniqueID() { id = -1; }
-
-    explicit ActorUniqueID(int64 i) { id = i; }
-
-    [[nodiscard]] constexpr int64 get() const { return id; }
-
-    [[nodiscard]] constexpr operator int64() const { return id; } // NOLINT
+    int64 id{};
 
 public:
     // NOLINTBEGIN
+    // symbol: ?getHash@ActorUniqueID@@QEBA_KXZ
+    MCAPI uint64 getHash() const;
+
     // symbol: ?fromUUID@ActorUniqueID@@SA?AU1@AEBVUUID@mce@@@Z
     MCAPI static struct ActorUniqueID fromUUID(class mce::UUID const&);
 
@@ -33,6 +29,6 @@ namespace std {
 template <>
 class hash<ActorUniqueID> {
 public:
-    size_t operator()(ActorUniqueID const& id) const { return std::hash<int64>()(id.id); }
+    size_t operator()(ActorUniqueID const& id) const { return id.getHash(); }
 };
 } // namespace std

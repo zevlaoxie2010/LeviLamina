@@ -62,9 +62,6 @@ public:
     // symbol: ?getBool@Option@@QEBA_NXZ
     MCAPI bool getBool() const;
 
-    // symbol: ?hasOverrideSource@Option@@QEBA_NXZ
-    MCAPI bool hasOverrideSource() const;
-
     // symbol: ?notifyOptionValueChanged@Option@@QEAAX_N@Z
     MCAPI void notifyOptionValueChanged(bool saveOptionChange);
 
@@ -72,10 +69,8 @@ public:
     MCAPI class Bedrock::PubSub::Subscription registerLock(std::function<void(bool&)> isModifiableCondition);
 
     // symbol: ?registerObserver@Option@@QEAA?AVSubscription@PubSub@Bedrock@@V?$function@$$A6AXAEBVOption@@@Z@std@@@Z
-    MCAPI class Bedrock::PubSub::Subscription registerObserver(std::function<void(class Option const&)>);
-
-    // symbol: ?setRequestSaveCallback@Option@@QEAAXV?$function@$$A6AX_N@Z@std@@@Z
-    MCAPI void setRequestSaveCallback(std::function<void(bool)> callback);
+    MCAPI class Bedrock::PubSub::Subscription
+    registerObserver(std::function<void(class Option const&)> onValueChangedCallback);
 
     // symbol: ?read@Option@@SA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEA_N@Z
     MCAPI static bool read(std::string const& valueString, bool& output);

@@ -15,6 +15,9 @@ namespace ActorSynchedData {
 // symbol: ?updateAction@ActorSynchedData@@YAXAEAVActor@@@Z
 MCAPI void updateAction(class Actor& actor);
 
+// symbol: ?updateAlwaysShowNameTag@ActorSynchedData@@YAXAEAVEntityContext@@AEBVSynchedActorDataEntityWrapper@@@Z
+MCAPI void updateAlwaysShowNameTag(class EntityContext&, class SynchedActorDataEntityWrapper const&);
+
 // symbol: ?updateAmbientSound@ActorSynchedData@@YAXAEAVEntityContext@@@Z
 MCAPI void updateAmbientSound(class EntityContext& entity);
 
@@ -65,7 +68,7 @@ MCAPI void updateSize(class Actor& actor);
 MCAPI void updateTarget(class Actor& actor, struct ActorUniqueID& target);
 
 // symbol: ?updateTintColor@ActorSynchedData@@YAXAEAVColor@mce@@AEBW4PaletteColor@@@Z
-MCAPI void updateTintColor(class mce::Color&, ::PaletteColor const&);
+MCAPI void updateTintColor(class mce::Color& tintColor, ::PaletteColor const&);
 // NOLINTEND
 
 }; // namespace ActorSynchedData

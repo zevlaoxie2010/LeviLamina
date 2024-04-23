@@ -13,7 +13,6 @@ namespace cereal { struct ReflectionCtx; }
 class CooldownItemComponent {
 public:
     // prevent constructor by default
-    CooldownItemComponent& operator=(CooldownItemComponent const&);
     CooldownItemComponent(CooldownItemComponent const&);
     CooldownItemComponent();
 
@@ -50,6 +49,12 @@ public:
 
     // vIndex: 9, symbol: ?_initializeComponent@ItemComponent@@MEAAXXZ
     virtual void _initializeComponent();
+
+    // symbol: ??4CooldownItemComponent@@QEAAAEAV0@$$QEAV0@@Z
+    MCAPI class CooldownItemComponent& operator=(class CooldownItemComponent&&);
+
+    // symbol: ??4CooldownItemComponent@@QEAAAEAV0@AEBV0@@Z
+    MCAPI class CooldownItemComponent& operator=(class CooldownItemComponent const&);
 
     // symbol:
     // ?bindType@CooldownItemComponent@@SAXAEAUReflectionCtx@cereal@@AEBV?$vector@W4AllExperiments@@V?$allocator@W4AllExperiments@@@std@@@std@@V?$optional@VSemVersion@@@5@@Z

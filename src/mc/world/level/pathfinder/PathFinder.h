@@ -3,6 +3,7 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
+#include "mc/entity/utilities/ActorPathingData.h"
 #include "mc/enums/CanClimbIntoNode.h"
 #include "mc/enums/CanJumpIntoNode.h"
 #include "mc/enums/NodeType.h"
@@ -136,7 +137,7 @@ public:
     // symbol:
     // ?_findPath@PathFinder@@AEAA?AV?$unique_ptr@VPath@@U?$default_delete@VPath@@@std@@@std@@AEBUActorPathingData@@MMMM@Z
     MCAPI std::unique_ptr<class Path>
-          _findPath(struct ActorPathingData const&, float xt, float yt, float zt, float maxDist);
+          _findPath(struct ActorPathingData const& actorData, float xt, float yt, float zt, float maxDist);
 
     // symbol: ?_getAABBForPathfinding@PathFinder@@AEBA?AVAABB@@AEBVBlockPos@@AEBVBlock@@@Z
     MCAPI class AABB _getAABBForPathfinding(class BlockPos const&, class Block const&) const;
@@ -145,17 +146,10 @@ public:
     MCAPI std::optional<class BlockPos>
           _getHighestReachablePosByJumping(class BlockPos const&, float, class BlockPos const&) const;
 
-    // symbol: ?_getMinAndMaxHeightAroundBlock@PathFinder@@AEBA?AU?$pair@MM@std@@AEBVBlockPos@@M@Z
-    MCAPI std::pair<float, float> _getMinAndMaxHeightAroundBlock(class BlockPos const& blockPos, float) const;
-
-    // symbol: ?_getNeighbors@PathFinder@@AEAAHAEBUActorPathingData@@AEAVPathfinderNode@@AEBV3@2I@Z
-    MCAPI int _getNeighbors(
-        struct ActorPathingData const& data,
-        class PathfinderNode&          pos,
-        class PathfinderNode const&    size,
-        class PathfinderNode const&    target,
-        uint                           maxDistSqr
-    );
+    // symbol:
+    // ?_getMinAndMaxHeightAroundBlock@PathFinder@@AEBA?AUMinMaxHeightCacheEntry@ActorPathingData@@AEBU3@AEBVBlockPos@@M@Z
+    MCAPI struct ActorPathingData::MinMaxHeightCacheEntry
+    _getMinAndMaxHeightAroundBlock(struct ActorPathingData const&, class BlockPos const&, float) const;
 
     // symbol: ?_getNode@PathFinder@@AEAAPEAVPathfinderNode@@AEBVBlockPos@@W4NodeType@@@Z
     MCAPI class PathfinderNode* _getNode(class BlockPos const& pos, ::NodeType nodeType);
@@ -202,9 +196,9 @@ public:
         class BlockPos const& size
     );
 
-    // symbol: ?_isFreeWaterNode@PathFinder@@AEAA?AW4NodeType@@AEBUActorPathingData@@AEBVBlockPos@@1@Z
-    MCAPI ::NodeType
-    _isFreeWaterNode(struct ActorPathingData const& data, class BlockPos const&, class BlockPos const& blockPos);
+    // symbol: ?_isNeighborPotentiallyValid@PathFinder@@AEAA_NAEBVPathfinderNode@@0AEBVBlockPos@@I@Z
+    MCAPI bool
+    _isNeighborPotentiallyValid(class PathfinderNode const&, class PathfinderNode const&, class BlockPos const&, uint);
 
     // symbol:
     // ?_reconstructPath@PathFinder@@AEAA?AV?$unique_ptr@VPath@@U?$default_delete@VPath@@@std@@@std@@PEAVPathfinderNode@@W4PathCompletionType@@UActorUniqueID@@@Z

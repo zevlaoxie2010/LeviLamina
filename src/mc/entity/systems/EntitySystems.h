@@ -1,7 +1,7 @@
 #pragma once
 
 #include "mc/_HeaderOutputPredefine.h"
-#include "mc/common/wrapper/OwnerPtrT.h"
+#include "mc/common/wrapper/OwnerPtr.h"
 #include "mc/deps/core/common/bedrock/EnableNonOwnerReferences.h"
 #include "mc/entity/events/EcsEventDispatcher.h"
 #include "mc/entity/systems/DefaultEntitySystemsCollection.h"
@@ -11,18 +11,13 @@
 // auto generated inclusion list
 #include "mc/deps/core/common/bedrock/typeid_t.h"
 
-// auto generated forward declare list
-// clang-format off
-namespace cereal { struct ReflectionCtx; }
-// clang-format on
-
 class EntitySystems : public IEntitySystems, public ::Bedrock::EnableNonOwnerReferences {
 public:
-    std::unique_ptr<PlayerInteractionSystem>         mPlayerInteractionSystem; // this+0x20
-    std::unique_ptr<IEntitySystemsCollection>        mSystems;                 // this+0x28
-    OwnerPtrT<SharePtrRefTraits<EcsEventDispatcher>> mDispatcher;              // this+0x30
-    std::string                                      mName;                    // this+0x40
-    bool                                             mEnableTimingCapture;     // this+0x60
+    std::unique_ptr<PlayerInteractionSystem>  mPlayerInteractionSystem; // this+0x20
+    std::unique_ptr<IEntitySystemsCollection> mSystems;                 // this+0x28
+    OwnerPtr<EcsEventDispatcher>              mDispatcher;              // this+0x30
+    std::string                               mName;                    // this+0x40
+    bool                                      mEnableTimingCapture;     // this+0x60
 
     DefaultEntitySystemsCollection& getDefaultCollection() { return *(DefaultEntitySystemsCollection*)mSystems.get(); }
 
@@ -50,8 +45,8 @@ public:
     MCAPI explicit EntitySystems(std::string name);
 
     // symbol:
-    // ??0EntitySystems@@QEAA@AEAUReflectionCtx@cereal@@V?$unique_ptr@UIEntitySystemsCollection@@U?$default_delete@UIEntitySystemsCollection@@@std@@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z
-    MCAPI EntitySystems(struct cereal::ReflectionCtx&, std::unique_ptr<struct IEntitySystemsCollection>, std::string);
+    // ??0EntitySystems@@QEAA@V?$unique_ptr@UIEntitySystemsCollection@@U?$default_delete@UIEntitySystemsCollection@@@std@@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z
+    MCAPI EntitySystems(std::unique_ptr<struct IEntitySystemsCollection>, std::string name);
 
     // symbol: ?getPlayerInteractionSystem@EntitySystems@@QEAAAEAVPlayerInteractionSystem@@XZ
     MCAPI class PlayerInteractionSystem& getPlayerInteractionSystem();
@@ -61,6 +56,9 @@ public:
 
     // symbol: ?registerEvents@EntitySystems@@QEAAXAEAVEntityRegistry@@@Z
     MCAPI void registerEvents(class EntityRegistry& registry);
+
+    // symbol: ?registerGameOnlyMovementTickingSystem@EntitySystems@@QEAAX$$QEAUTickingSystemWithInfo@@@Z
+    MCAPI void registerGameOnlyMovementTickingSystem(struct TickingSystemWithInfo&& system);
 
     // symbol: ?registerGameOnlyTickingSystem@EntitySystems@@QEAAX$$QEAUTickingSystemWithInfo@@@Z
     MCAPI void registerGameOnlyTickingSystem(struct TickingSystemWithInfo&& system);

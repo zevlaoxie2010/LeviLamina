@@ -114,9 +114,6 @@ public:
     // symbol: ??4MobEffectInstance@@QEAAAEAV0@AEBV0@@Z
     MCAPI class MobEffectInstance& operator=(class MobEffectInstance const&);
 
-    // symbol: ??8MobEffectInstance@@QEBA_NAEBV0@@Z
-    MCAPI bool operator==(class MobEffectInstance const& obj) const;
-
     // symbol: ?removeEffects@MobEffectInstance@@QEBAXPEAVActor@@@Z
     MCAPI void removeEffects(class Actor* mob) const;
 
@@ -129,8 +126,8 @@ public:
     // symbol: ?setDuration@MobEffectInstance@@QEAAXH@Z
     MCAPI void setDuration(int dur);
 
-    // symbol: ?tick@MobEffectInstance@@QEAA_NPEAVActor@@@Z
-    MCAPI bool tick(class Actor* target);
+    // symbol: ?tick@MobEffectInstance@@QEAA_NXZ
+    MCAPI bool tick();
 
     // symbol: ?tryInitializeMobEffectData@MobEffectInstance@@QEAAXXZ
     MCAPI void tryInitializeMobEffectData();

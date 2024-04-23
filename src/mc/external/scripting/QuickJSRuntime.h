@@ -53,10 +53,10 @@ public:
     virtual ~QuickJSRuntime() = default;
 
     // vIndex: 1, symbol:
-    // ?createContext@QuickJSRuntime@QuickJS@Scripting@@UEAA?AV?$optional@VScriptContext@Scripting@@@std@@AEBUModuleBindingBundle@3@PEAVIDependencyLoader@3@PEAVIPrinter@3@AEBUContextConfig@3@@Z
+    // ?createContext@QuickJSRuntime@QuickJS@Scripting@@UEAA?AV?$optional@VScriptContext@Scripting@@@std@@$$QEAUModuleBindingBundle@3@PEAVIDependencyLoader@3@PEAVIPrinter@3@AEBUContextConfig@3@@Z
     virtual std::optional<class Scripting::ScriptContext> createContext(
-        struct Scripting::ModuleBindingBundle const&,
-        class Scripting::IDependencyLoader* loader,
+        struct Scripting::ModuleBindingBundle&& bindings,
+        class Scripting::IDependencyLoader*     loader,
         class Scripting::IPrinter*,
         struct Scripting::ContextConfig const& config
     );
@@ -72,7 +72,7 @@ public:
     // vIndex: 4, symbol:
     // ?call@QuickJSRuntime@QuickJS@Scripting@@UEAA?AVResultAny@3@UContextId@3@U?$TypedObjectHandle@UClosureType@Scripting@@@3@PEAVmeta_any@entt@@IAEBVmeta_type@8@V?$optional@W4Privilege@Scripting@@@std@@@Z
     virtual class Scripting::ResultAny
-    call(struct Scripting::ContextId, struct Scripting::TypedObjectHandle<struct Scripting::ClosureType>, entt::meta_any* args, uint, entt::meta_type const&, std::optional<::Scripting::Privilege>);
+    call(struct Scripting::ContextId, struct Scripting::TypedObjectHandle<struct Scripting::ClosureType>, entt::meta_any* args, uint argc, entt::meta_type const&, std::optional<::Scripting::Privilege>);
 
     // vIndex: 5, symbol:
     // ?resolve@QuickJSRuntime@QuickJS@Scripting@@UEAA?AVResultAny@3@UContextId@3@U?$TypedObjectHandle@UPromiseType@Scripting@@@3@AEAVmeta_any@entt@@@Z
@@ -103,8 +103,9 @@ public:
         const;
 
     // vIndex: 9, symbol:
-    // ?executeCoroutines@QuickJSRuntime@QuickJS@Scripting@@UEAA?AV?$Result@UCoRoutineResult@Scripting@@$$V@3@V?$duration@_JU?$ratio@$00$0PECEA@@std@@@chrono@std@@@Z
-    virtual class Scripting::Result<struct Scripting::CoRoutineResult> executeCoroutines(std::chrono::microseconds);
+    // ?executeCoroutines@QuickJSRuntime@QuickJS@Scripting@@UEAA?AV?$Result@UCoRoutineResult@Scripting@@$$V@3@V?$optional@V?$duration@_JU?$ratio@$00$0PECEA@@std@@@chrono@std@@@std@@@Z
+    virtual class Scripting::Result<struct Scripting::CoRoutineResult>
+        executeCoroutines(std::optional<std::chrono::microseconds>);
 
     // vIndex: 10, symbol: ?hasPendingJobs@QuickJSRuntime@QuickJS@Scripting@@UEAA_NXZ
     virtual bool hasPendingJobs();
@@ -143,7 +144,7 @@ public:
     // vIndex: 20, symbol:
     // ?runString@QuickJSRuntime@QuickJS@Scripting@@UEAA?AVResultAny@3@UContextId@3@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@1V?$optional@W4Privilege@Scripting@@@7@@Z
     virtual class Scripting::ResultAny
-    runString(struct Scripting::ContextId, std::string const& scriptName, std::string const&, std::optional<::Scripting::Privilege>);
+    runString(struct Scripting::ContextId, std::string const& scriptName, std::string const& scriptData, std::optional<::Scripting::Privilege>);
 
     // symbol:
     // ??0QuickJSRuntime@QuickJS@Scripting@@QEAA@AEAVRegistryManager@2@PEAVDependencyLocator@2@V?$unique_ptr@UMallocFunctions@QuickJS@Scripting@@U?$default_delete@UMallocFunctions@QuickJS@Scripting@@@std@@@std@@V?$function@$$A6A?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV?$basic_string_view@DU?$char_traits@D@std@@@2@AEBV12@AEBV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@2@@Z@6@@Z

@@ -27,9 +27,9 @@ public:
         class Dimension const& dimension,
         class ChunkSource&     source,
         struct Bounds const&   bounds,
-        bool,
-        struct Tick,
-        bool allowNonPlayerTicking
+        bool                   isCircle,
+        struct Tick            currentLevelTick,
+        bool                   allowNonPlayerTicking
     );
 
     // symbol:
@@ -38,10 +38,10 @@ public:
         class Dimension const& dimension,
         class ChunkSource&     source,
         struct Bounds const&   bounds,
-        bool,
-        struct Tick,
-        bool allowUnloadedChunks,
-        bool allowNonPlayerTicking,
+        bool                   isCircle,
+        struct Tick            currentLevelTick,
+        bool                   allowUnloadedChunks,
+        bool                   allowNonPlayerTicking,
         bool
     );
 

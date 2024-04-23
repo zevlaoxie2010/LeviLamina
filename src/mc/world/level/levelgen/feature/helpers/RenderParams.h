@@ -7,7 +7,7 @@
 
 class RenderParams {
 public:
-    char filler[0x1F0]; // BDS1.20.51 ActorDefinitionDescriptor::_executeEvent line=256
+    char filler[0x1F0]; // BDS1.20.61 ActorDefinitionDescriptor::_executeEvent line=256
 
 public:
     // prevent constructor by default
@@ -17,6 +17,9 @@ public:
     // NOLINTBEGIN
     // symbol: ??0RenderParams@@QEAA@XZ
     MCAPI RenderParams();
+
+    // symbol: ??0RenderParams@@QEAA@$$QEAV0@@Z
+    MCAPI RenderParams(class RenderParams&&);
 
     // symbol: ??0RenderParams@@QEAA@AEBV0@@Z
     MCAPI RenderParams(class RenderParams const&);
@@ -40,7 +43,7 @@ public:
     MCAPI class RenderParams& operator=(class RenderParams&&);
 
     // symbol: ??ARenderParams@@QEAAAEAM_K@Z
-    MCAPI float& operator[](uint64);
+    MCAPI float& operator[](uint64 i);
 
     // symbol: ??1RenderParams@@QEAA@XZ
     MCAPI ~RenderParams();

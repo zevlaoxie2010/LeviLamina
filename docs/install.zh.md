@@ -27,11 +27,11 @@
 
 ### 通过 lipUI 安装
 
-你可以前往[LipUI](https://github.com/lippkg/LipUI)了解更多信息。
+只需要下载并运行[LipUI](https://github.com/lippkg/LipUI)并在包市场中选择LeviLamina安装即可。
 
 ### 通过 lip 安装
 
-如果你还没有安装 lip，你可以按照[lip 安装指南](https://docs.lippkg.com/installation.html)中的说明进行安装。
+如果你还没有安装 lip，你可以按照[lip 安装指南](https://docs.lippkg.com/zh/install/)中的说明进行安装。
 
 安装 lip 后，你可以通过运行以下命令来安装 LeviLamina：
 
@@ -90,7 +90,7 @@ lip install --upgrade github.com/LiteLDev/LeviLamina
 
 ##### 3. **添加 LeviLamina 文件**
    - 解压你在第一步中下载的 `levilamina-windows-x64.zip`。
-   - 从中提取 `lib/LeviLamina.dll` 和 `lib/LeviLamina.pdb` 文件。
+   - 从中提取 `bin/LeviLamina.dll` 和 `bin/LeviLamina.pdb` 文件。
    - 将这些文件也移动到 BDS 文件夹中，与 `bedrock_server.exe` 放在同一目录下。
 
 ##### 4. **运行 PeEditor**

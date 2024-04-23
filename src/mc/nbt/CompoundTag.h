@@ -4,7 +4,12 @@
 #define COMPOUND_TAG_HEADER
 
 #include "mc/_HeaderOutputPredefine.h"
+
+// auto generated inclusion list
+#include "mc/deps/core/common/bedrock/Result.h"
 #include "mc/nbt/Tag.h"
+
+#include "ll/api/Expected.h"
 
 class CompoundTagVariant;
 
@@ -32,13 +37,14 @@ public:
     [[nodiscard]] CompoundTagVariant const& at(std::string const& index) const { return mTags.at(index); }
 
 
-    LLNDAPI static std::unique_ptr<CompoundTag> fromSnbt(std::string_view snbt);
+    LLNDAPI static ll::Expected<CompoundTag>
+    fromSnbt(std::string_view snbt, optional_ref<size_t> parsedLength = std::nullopt);
 
-    LLNDAPI std::string                         toBinaryNbt(bool isLittleEndian = true) const;
-    LLNDAPI static std::unique_ptr<CompoundTag> fromBinaryNbt(std::string_view dataView, bool isLittleEndian = true);
+    LLNDAPI std::string                      toBinaryNbt(bool isLittleEndian = true) const;
+    LLNDAPI static ll::Expected<CompoundTag> fromBinaryNbt(std::string_view dataView, bool isLittleEndian = true);
 
-    LLNDAPI std::string                         toNetworkNbt() const;
-    LLNDAPI static std::unique_ptr<CompoundTag> fromNetworkNbt(std::string const& data);
+    LLNDAPI std::string                      toNetworkNbt() const;
+    LLNDAPI static ll::Expected<CompoundTag> fromNetworkNbt(std::string const& data);
 
 public:
     // NOLINTBEGIN
@@ -48,8 +54,8 @@ public:
     // vIndex: 2, symbol: ?write@CompoundTag@@UEBAXAEAVIDataOutput@@@Z
     virtual void write(class IDataOutput& dos) const;
 
-    // vIndex: 3, symbol: ?load@CompoundTag@@UEAAXAEAVIDataInput@@@Z
-    virtual void load(class IDataInput& dis);
+    // vIndex: 3, symbol: ?load@CompoundTag@@UEAA?AV?$Result@XVerror_code@std@@@Bedrock@@AEAVIDataInput@@@Z
+    virtual class Bedrock::Result<void> load(class IDataInput& dis);
 
     // vIndex: 4, symbol: ?toString@CompoundTag@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     virtual std::string toString() const;
@@ -108,8 +114,9 @@ public:
     // symbol: ?getByte@CompoundTag@@QEBAEV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z
     [[deprecated]] MCAPI uchar getByte(std::string_view name) const;
 
-    // symbol: ?getByteArray@CompoundTag@@QEBAAEBUTagMemoryChunk@@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z
-    [[deprecated]] MCAPI struct TagMemoryChunk const& getByteArray(std::string_view name) const;
+    // symbol:
+    // ?getByteArray@CompoundTag@@QEBAAEBV?$vector@EV?$allocator@E@std@@@std@@V?$basic_string_view@DU?$char_traits@D@std@@@3@@Z
+    [[deprecated]] MCAPI std::vector<uchar> const& getByteArray(std::string_view name) const;
 
     // symbol: ?getByteTag@CompoundTag@@QEAAPEAVByteTag@@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z
     [[deprecated]] MCAPI class ByteTag* getByteTag(std::string_view name);
@@ -177,8 +184,8 @@ public:
     [[deprecated]] MCAPI uchar& putByte(std::string name, uchar value);
 
     // symbol:
-    // ?putByteArray@CompoundTag@@QEAAAEAUTagMemoryChunk@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U2@@Z
-    [[deprecated]] MCAPI struct TagMemoryChunk& putByteArray(std::string name, struct TagMemoryChunk mem);
+    // ?putByteArray@CompoundTag@@QEAAAEAV?$vector@EV?$allocator@E@std@@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@V23@@Z
+    [[deprecated]] MCAPI std::vector<uchar>& putByteArray(std::string, std::vector<uchar>);
 
     // symbol: ?putCompound@CompoundTag@@QEAAAEAV1@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V1@@Z
     [[deprecated]] MCAPI class CompoundTag& putCompound(std::string name, class CompoundTag value);

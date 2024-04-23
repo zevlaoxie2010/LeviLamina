@@ -1,18 +1,33 @@
-#include <utility>
-
 #include "ll/api/Logger.h"
 
-#include "ll/api/io/FileUtils.h"
-#include "ll/api/utils/ErrorUtils.h"
-#include "ll/api/utils/HashUtils.h"
-#include "ll/api/utils/StringUtils.h"
-#include "ll/core/Config.h"
+#include <array>
+#include <exception>
+#include <filesystem>
+#include <fstream>
+#include <ios>
+#include <mutex>
+#include <optional>
+#include <ostream>
+#include <string>
+#include <string_view>
+#include <system_error>
+#include <utility>
 
+#include "fmt/chrono.h" // IWYU pragma: keep
+#include "fmt/color.h"
+#include "fmt/core.h"
+
+#include "ll/api/base/ToString.h" // IWYU pragma: keep
+#include "ll/api/utils/ErrorUtils.h"
+#include "ll/api/utils/StringUtils.h"
 #include "ll/api/utils/WinUtils.h"
+#include "ll/core/Config.h"
 
 using namespace ll::string_utils;
 
 namespace ll {
+static std::ofstream            defaultFile;
+static Logger::player_output_fn defaultPlayerOutputCallback;
 
 static bool checkLogLevel(int level, int outLevel) {
     if (level >= outLevel) return true;
@@ -20,7 +35,7 @@ static bool checkLogLevel(int level, int outLevel) {
     return false;
 }
 
-void Logger::OutputStream::print(std::string_view s) const noexcept {
+void OutputStream::print(std::string_view s) const noexcept {
     try {
         auto lock = Logger::lock();
 
@@ -49,8 +64,7 @@ void Logger::OutputStream::print(std::string_view s) const noexcept {
                 fmt::format(fmt::runtime(fileFormat[4]), s)
             )) << std::endl;
         }
-        if ((playerOutputCallback || Logger::defaultPlayerOutputCallback)
-            && checkLogLevel(logger->playerLevel, level)) {
+        if ((playerOutputCallback || defaultPlayerOutputCallback) && checkLogLevel(logger->playerLevel, level)) {
             std::string str = replaceAnsiToMcCode(fmt::format(
                 fmt::runtime(playerFormat[0]),
                 applyTextStyle(style[0], fmt::format(fmt::runtime(playerFormat[1]), time, ms)),
@@ -61,7 +75,7 @@ void Logger::OutputStream::print(std::string_view s) const noexcept {
             if (playerOutputCallback) {
                 playerOutputCallback(str);
             } else {
-                Logger::defaultPlayerOutputCallback(str);
+                defaultPlayerOutputCallback(str);
             }
         }
     } catch (...) {
@@ -78,7 +92,7 @@ void Logger::OutputStream::print(std::string_view s) const noexcept {
         }
     }
 }
-Logger::OutputStream::OutputStream(
+OutputStream::OutputStream(
     Logger&                               logger,
     std::string                           levelPrefix,
     int                                   level,
@@ -172,7 +186,7 @@ bool Logger::setFile(std::filesystem::path const& logFile, bool appendMode) {
     std::error_code ec;
     std::filesystem::create_directories(logFile.parent_path(), ec);
     ofs = std::ofstream(logFile, appendMode ? std::ios::app : std::ios::out);
-    return (*ofs).is_open();
+    return ofs->is_open();
 }
 
 bool Logger::setDefaultFile(std::filesystem::path const& logFile, bool appendMode) {
@@ -182,16 +196,22 @@ bool Logger::setDefaultFile(std::filesystem::path const& logFile, bool appendMod
         }
         return true;
     }
-
     std::error_code ec;
     std::filesystem::create_directories(logFile.parent_path(), ec);
     defaultFile.open(logFile, appendMode ? std::ios::app : std::ios::out);
     return defaultFile.is_open();
 }
+
+void Logger::setDefaultPlayerOutputFunc(player_output_fn const& func) { defaultPlayerOutputCallback = func; }
+
 std::lock_guard<std::recursive_mutex> Logger::lock() {
     static std::recursive_mutex mutex;
     return std::lock_guard(mutex);
 }
-std::ofstream            Logger::defaultFile{};
-Logger::player_output_fn Logger::defaultPlayerOutputCallback;
+std::ofstream& Logger::getFile() {
+    if (ofs) {
+        return ofs.value();
+    }
+    return defaultFile;
+}
 } // namespace ll

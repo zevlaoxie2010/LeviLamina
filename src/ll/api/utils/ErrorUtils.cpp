@@ -14,10 +14,6 @@
 #pragma comment(lib, "DbgHelp.lib")
 #endif
 
-#pragma warning(push, 3)
-#include "comdef.h"
-#pragma warning(pop)
-
 #ifdef LL_DEBUG
 #include "ll/api/utils/StacktraceUtils.h"
 #endif
@@ -25,7 +21,7 @@
 namespace ll::inline utils::error_utils {
 
 UntypedException::UntypedException(const EXCEPTION_RECORD& er)
-: exception_object(reinterpret_cast<void*>(er.ExceptionInformation[1])),
+: exceptionObject(reinterpret_cast<void*>(er.ExceptionInformation[1])),
   exc(&er) {
     if (exc->NumberParameters >= 3) {
         handle    = (exc->NumberParameters >= 4) ? (void*)exc->ExceptionInformation[3] : nullptr;
@@ -52,35 +48,8 @@ struct u8system_category : public std::_System_error_category {
     }
 };
 
-std::error_category const& u8system_category() noexcept {
-    static constexpr struct u8system_category category;
-    return category;
-}
-
-struct hresult_category : public std::_System_error_category {
-    constexpr hresult_category() noexcept : _System_error_category() {}
-    [[nodiscard]] std::string message(int errCode) const override {
-        try {
-            std::wstring msg(_com_error((HRESULT)errCode).ErrorMessage());
-            if (!msg.empty()) {
-                std::string res{string_utils::wstr2str(msg)};
-                if (res.ends_with('\n')) {
-                    res.pop_back();
-                    if (res.ends_with('\r')) {
-                        res.pop_back();
-                    }
-                }
-                return string_utils::replaceAll(res, "\r\n", ", ");
-            }
-        } catch (...) {}
-        return "unknown error";
-    }
-    [[nodiscard]] char const* name() const noexcept override { return "hresult"; }
-};
-
-std::error_category const& hresult_category() noexcept {
-    static constexpr struct hresult_category category;
-    return category;
+inline std::error_category const& u8system_category() noexcept {
+    return std::_Immortalize_memcpy_image<struct u8system_category>();
 }
 
 struct ntstatus_category : public std::error_category {
@@ -127,9 +96,8 @@ struct ntstatus_category : public std::error_category {
     [[nodiscard]] char const* name() const noexcept override { return "ntstatus"; }
 };
 
-std::error_category const& ntstatus_category() noexcept {
-    static constexpr struct ntstatus_category category;
-    return category;
+inline std::error_category const& ntstatus_category() noexcept {
+    return std::_Immortalize_memcpy_image<struct ntstatus_category>();
 }
 
 seh_exception::seh_exception(uint ntStatus, _EXCEPTION_POINTERS* expPtr)
@@ -201,7 +169,7 @@ std::stacktrace stacktraceFromContext(_CONTEXT const& context, size_t skip, size
         realStacktrace.hash += (ulong)sf.AddrPC.Offset;
         realStacktrace.addresses.push_back(sf.AddrPC.Offset);
     }
-    return *(std::stacktrace*)&realStacktrace;
+    return *reinterpret_cast<std::stacktrace*>(&realStacktrace);
 }
 
 #endif
@@ -243,16 +211,19 @@ std::string makeExceptionString(std::exception_ptr ePtr) noexcept {
                     buffer.resize(size);
                     handleName = string_utils::u8str2str(std::filesystem::path(buffer).stem().u8string());
                 }
-
-                auto expTypeName = exc.getNumCatchableTypes() > 0 ? exc.getTypeInfo(0)->name() : "unknown exception";
-                if (expTypeName == typeid(seh_exception).name()) {
-                    res += fmt::format("Seh Exception, from <{}>:\n", handleName);
+                if (exc.getNumCatchableTypes() > 0) {
+                    auto& type = *exc.getTypeInfo(0);
+                    if (type == typeid(seh_exception)) {
+                        res += fmt::format("Seh Exception, from <{}>:\n", handleName);
+                    } else {
+                        res += fmt::format(
+                            "C++ Exception: {}, from <{}>:\n",
+                            reflection::removeTypePrefix(type.name()),
+                            handleName
+                        );
+                    }
                 } else {
-                    res += fmt::format(
-                        "C++ Exception: {}, from <{}>:\n",
-                        reflection::removeTypePrefix(expTypeName),
-                        handleName
-                    );
+                    res += fmt::format("C++ Exception: unknown type, from <{}>:\n", handleName);
                 }
             } catch (...) {}
         } else {
@@ -312,7 +283,7 @@ std::string makeExceptionString(std::exception_ptr ePtr) noexcept {
     return "unknown error when make exception string";
 }
 
-void printCurrentException(ll::Logger& logger, std::exception_ptr const& e) noexcept {
+void printCurrentException(ll::OutputStream& stream, std::exception_ptr const& e) noexcept {
     try {
 #if defined(LL_DEBUG) && _HAS_CXX23
         std::string res;
@@ -330,10 +301,14 @@ void printCurrentException(ll::Logger& logger, std::exception_ptr const& e) noex
         auto res = makeExceptionString(e);
 #endif
         for (auto& sv : string_utils::splitByPattern(res, "\n")) {
-            logger.error(sv);
+            stream(sv);
         }
         return;
     } catch (...) {}
-    logger.error("unknown error");
+    stream("unknown error");
 }
+void printCurrentException(ll::Logger& l, std::exception_ptr const& ptr) noexcept {
+    printCurrentException(l.error, ptr);
+}
+
 } // namespace ll::inline utils::error_utils

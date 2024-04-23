@@ -7,7 +7,6 @@
 #include "mc/deps/core/utility/NumberConversionResult.h"
 #include "mc/deps/puv/EquipmentSlot.h"
 #include "mc/entity/components/agent/Direction.h"
-#include "mc/enums/BoneTransformType.h"
 #include "mc/enums/LogArea.h"
 #include "mc/world/AutomaticID.h"
 
@@ -118,6 +117,10 @@ MCAPI bool endsWithCaseInsensitive(std::string const& s, std::string const& ends
 MCAPI std::string ensureNamespace(std::string const& id);
 
 // symbol:
+// ?ensureNamespace@Util@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$basic_string_view@DU?$char_traits@D@std@@@3@@Z
+MCAPI std::string ensureNamespace(std::string_view);
+
+// symbol:
 // ?filterProfanityFromString@Util@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV23@AEBV?$unordered_map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@HU?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@std@@@2@@3@AEBV?$unordered_set@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@3@@Z
 MCAPI std::string filterProfanityFromString(
     std::string const&                          inputStr,
@@ -146,15 +149,14 @@ MCAPI std::string fromHex(std::string_view);
 // symbol: ?generateHashMapFromListTag@Util@@YA?AV?$BidirectionalUnorderedMap@H_K@@AEBVListTag@@@Z
 MCAPI class BidirectionalUnorderedMap<int, uint64> generateHashMapFromListTag(class ListTag const& enumValues);
 
-// symbol:
-// ?getDataInheritance@Util@@YA?AU?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z
-MCAPI std::pair<std::string, std::string> getDataInheritance(std::string const& fullName);
-
 // symbol: ?getNameWithoutNamespace@Util@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV23@@Z
 MCAPI std::string getNameWithoutNamespace(std::string const& name);
 
 // symbol: ?getNamespace@Util@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV23@@Z
 MCAPI std::string getNamespace(std::string const& name);
+
+// symbol: ?hashCode@Util@@YAIV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z
+MCAPI uint hashCode(std::string_view str);
 
 // symbol: ?hashCodeAsUtf16@Util@@YAIV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z
 MCAPI uint hashCodeAsUtf16(std::string_view);
@@ -286,9 +288,6 @@ MCAPI void toLowerInPlace(std::string& str);
 // symbol: ?toPascalCase@Util@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV23@D@Z
 MCAPI std::string toPascalCase(std::string const& src, char delimiter);
 
-// symbol: ?toString@Util@@YAPEBDW4BoneTransformType@@@Z
-MCAPI char const* toString(::BoneTransformType boneTransformType);
-
 // symbol: ?toString@Util@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV23@@Z
 MCAPI std::string toString(std::string const& inputStr);
 
@@ -321,7 +320,12 @@ MCAPI std::string vFormat(char const*, char*);
 
 // symbol:
 // ?validateIdentifier@Util@@YA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogArea@@_NPEAU?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@3@@Z
-MCAPI bool validateIdentifier(std::string const& id, ::LogArea logArea, bool, std::pair<std::string, std::string>*);
+MCAPI bool validateIdentifier(
+    std::string const&                   id,
+    ::LogArea                            logArea,
+    bool                                 allowMinecraftNamespace,
+    std::pair<std::string, std::string>* idNameOut
+);
 
 // symbol:
 // ?validateIdentifierChunk@Util@@YA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogArea@@@Z

@@ -109,7 +109,7 @@ public:
     MCAPI bool actorDataNeedsSaving(int wait, int maxWait) const;
 
     // symbol: ?addEntity@LevelChunk@@QEAAXVWeakEntityRef@@@Z
-    MCAPI void addEntity(class WeakEntityRef);
+    MCAPI void addEntity(class WeakEntityRef entityRef);
 
     // symbol: ?addHardcodedSpawningArea@LevelChunk@@QEAAXAEBVBoundingBox@@W4HardcodedSpawnAreaType@@@Z
     MCAPI void addHardcodedSpawningArea(class BoundingBox const& spawnerAABB, ::HardcodedSpawnAreaType type);
@@ -145,9 +145,6 @@ public:
 
     // symbol: ?deserializeFinalization@LevelChunk@@QEAAXAEAVIDataInput@@@Z
     MCAPI void deserializeFinalization(class IDataInput& stream);
-
-    // symbol: ?deserializeHardcodedSpawners@LevelChunk@@QEAAXAEAVIDataInput@@@Z
-    MCAPI void deserializeHardcodedSpawners(class IDataInput& stream);
 
     // symbol: ?deserializeKey@LevelChunk@@QEAA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@0@Z
     MCAPI bool deserializeKey(std::string_view key, std::string_view value);
@@ -248,7 +245,7 @@ public:
         gsl::span<gsl::not_null<class Actor const*>> ignoredEntities,
         class AABB const&                            bb,
         std::vector<class Actor*>&                   entities,
-        bool
+        bool                                         useHitbox
     ) const;
 
     // symbol:
@@ -284,7 +281,7 @@ public:
     MCAPI short getHighestNonAirSubChunkIndex() const;
 
     // symbol: ?getInterpolant@LevelChunk@@QEBAM_K0@Z
-    MCAPI float getInterpolant(uint64, uint64) const;
+    MCAPI float getInterpolant(uint64 x, uint64 y) const;
 
     // symbol: ?getLastTick@LevelChunk@@QEBAAEBUTick@@XZ
     MCAPI struct Tick const& getLastTick() const;
@@ -354,6 +351,9 @@ public:
     // symbol: ?getSubChunk@LevelChunk@@QEBAPEBUSubChunk@@F@Z
     MCAPI struct SubChunk const* getSubChunk(short) const;
 
+    // symbol: ?getSubChunkAbsoluteIndexFromSubChunkIndex@LevelChunk@@QEBAF_K@Z
+    MCAPI short getSubChunkAbsoluteIndexFromSubChunkIndex(uint64) const;
+
     // symbol: ?getSurfaceBiome@LevelChunk@@QEBAAEBVBiome@@VChunkBlockPos@@@Z
     MCAPI class Biome const& getSurfaceBiome(class ChunkBlockPos pos) const;
 
@@ -382,7 +382,7 @@ public:
     MCAPI bool hasEntitiesToSerialize() const;
 
     // symbol: ?hasEntity@LevelChunk@@QEAA_NVWeakEntityRef@@@Z
-    MCAPI bool hasEntity(class WeakEntityRef);
+    MCAPI bool hasEntity(class WeakEntityRef entityRef);
 
     // symbol: ?isAnyBlockEntityDirty@LevelChunk@@QEAA_NXZ
     MCAPI bool isAnyBlockEntityDirty();
@@ -464,22 +464,13 @@ public:
     MCAPI std::shared_ptr<class BlockActor> removeBlockEntity(class BlockPos const& blockPos);
 
     // symbol: ?removeEntityFromChunk@LevelChunk@@QEAA_NVWeakEntityRef@@@Z
-    MCAPI bool removeEntityFromChunk(class WeakEntityRef);
+    MCAPI bool removeEntityFromChunk(class WeakEntityRef entityRef);
 
     // symbol: ?removeEntityFromWorld@LevelChunk@@QEAA_NVWeakEntityRef@@@Z
-    MCAPI bool removeEntityFromWorld(class WeakEntityRef);
+    MCAPI bool removeEntityFromWorld(class WeakEntityRef entityRef);
 
     // symbol: ?removeHardcodedSpawningArea@LevelChunk@@QEAAXW4HardcodedSpawnAreaType@@@Z
     MCAPI void removeHardcodedSpawningArea(::HardcodedSpawnAreaType type);
-
-    // symbol:
-    // ?runtimeRelightSubchunk@LevelChunk@@QEAAXAEAVBlockSource@@_KAEBV?$vector@USubChunkLightUpdate@@V?$allocator@USubChunkLightUpdate@@@std@@@std@@AEAV?$vector@VBlockPos@@V?$allocator@VBlockPos@@@std@@@4@@Z
-    MCAPI void runtimeRelightSubchunk(
-        class BlockSource&                             region,
-        uint64                                         subChunkIdx,
-        std::vector<struct SubChunkLightUpdate> const& alteredBlockList,
-        std::vector<class BlockPos>&                   brightnessChangedList
-    );
 
     // symbol: ?serialize2DMaps@LevelChunk@@QEBAXAEAVIDataOutput@@@Z
     MCAPI void serialize2DMaps(class IDataOutput& stream) const;
@@ -693,7 +684,7 @@ public:
     // symbol:
     // ?_fixupCorruptedBlockActors@LevelChunk@@IEAAXAEAV?$unordered_map@VChunkBlockPos@@V?$shared_ptr@VBlockActor@@@std@@U?$hash@VChunkBlockPos@@@3@U?$equal_to@VChunkBlockPos@@@3@V?$allocator@U?$pair@$$CBVChunkBlockPos@@V?$shared_ptr@VBlockActor@@@std@@@std@@@3@@std@@V?$buffer_span_mut@USubChunk@@@@@Z
     MCAPI void
-    _fixupCorruptedBlockActors(std::unordered_map<class ChunkBlockPos, std::shared_ptr<class BlockActor>>&, class buffer_span_mut<struct SubChunk>);
+    _fixupCorruptedBlockActors(std::unordered_map<class ChunkBlockPos, std::shared_ptr<class BlockActor>>& deserialized, class buffer_span_mut<struct SubChunk>);
 
     // symbol: ?_generateOriginalLighting@LevelChunk@@IEAAXAEAVChunkViewSource@@_N@Z
     MCAPI void _generateOriginalLighting(class ChunkViewSource& neighborhood, bool enforceBorderCheck);

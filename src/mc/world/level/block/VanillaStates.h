@@ -43,6 +43,7 @@
 #include "mc/enums/WallConnectionType.h"
 #include "mc/enums/WoodType.h"
 #include "mc/world/level/block/states/BlockStateVariant.h"
+#include "mc/world/level/block/states/VaultBlockState.h"
 #include "mc/world/level/block/utils/BlockColor.h"
 #include "mc/world/level/block/utils/PrismarineBlockType.h"
 #include "mc/world/level/block/utils/WallBlockType.h"
@@ -129,9 +130,6 @@ MCAPI extern class BlockStateVariant<::ChiselType> const ChiselType;
 // symbol: ?ClusterCount@VanillaStates@@3V?$BlockStateVariant@H@@B
 MCAPI extern class BlockStateVariant<int> const ClusterCount;
 
-// symbol: ?Color@VanillaStates@@3V?$BlockStateVariant@W4BlockColor@@@@B
-MCAPI extern class BlockStateVariant<::BlockColor> const Color;
-
 // symbol: ?ColorBit@VanillaStates@@3V?$BlockStateVariant@_N@@B
 MCAPI extern class BlockStateVariant<bool> const ColorBit;
 
@@ -164,6 +162,9 @@ MCAPI extern class BlockStateVariant<bool> const Crafting;
 
 // symbol: ?DEPRECATED@VanillaStates@@3V?$BlockStateVariant@H@@B
 MCAPI extern class BlockStateVariant<int> const DEPRECATED;
+
+// symbol: ?DEPRECATED_Color@VanillaStates@@3V?$BlockStateVariant@W4BlockColor@@@@B
+MCAPI extern class BlockStateVariant<::BlockColor> const DEPRECATED_Color;
 
 // symbol: ?Damage@VanillaStates@@3V?$BlockStateVariant@W4AnvilDamage@@@@B
 MCAPI extern class BlockStateVariant<::AnvilDamage> const Damage;
@@ -396,6 +397,9 @@ MCAPI extern class BlockStateVariant<bool> const TopSlotBit;
 // symbol: ?TorchFacingDirection@VanillaStates@@3V?$BlockStateVariant@W4TorchFacing@@@@B
 MCAPI extern class BlockStateVariant<::TorchFacing> const TorchFacingDirection;
 
+// symbol: ?TrialSpawnerState@VanillaStates@@3V?$BlockStateVariant@H@@B
+MCAPI extern class BlockStateVariant<int> const TrialSpawnerState;
+
 // symbol: ?TriggeredBit@VanillaStates@@3V?$BlockStateVariant@_N@@B
 MCAPI extern class BlockStateVariant<bool> const TriggeredBit;
 
@@ -413,6 +417,9 @@ MCAPI extern class BlockStateVariant<bool> const UpperBlockBit;
 
 // symbol: ?UpsideDownBit@VanillaStates@@3V?$BlockStateVariant@_N@@B
 MCAPI extern class BlockStateVariant<bool> const UpsideDownBit;
+
+// symbol: ?VaultState@VanillaStates@@3V?$BlockStateVariant@W4VaultBlockState@@@@B
+MCAPI extern class BlockStateVariant<::VaultBlockState> const VaultState;
 
 // symbol: ?VineDirectionBits@VanillaStates@@3V?$BlockStateVariant@H@@B
 MCAPI extern class BlockStateVariant<int> const VineDirectionBits;

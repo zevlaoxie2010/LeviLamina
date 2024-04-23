@@ -26,21 +26,26 @@ public:
     // symbol:
     // ?parse@ActorDefinition@@QEAA?AW4ActorDefinitionParseStatus@@UDeserializeDataParams@@AEAVActorDefinitionDescriptor@@AEAVActorFactory@@W4LogArea@@@Z
     MCAPI ::ActorDefinitionParseStatus parse(
-        struct DeserializeDataParams,
+        struct DeserializeDataParams     deserializeDataParams,
         class ActorDefinitionDescriptor& desc,
         class ActorFactory&              actorFactory,
         ::LogArea                        logArea
     );
 
     // symbol: ?parseAttributes@ActorDefinition@@QEAAXUDeserializeDataParams@@AEAVActorDefinitionDescriptor@@@Z
-    MCAPI void parseAttributes(struct DeserializeDataParams, class ActorDefinitionDescriptor& desc);
+    MCAPI void
+    parseAttributes(struct DeserializeDataParams deserializeDataParams, class ActorDefinitionDescriptor& desc);
 
     // symbol: ?parseEntityDescription@ActorDefinition@@QEAAXUDeserializeDataParams@@@Z
-    MCAPI void parseEntityDescription(struct DeserializeDataParams);
+    MCAPI void parseEntityDescription(struct DeserializeDataParams deserializeDataParams);
 
     // symbol: ?parseEvents@ActorDefinition@@QEAAXAEBVValue@Json@@AEBVSemVersion@@1PEAVActorEventResponseFactory@@@Z
-    MCAPI void
-    parseEvents(class Json::Value const& root, class SemVersion const& engineVersion, class SemVersion const& formatVersion, class ActorEventResponseFactory*);
+    MCAPI void parseEvents(
+        class Json::Value const&         root,
+        class SemVersion const&          engineVersion,
+        class SemVersion const&          formatVersion,
+        class ActorEventResponseFactory* responseFactory
+    );
 
     // symbol: ?parsePermutations@ActorDefinition@@QEAAXAEAVValue@Json@@AEBVSemVersion@@1AEAVActorFactory@@@Z
     MCAPI void parsePermutations(

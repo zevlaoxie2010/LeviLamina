@@ -22,13 +22,10 @@ public:
     MCAPI NameableDefinition();
 
     // symbol: ?addNameAction@NameableDefinition@@QEAAXAEBUNameAction@@@Z
-    MCAPI void addNameAction(struct NameAction const&);
+    MCAPI void addNameAction(struct NameAction const& nameAction);
 
     // symbol: ?initialize@NameableDefinition@@QEBAXAEAVEntityContext@@AEAVNameableComponent@@@Z
     MCAPI void initialize(class EntityContext& entity, class NameableComponent& component) const;
-
-    // symbol: ??1NameableDefinition@@QEAA@XZ
-    MCAPI ~NameableDefinition();
 
     // symbol:
     // ?buildSchema@NameableDefinition@@SAXAEAV?$shared_ptr@V?$JsonSchemaObjectNode@VEmptyClass@JsonUtil@@VNameableDefinition@@@JsonUtil@@@std@@@Z

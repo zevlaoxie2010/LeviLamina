@@ -1,37 +1,28 @@
 #pragma once
 
 #include "mc/_HeaderOutputPredefine.h"
-#include "mc/nbt/TagMemoryChunk.h"
 
 // auto generated inclusion list
+#include "mc/deps/core/common/bedrock/Result.h"
 #include "mc/nbt/Tag.h"
 
 class IntArrayTag : public ::Tag {
 public:
-    TagMemoryChunk data{};
+    std::vector<int> data;
 
-    [[nodiscard]] _CONSTEXPR23 operator TagMemoryChunk const&() const { return data; } // NOLINT
-    [[nodiscard]] _CONSTEXPR23 operator TagMemoryChunk&() { return data; }             // NOLINT
+    [[nodiscard]] constexpr operator std::vector<int> const&() const { return data; }
+    [[nodiscard]] constexpr operator std::vector<int>&() { return data; }
 
-    [[nodiscard]] _CONSTEXPR23 IntArrayTag() = default;
+    [[nodiscard]] constexpr IntArrayTag() = default;
 
-    template <class T>
-        requires(std::is_trivially_destructible_v<T>)
-    [[nodiscard]] _CONSTEXPR23 IntArrayTag(std::in_place_type_t<T>, TagMemoryChunk mem) : data(std::move(mem)) {
-        data.mSize = (data.mSize * sizeof(T)) / sizeof(int);
-    }
+    [[nodiscard]] constexpr IntArrayTag(std::vector<int> arr) : data(std::move(arr)) {} // NOLINT
 
-    [[nodiscard]] _CONSTEXPR23 IntArrayTag(std::vector<int> const& arr) : data(std::span{arr}) { // NOLINT
-        data.mSize = arr.size();
-    }
+    [[nodiscard]] constexpr IntArrayTag(std::initializer_list<int> val) : data(std::move(val)) {} // NOLINT
 
-    [[nodiscard]] _CONSTEXPR23 std::span<int> view() const {
-        return std::span<int>((int*)data.mBuffer.get(), data.mSize);
-    }
+    [[nodiscard]] constexpr int const& operator[](size_t index) const { return data[index]; }
+    [[nodiscard]] constexpr int&       operator[](size_t index) { return data[index]; }
 
-    [[nodiscard]] _CONSTEXPR23 int& operator[](size_t index) const { return view()[index]; }
-
-    [[nodiscard]] _CONSTEXPR23 size_t size() const { return data.mSize; }
+    [[nodiscard]] constexpr size_t size() const { return data.size(); }
 
 public:
     // NOLINTBEGIN
@@ -41,8 +32,8 @@ public:
     // vIndex: 2, symbol: ?write@IntArrayTag@@UEBAXAEAVIDataOutput@@@Z
     virtual void write(class IDataOutput& dos) const;
 
-    // vIndex: 3, symbol: ?load@IntArrayTag@@UEAAXAEAVIDataInput@@@Z
-    virtual void load(class IDataInput& dis);
+    // vIndex: 3, symbol: ?load@IntArrayTag@@UEAA?AV?$Result@XVerror_code@std@@@Bedrock@@AEAVIDataInput@@@Z
+    virtual class Bedrock::Result<void> load(class IDataInput& dis);
 
     // vIndex: 4, symbol: ?toString@IntArrayTag@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     virtual std::string toString() const;

@@ -17,6 +17,7 @@ public:
     // prevent constructor by default
     DisconnectPacket& operator=(DisconnectPacket const&);
     DisconnectPacket(DisconnectPacket const&);
+    DisconnectPacket();
 
 public:
     // NOLINTBEGIN
@@ -30,19 +31,16 @@ public:
     // ?getName@DisconnectPacket@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     virtual std::string getName() const;
 
-    // vIndex: 3, symbol: ?write@DisconnectPacket@@UEBAXAEAVBinaryStream@@@Z
+    // vIndex: 4, symbol: ?write@DisconnectPacket@@UEBAXAEAVBinaryStream@@@Z
     virtual void write(class BinaryStream& stream) const;
 
-    // vIndex: 7, symbol:
+    // vIndex: 8, symbol:
     // ?_read@DisconnectPacket@@EEAA?AV?$Result@XVerror_code@std@@@Bedrock@@AEAVReadOnlyBinaryStream@@@Z
     virtual class Bedrock::Result<void> _read(class ReadOnlyBinaryStream& stream);
 
-    // symbol: ??0DisconnectPacket@@QEAA@XZ
-    MCAPI DisconnectPacket();
-
     // symbol:
-    // ??0DisconnectPacket@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_NW4DisconnectFailReason@Connection@@@Z
-    MCAPI DisconnectPacket(std::string const&, bool, ::Connection::DisconnectFailReason);
+    // ??0DisconnectPacket@@QEAA@W4DisconnectFailReason@Connection@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z
+    MCAPI DisconnectPacket(::Connection::DisconnectFailReason, std::string const&, bool);
 
     // NOLINTEND
 };

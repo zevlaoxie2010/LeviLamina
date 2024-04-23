@@ -37,6 +37,12 @@ MCAPI extern class HashedString const Apple;
 // symbol: ?ArcherPotterySherd@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const ArcherPotterySherd;
 
+// symbol: ?ArmadilloScute@VanillaItemNames@@3VHashedString@@B
+MCAPI extern class HashedString const ArmadilloScute;
+
+// symbol: ?ArmadilloSpawnEgg@VanillaItemNames@@3VHashedString@@B
+MCAPI extern class HashedString const ArmadilloSpawnEgg;
+
 // symbol: ?ArmorStand@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const ArmorStand;
 
@@ -139,6 +145,9 @@ MCAPI extern class HashedString const BlueDye;
 // symbol: ?BoatLegacy@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const BoatLegacy;
 
+// symbol: ?BoggedSpawnEgg@VanillaItemNames@@3VHashedString@@B
+MCAPI extern class HashedString const BoggedSpawnEgg;
+
 // symbol: ?Bone@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const Bone;
 
@@ -162,6 +171,9 @@ MCAPI extern class HashedString const Bowl;
 
 // symbol: ?Bread@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const Bread;
+
+// symbol: ?BreezeSpawnEgg@VanillaItemNames@@3VHashedString@@B
+MCAPI extern class HashedString const BreezeSpawnEgg;
 
 // symbol: ?BrewerPotterySherd@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const BrewerPotterySherd;
@@ -1132,9 +1144,6 @@ MCAPI extern class HashedString const SalmonBucket;
 // symbol: ?SalmonSpawnEgg@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const SalmonSpawnEgg;
 
-// symbol: ?Scute@VanillaItemNames@@3VHashedString@@B
-MCAPI extern class HashedString const Scute;
-
 // symbol: ?SentryArmorTrimSmithingTemplate@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const SentryArmorTrimSmithingTemplate;
 
@@ -1309,6 +1318,9 @@ MCAPI extern class HashedString const TotemOfUndying;
 // symbol: ?TraderLlamaSpawnEgg@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const TraderLlamaSpawnEgg;
 
+// symbol: ?TrialKey@VanillaItemNames@@3VHashedString@@B
+MCAPI extern class HashedString const TrialKey;
+
 // symbol: ?Trident@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const Trident;
 
@@ -1323,6 +1335,9 @@ MCAPI extern class HashedString const TropicalFishSpawnEgg;
 
 // symbol: ?TurtleHelmet@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const TurtleHelmet;
+
+// symbol: ?TurtleScute@VanillaItemNames@@3VHashedString@@B
+MCAPI extern class HashedString const TurtleScute;
 
 // symbol: ?TurtleSpawnEgg@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const TurtleSpawnEgg;
@@ -1393,6 +1408,9 @@ MCAPI extern class HashedString const WhiteDye;
 // symbol: ?WildArmorTrimSmithingTemplate@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const WildArmorTrimSmithingTemplate;
 
+// symbol: ?WindCharge@VanillaItemNames@@3VHashedString@@B
+MCAPI extern class HashedString const WindCharge;
+
 // symbol: ?WitchSpawnEgg@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const WitchSpawnEgg;
 
@@ -1401,6 +1419,9 @@ MCAPI extern class HashedString const WitherSkeletonSpawnEgg;
 
 // symbol: ?WitherSpawnEgg@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const WitherSpawnEgg;
+
+// symbol: ?WolfArmor@VanillaItemNames@@3VHashedString@@B
+MCAPI extern class HashedString const WolfArmor;
 
 // symbol: ?WolfSpawnEgg@VanillaItemNames@@3VHashedString@@B
 MCAPI extern class HashedString const WolfSpawnEgg;

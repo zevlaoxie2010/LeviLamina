@@ -11,6 +11,18 @@
 
 namespace ll::concepts {
 
+template <class T, class U>
+struct is_in_types;
+
+template <class T, template <class...> class U, class... Ts>
+struct is_in_types<T, U<Ts...>> : std::bool_constant<(std::is_same_v<T, Ts> || ...)> {};
+
+template <class T, class U>
+static constexpr bool is_in_types_v = is_in_types<T, U>::value;
+
+template <class T, class U>
+concept IsInTypes = is_in_types_v<T, U>;
+
 template <class T, class... Ts>
 static constexpr bool is_one_of_v = (std::is_same_v<T, Ts> || ...);
 
@@ -43,7 +55,7 @@ template <class T>
 concept IsString = is_string_v<T>;
 
 template <class T, template <class> class Z>
-concept ConceptFor = Z<T>::value;
+concept Require = Z<T>::value;
 
 template <class T>
 concept Formattable =
@@ -114,7 +126,7 @@ template <class T, template <class...> class Z>
 concept Specializes = is_specialization_of_v<T, Z>;
 
 template <template <class...> class T, class... Ts>
-void DerivedFromSpecializationImpl(const T<Ts...>&);
+void DerivedFromSpecializationImpl(T<Ts...> const&);
 
 template <class T, template <class...> class Z>
 concept DerivedFromSpecializes = requires(T const& t) { DerivedFromSpecializationImpl<Z>(t); };
@@ -130,7 +142,11 @@ inline constexpr bool always_false = false;
 
 template <class T>
 concept Stringable = requires(T t) {
-    { t.toString() } -> IsString;
+    requires requires {
+        { t.toString() } -> IsString;
+    } || requires {
+        { t.to_string() } -> IsString;
+    };
 };
 
 } // namespace ll::concepts

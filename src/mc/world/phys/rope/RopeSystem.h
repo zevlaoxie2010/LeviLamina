@@ -69,13 +69,13 @@ public:
     MCAPI void _pruneDenyList();
 
     // symbol: ?_pushRange@RopeSystem@@AEAAX_K0@Z
-    MCAPI void _pushRange(uint64, uint64);
+    MCAPI void _pushRange(uint64 begin, uint64 end);
 
     // symbol: ?_resizeRope@RopeSystem@@AEAAXXZ
     MCAPI void _resizeRope();
 
     // symbol: ?_solveCollisions@RopeSystem@@AEAAM_N@Z
-    MCAPI float _solveCollisions(bool);
+    MCAPI float _solveCollisions(bool checkDenyList);
 
     // symbol: ?_solveDistanceConstraint@RopeSystem@@AEAAMAEAVVec3@@0M@Z
     MCAPI float _solveDistanceConstraint(class Vec3& a, class Vec3& b, float targetDist);
@@ -92,9 +92,6 @@ public:
 
     // symbol: ?_tickWaves@RopeSystem@@AEAAXXZ
     MCAPI void _tickWaves();
-
-    // symbol: ?_updateRenderPoints@RopeSystem@@AEAAXXZ
-    MCAPI void _updateRenderPoints();
 
     // NOLINTEND
 };

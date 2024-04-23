@@ -22,14 +22,15 @@ public:
     MCAPI static struct TickingSystemWithInfo createResetMoveDirectionJumpPendingSystem();
 
     // symbol:
-    // ?tickResetMoveDirectionJumpPendingSystem@ResetMoveDirectionJumpPendingSystem@@SAXV?$ViewT@VStrictEntityContext@@U?$Include@V?$FlagComponent@UOnGroundFlag@@@@@@U?$Exclude@V?$FlagComponent@UMobAllowStandSlidingFlag@@@@@@$$CBUJumpPendingScaleComponent@@$$CBUSynchedActorDataComponent@@$$CBUVehicleComponent@@UMobTravelComponent@@@@@Z
+    // ?tickResetMoveDirectionJumpPendingSystem@ResetMoveDirectionJumpPendingSystem@@SAXV?$ViewT@VStrictEntityContext@@U?$Include@V?$FlagComponent@UOnGroundFlag@@@@@@U?$Exclude@V?$FlagComponent@UMobAllowStandSlidingFlag@@@@@@$$CBUJumpPendingScaleComponent@@$$CBUActorDataFlagComponent@@$$CBUActorDataControllingSeatIndexComponent@@$$CBUVehicleComponent@@UMobTravelComponent@@@@@Z
     MCAPI static void
     tickResetMoveDirectionJumpPendingSystem(class ViewT<
                                             class StrictEntityContext,
                                             struct Include<class FlagComponent<struct OnGroundFlag>>,
                                             struct Exclude<class FlagComponent<struct MobAllowStandSlidingFlag>>,
                                             struct JumpPendingScaleComponent const,
-                                            struct SynchedActorDataComponent const,
+                                            struct ActorDataFlagComponent const,
+                                            struct ActorDataControllingSeatIndexComponent const,
                                             struct VehicleComponent const,
                                             struct MobTravelComponent> view);
 

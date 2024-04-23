@@ -6,13 +6,11 @@
 #include "mc/external/scripting/ClassBindingBuilder.h"
 #include "mc/external/scripting/Result.h"
 #include "mc/external/scripting/StrongTypedObjectHandle.h"
-#include "mc/scripting/modules/minecraft/ScriptItemEvent.h"
 
 // auto generated forward declare list
 // clang-format off
 class BlockPos;
 class Player;
-namespace ScriptModuleMinecraft { class ScriptItemEvent; }
 namespace ScriptModuleMinecraft { class ScriptItemStack; }
 namespace Scripting { class WeakLifetimeScope; }
 struct ItemUseOnEvent;
@@ -20,26 +18,20 @@ struct ItemUseOnEvent;
 
 namespace ScriptModuleMinecraft {
 
-struct ScriptItemUseOnAfterEvent : public ::ScriptModuleMinecraft::ScriptItemEvent {
+struct ScriptItemUseOnAfterEvent {
 public:
     // prevent constructor by default
     ScriptItemUseOnAfterEvent();
 
 public:
     // NOLINTBEGIN
-    // vIndex: 0, symbol: ??1ScriptItemUseOnAfterEvent@ScriptModuleMinecraft@@UEAA@XZ
-    virtual ~ScriptItemUseOnAfterEvent();
-
-    // symbol: ??0ScriptItemUseOnAfterEvent@ScriptModuleMinecraft@@QEAA@$$QEAU01@@Z
-    MCAPI ScriptItemUseOnAfterEvent(struct ScriptModuleMinecraft::ScriptItemUseOnAfterEvent&&);
-
     // symbol: ??0ScriptItemUseOnAfterEvent@ScriptModuleMinecraft@@QEAA@AEBU01@@Z
     MCAPI ScriptItemUseOnAfterEvent(struct ScriptModuleMinecraft::ScriptItemUseOnAfterEvent const&);
 
     // symbol:
-    // ??0ScriptItemUseOnAfterEvent@ScriptModuleMinecraft@@QEAA@AEBUItemUseOnEvent@@V?$StrongTypedObjectHandle@VScriptItemStack@ScriptModuleMinecraft@@@Scripting@@PEAVPlayer@@AEBVWeakLifetimeScope@4@@Z
+    // ??0ScriptItemUseOnAfterEvent@ScriptModuleMinecraft@@QEAA@AEBUItemUseOnEvent@@V?$StrongTypedObjectHandle@VScriptItemStack@ScriptModuleMinecraft@@@Scripting@@AEBVPlayer@@AEBVWeakLifetimeScope@4@@Z
     MCAPI
-    ScriptItemUseOnAfterEvent(struct ItemUseOnEvent const&, class Scripting::StrongTypedObjectHandle<class ScriptModuleMinecraft::ScriptItemStack>, class Player*, class Scripting::WeakLifetimeScope const&);
+    ScriptItemUseOnAfterEvent(struct ItemUseOnEvent const&, class Scripting::StrongTypedObjectHandle<class ScriptModuleMinecraft::ScriptItemStack>, class Player const&, class Scripting::WeakLifetimeScope const&);
 
     // symbol:
     // ?getBlockLocation_V010@ScriptItemUseOnAfterEvent@ScriptModuleMinecraft@@QEBA?AV?$Result@VBlockPos@@$$V@Scripting@@XZ

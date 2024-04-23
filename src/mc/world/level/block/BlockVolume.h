@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mc/_HeaderOutputPredefine.h"
+#include "mc/world/level/BlockPos.h"
 
 // auto generated inclusion list
 #include "mc/deps/core/utility/buffer_span_mut.h"
@@ -38,6 +39,7 @@ public:
         // NOLINTEND
     };
 
+public:
     buffer_span_mut<Block const*> mBlocks;          // this+0x0
     uint                          mWidth;           // this+0x10
     uint                          mHeight;          // this+0x14
@@ -45,11 +47,15 @@ public:
     int                           mDimensionBottom; // this+0x1C
     Block const*                  mInitBlock;       // this+0x20
 
+    BlockVolume() = default;
+
+    Block const*& block(uint index) { return mBlocks[index]; };
+
+    Block const*& block(BlockPos const& pos) { return mBlocks[index(pos)]; };
+
 public:
     // prevent constructor by default
-    BlockVolume& operator=(BlockVolume const&);
     BlockVolume(BlockVolume const&);
-    BlockVolume();
 
 public:
     // NOLINTBEGIN

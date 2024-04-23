@@ -24,7 +24,7 @@ public:
     // ?createTransactionContext@PlayerInventory@@UEAAXV?$function@$$A6AXAEAVContainer@@HAEBVItemStack@@1@Z@std@@V?$function@$$A6AXXZ@3@@Z
     MCVAPI void createTransactionContext(
         std::function<void(class Container&, int, class ItemStack const&, class ItemStack const&)> callback,
-        std::function<void(void)>                                                                  execute
+        std::function<void()>                                                                      execute
     );
 
     // symbol: ??0PlayerInventory@@QEAA@V?$unique_ptr@VInventory@@U?$default_delete@VInventory@@@std@@@std@@@Z
@@ -41,9 +41,6 @@ public:
 
     // symbol: ?canAdd@PlayerInventory@@QEBA_NAEBVItemStack@@@Z
     MCAPI bool canAdd(class ItemStack const& item) const;
-
-    // symbol: ?clearInventory@PlayerInventory@@QEAAHH@Z
-    MCAPI int clearInventory(int resize);
 
     // symbol: ?clearSlot@PlayerInventory@@QEAAXHW4ContainerID@@@Z
     MCAPI void clearSlot(int slot, ::ContainerID containerId);
@@ -113,9 +110,6 @@ public:
     // symbol: ?removeResource@PlayerInventory@@QEAA_NH@Z
     MCAPI bool removeResource(int type);
 
-    // symbol: ?removeResource@PlayerInventory@@QEAAHAEBVItemStack@@_N1H@Z
-    MCAPI int removeResource(class ItemStack const& item, bool requireExactAux, bool requireExactData, int maxCount);
-
     // symbol: ?save@PlayerInventory@@QEAA?AV?$unique_ptr@VListTag@@U?$default_delete@VListTag@@@std@@@std@@XZ
     MCAPI std::unique_ptr<class ListTag> save();
 
@@ -123,13 +117,17 @@ public:
     MCAPI bool selectSlot(int slot, ::ContainerID containerId);
 
     // symbol: ?serverInitItemStackIds@PlayerInventory@@QEAAXHHV?$function@$$A6AXHAEBVItemStack@@@Z@std@@@Z
-    MCAPI void serverInitItemStackIds(int, int count, std::function<void(int, class ItemStack const&)>);
+    MCAPI void serverInitItemStackIds(
+        int                                              containerSlot,
+        int                                              count,
+        std::function<void(int, class ItemStack const&)> onNetIdChanged
+    );
 
     // symbol: ?setContainerChanged@PlayerInventory@@QEAAXH@Z
     MCAPI void setContainerChanged(int slot);
 
     // symbol: ?setItem@PlayerInventory@@QEAAXHAEBVItemStack@@W4ContainerID@@_N@Z
-    MCAPI void setItem(int slot, class ItemStack const& item, ::ContainerID containerId, bool);
+    MCAPI void setItem(int slot, class ItemStack const& item, ::ContainerID containerId, bool forceBalanced);
 
     // symbol: ?setSelectedItem@PlayerInventory@@QEAAXAEBVItemStack@@@Z
     MCAPI void setSelectedItem(class ItemStack const& item);

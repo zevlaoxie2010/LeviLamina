@@ -1,9 +1,5 @@
 #pragma once
 
-#ifdef __clang__
-#pragma clang diagnostic ignored "-Wignored-qualifiers"
-#endif
-
 #pragma warning(disable : 4099) // for MOJANG : type name first seen using 'class' now seen using 'struct'
 #pragma warning(disable : 4201) // for MOJANG : nonstandard extension used : nameless struct/union
 
@@ -31,6 +27,7 @@
 #include <cwctype>       // Wide character classification
 #include <deque>         // STL double ended queue container
 #include <exception>     // Exception handling classes
+#include <filesystem>    // STL file system
 #include <forward_list>  // STL forward list container
 #include <fstream>       // File stream classes
 #include <functional>    // STL Function objects

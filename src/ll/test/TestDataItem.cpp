@@ -11,26 +11,12 @@
 #include <memory>
 #include <string>
 
-std::shared_ptr<SetActorDataPacket> buildSetActorDataPacketPacket(ItemActor* iac) {
-    bool                                   viewable = true;
-    std::vector<std::unique_ptr<DataItem>> DataItems;
-    DataItems.emplace_back(DataItem::create<const std::string&>(ActorDataIDs::Name, iac->item().getTypeName()));
-    DataItems.emplace_back(DataItem::create<signed char>(ActorDataIDs::NametagAlwaysShow, (signed char)viewable));
-    BinaryStream bs;
-    bs.writeUnsignedVarInt64(iac->getRuntimeID());
-    bs.writeType(DataItems);
-    bs.writeUnsignedVarInt(0);
-    bs.writeUnsignedVarInt(0);
-    bs.writeUnsignedVarInt64(0);
-    auto packet = MinecraftPackets::createPacket(MinecraftPacketIds::SetActorData);
-    packet->read(bs);
-    return std::static_pointer_cast<SetActorDataPacket>(packet);
-}
-
 LL_AUTO_TYPE_INSTANCE_HOOK(ACTickHook, HookPriority::Normal, ItemActor, &ItemActor::postNormalTick, void) {
     origin();
-    ll::service::getLevel()->forEachPlayer([&](Player& player) {
-        player.sendNetworkPacket(*buildSetActorDataPacketPacket(this));
-        return true;
-    });
+    SetActorDataPacket packet;
+    packet.mId = getRuntimeID();
+    packet.mPackedItems.emplace_back(DataItem::create(ActorDataIDs::Name, item().getTypeName()));
+    packet.mPackedItems.emplace_back(DataItem::create(ActorDataIDs::NametagAlwaysShow, true));
+
+    packet.sendToClients();
 }

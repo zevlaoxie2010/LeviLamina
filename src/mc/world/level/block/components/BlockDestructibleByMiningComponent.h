@@ -3,7 +3,7 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
-#include "mc/world/level/block/utils/BlockComponentBase.h"
+#include "mc/world/level/block/components/BlockComponentBase.h"
 
 struct BlockDestructibleByMiningComponent : public ::BlockComponentBase {
 public:
@@ -16,9 +16,6 @@ public:
     // NOLINTBEGIN
     // vIndex: 0, symbol: __gen_??1BlockDestructibleByMiningComponent@@UEAA@XZ
     virtual ~BlockDestructibleByMiningComponent() = default;
-
-    // symbol: ?usesNewComponentStorage@BlockDestructibleByMiningComponent@@SA_NXZ
-    MCAPI static bool usesNewComponentStorage();
 
     // NOLINTEND
 };

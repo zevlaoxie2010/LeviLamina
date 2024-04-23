@@ -1,7 +1,7 @@
 #pragma once
 
 #include "mc/_HeaderOutputPredefine.h"
-#include "mc/world/actor/movement/MovementPackets.h"
+#include "mc/entity/systems/movement/MovementPackets.h"
 
 // auto generated inclusion list
 #include "mc/common/wrapper/optional_ref.h"
@@ -19,6 +19,9 @@ public:
     // NOLINTBEGIN
     // symbol: ??0ServerPlayerMovementComponent@@QEAA@$$QEAU0@@Z
     MCAPI ServerPlayerMovementComponent(struct ServerPlayerMovementComponent&&);
+
+    // symbol: ?addInteractPacket@ServerPlayerMovementComponent@@QEAA_NAEBVInteractPacket@@@Z
+    MCAPI bool addInteractPacket(class InteractPacket const&);
 
     // symbol:
     // ?addInventoryTransactionPacket@ServerPlayerMovementComponent@@QEAA_NV?$shared_ptr@VInventoryTransactionPacket@@@std@@@Z

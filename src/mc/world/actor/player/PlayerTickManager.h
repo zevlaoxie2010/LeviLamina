@@ -3,8 +3,7 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
-#include "mc/common/wrapper/SharePtrRefTraits.h"
-#include "mc/common/wrapper/StackRefResultT.h"
+#include "mc/common/wrapper/StackRefResult.h"
 
 class PlayerTickManager {
 public:
@@ -16,10 +15,10 @@ public:
 public:
     // NOLINTBEGIN
     // symbol:
-    // ??0PlayerTickManager@@QEAA@V?$StackRefResultT@U?$SharePtrRefTraits@VDimensionManager@@@@@@V?$StackRefResultT@U?$SharePtrRefTraits@VGameplayUserManager@@@@@@V?$unique_ptr@VIPlayerTickProxy@@U?$default_delete@VIPlayerTickProxy@@@std@@@std@@_N@Z
+    // ??0PlayerTickManager@@QEAA@AEBV?$not_null@V?$StackRefResult@VDimensionManager@@@@@gsl@@AEBV?$not_null@V?$StackRefResult@VGameplayUserManager@@@@@2@V?$unique_ptr@VIPlayerTickProxy@@U?$default_delete@VIPlayerTickProxy@@@std@@@std@@_N@Z
     MCAPI PlayerTickManager(
-        class StackRefResultT<struct SharePtrRefTraits<class DimensionManager>>,
-        class StackRefResultT<struct SharePtrRefTraits<class GameplayUserManager>>,
+        gsl::not_null<class StackRefResult<class DimensionManager>> const&,
+        gsl::not_null<class StackRefResult<class GameplayUserManager>> const&,
         std::unique_ptr<class IPlayerTickProxy>,
         bool
     );

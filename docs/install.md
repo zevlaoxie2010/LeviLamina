@@ -27,11 +27,11 @@ You can install LeviLamina in different ways, depending on your needs:
 
 ### Install via LipUI
 
-See [LipUI](https://github.com/lippkg/LipUI) for more information.
+Simply download and run [LipUI](https://github.com/lippkg/LipUI), and then install LeviLamina from the package index.
 
 ### Install via lip
 
-If you have not installed lip, you can install it following the instructions in [lip installation guide](https://docs.lippkg.com/installation.html).
+If you have not installed lip, you can install it following the instructions in [lip installation guide](https://docs.lippkg.com/install/).
 
 After installing lip, you can install LeviLamina by running the following command:
 
@@ -91,7 +91,7 @@ lip install --upgrade github.com/LiteLDev/LeviLamina
 
 ##### 3. **Include LeviLamina Files**:
    - Unzip the `levilamina-windows-x64.zip` file from step 1.
-   - Take the `lib/LeviLamina.dll` and `lib/LeviLamina.pdb` files and place them in the same directory as the BDS files.
+   - Take the `bin/LeviLamina.dll` and `bin/LeviLamina.pdb` files and place them in the same directory as the BDS files.
 
 ##### 4. **Run PeEditor**:
    - Double-click `PeEditor.exe` and wait for the process to complete.

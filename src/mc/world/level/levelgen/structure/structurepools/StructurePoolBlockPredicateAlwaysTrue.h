@@ -16,11 +16,14 @@ public:
     // vIndex: 0, symbol: __gen_??1StructurePoolBlockPredicateAlwaysTrue@@UEAA@XZ
     virtual ~StructurePoolBlockPredicateAlwaysTrue() = default;
 
-    // symbol: ?test@StructurePoolBlockPredicateAlwaysTrue@@UEBA_NAEBVBlock@@AEAVRandomize@@@Z
-    MCVAPI bool test(class Block const& block, class Randomize& randomize) const;
+    // vIndex: 1, symbol: ?test@StructurePoolBlockPredicateAlwaysTrue@@UEBA_NAEBVBlock@@AEAVRandomize@@@Z
+    virtual bool test(class Block const& block, class Randomize& randomize) const;
 
-    // symbol: ?test@StructurePoolBlockPredicateAlwaysTrue@@UEBA_NAEBVBlockPos@@0AEAVRandomize@@@Z
-    MCVAPI bool test(class BlockPos const&, class BlockPos const&, class Randomize&) const;
+    // vIndex: 2, symbol: ?test@StructurePoolBlockPredicateAlwaysTrue@@UEBA_NAEBVBlockPos@@0AEAVRandomize@@@Z
+    virtual bool test(class BlockPos const&, class BlockPos const&, class Randomize&) const;
+
+    // vIndex: 3, symbol: ?finalize@IStructurePoolBlockPredicate@@UEAA_NAEAVBlockSource@@AEAVIRandom@@@Z
+    virtual bool finalize(class BlockSource&, class IRandom&);
 
     // symbol: ??0StructurePoolBlockPredicateAlwaysTrue@@QEAA@XZ
     MCAPI StructurePoolBlockPredicateAlwaysTrue();

@@ -94,6 +94,9 @@ public:
     // symbol: ?garbageCollectBlueprints@StructureFeature@@QEAAXV?$buffer_span@VChunkPos@@@@I@Z
     MCAPI void garbageCollectBlueprints(class buffer_span<class ChunkPos> activeChunks, uint safetyBorder);
 
+    // symbol: ?getType@StructureFeature@@QEBA?AW4StructureFeatureType@@XZ
+    MCAPI ::StructureFeatureType getType() const;
+
     // symbol: ?isInsideBoundingFeature@StructureFeature@@QEAA_NHHH@Z
     MCAPI bool isInsideBoundingFeature(int cellX, int cellY, int cellZ);
 
@@ -135,7 +138,7 @@ public:
         class ChunkPos const& cp,
         class Random&         random,
         uint                  levelSeed,
-        int,
+        int                   spacing,
         int,
         int  salt,
         bool tiltedSpacing

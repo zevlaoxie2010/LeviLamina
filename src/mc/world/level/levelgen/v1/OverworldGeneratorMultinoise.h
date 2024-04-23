@@ -5,7 +5,6 @@
 // auto generated inclusion list
 #include "mc/deps/core/data/DividedPos2d.h"
 #include "mc/deps/core/utility/MultidimensionalArray.h"
-#include "mc/world/level/levelgen/v1/FeatureTerrainAdjustments.h"
 #include "mc/world/level/levelgen/v1/OverworldGenerator.h"
 
 class OverworldGeneratorMultinoise : public ::OverworldGenerator {
@@ -42,7 +41,7 @@ public:
 
         // NOLINTEND
     };
-    char unk[2800];
+    char mUnknow[2800];
 
 public:
     // prevent constructor by default
@@ -119,13 +118,11 @@ public:
     // symbol: ??1OverworldGeneratorMultinoise@@UEAA@XZ
     virtual ~OverworldGeneratorMultinoise();
 
-    // symbol:
-    // ??0OverworldGeneratorMultinoise@@QEAA@AEAVDimension@@VLevelSeed64@@PEBVBiome@@V?$unique_ptr@VStructureFeatureRegistry@@U?$default_delete@VStructureFeatureRegistry@@@std@@@std@@@Z
-    MCAPI
-    OverworldGeneratorMultinoise(class Dimension& dimension, class LevelSeed64 seed, class Biome const*, std::unique_ptr<class StructureFeatureRegistry>);
+    // symbol: ??0OverworldGeneratorMultinoise@@QEAA@AEAVDimension@@VLevelSeed64@@PEBVBiome@@@Z
+    MCAPI OverworldGeneratorMultinoise(class Dimension&, class LevelSeed64, class Biome const*);
 
     // symbol: ?_applySlides@OverworldGeneratorMultinoise@@SAMAEBVDimensionHeightRange@@ME@Z
-    MCAPI static float _applySlides(class DimensionHeightRange const&, float, uchar);
+    MCAPI static float _applySlides(class DimensionHeightRange const& heightRange, float, uchar);
 
     // NOLINTEND
 
@@ -146,9 +143,9 @@ public:
     _makeBiomeSource(class XoroshiroPositionalRandomFactory const&, class BiomeRegistry const& biomeRegistry, class Biome const*);
 
     // symbol:
-    // ?_updateNoiseAndGenerateBaseBlock@OverworldGeneratorMultinoise@@AEBA?BUBlockGenerationResult@1@MAEBUDescriptions@FeatureTerrainAdjustments@@AEBVBlockPos@@FPEAVAquifer@@_N3PEBVChunkBlender@@AEBVBlock@@PEAVNoodleCavifier@@PEAVOreVeinifier@@@Z
+    // ?_updateNoiseAndGenerateBaseBlock@OverworldGeneratorMultinoise@@AEBA?BUBlockGenerationResult@1@MAEBVBlockPos@@FPEAVAquifer@@_NPEBVChunkBlender@@AEBVBlock@@PEAVOreVeinifier@@@Z
     MCAPI struct OverworldGeneratorMultinoise::BlockGenerationResult const
-    _updateNoiseAndGenerateBaseBlock(float, struct FeatureTerrainAdjustments::Descriptions const&, class BlockPos const&, short, class Aquifer*, bool, bool, class ChunkBlender const*, class Block const&, class NoodleCavifier*, class OreVeinifier*)
+    _updateNoiseAndGenerateBaseBlock(float, class BlockPos const&, short, class Aquifer*, bool, class ChunkBlender const*, class Block const&, class OreVeinifier*)
         const;
 
     // NOLINTEND

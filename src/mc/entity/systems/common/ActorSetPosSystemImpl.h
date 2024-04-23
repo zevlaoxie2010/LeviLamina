@@ -10,9 +10,9 @@
 namespace ActorSetPosSystemImpl {
 // NOLINTBEGIN
 // symbol:
-// ?_tickActorUpdatePositionAndAABBSystem2@ActorSetPosSystemImpl@@YAXAEBUActorSetPositionRequestComponent@@AEBUOffsetsComponent@@V?$Optional@$$CBUSlideOffsetComponent@@@@AEAUAABBShapeComponent@@AEAUStateVectorComponent@@V?$Optional@V?$FlagComponent@UPaintingFlag@@@@@@@Z
+// ?_tickActorUpdatePositionAndAABBSystem2@ActorSetPosSystemImpl@@YAXAEBUActorSetPositionRequestComponent@@AEBUOffsetsComponent@@AEAUAABBShapeComponent@@AEAUStateVectorComponent@@V?$Optional@V?$FlagComponent@UPaintingFlag@@@@@@@Z
 MCAPI void
-_tickActorUpdatePositionAndAABBSystem2(struct ActorSetPositionRequestComponent const&, struct OffsetsComponent const&, class Optional<struct SlideOffsetComponent const>, struct AABBShapeComponent&, struct StateVectorComponent&, class Optional<class FlagComponent<struct PaintingFlag>>);
+_tickActorUpdatePositionAndAABBSystem2(struct ActorSetPositionRequestComponent const&, struct OffsetsComponent const&, struct AABBShapeComponent&, struct StateVectorComponent&, class Optional<class FlagComponent<struct PaintingFlag>>);
 
 // symbol:
 // ?_tickAddLocalPlayerEntityMovedSystemAsynchronous1@ActorSetPosSystemImpl@@YAXAEAVStrictEntityContext@@V?$EntityModifier@V?$FlagComponent@UActorChunkMoveFlag@@@@V?$FlagComponent@UActorLocalPlayerEntityMovedFlag@@@@UActorSetPositionRequestComponent@@@@@Z
@@ -23,9 +23,6 @@ MCAPI void _tickAddLocalPlayerEntityMovedSystemAsynchronous1(
         class FlagComponent<struct ActorLocalPlayerEntityMovedFlag>,
         struct ActorSetPositionRequestComponent> modifier
 );
-
-// symbol: ?_tickAddLocalPlayerEntityMovedSystemSynchronous1@ActorSetPosSystemImpl@@YAXAEBVActorOwnerComponent@@@Z
-MCAPI void _tickAddLocalPlayerEntityMovedSystemSynchronous1(class ActorOwnerComponent const&);
 
 // symbol:
 // ?_tickChunkMoveNeededSystemAsynchronous4@ActorSetPosSystemImpl@@YAXAEAVStrictEntityContext@@AEBUChunkPositionComponent@@AEBUStateVectorComponent@@V?$EntityModifier@V?$FlagComponent@UActorChunkMoveFlag@@@@V?$FlagComponent@UActorLocalPlayerEntityMovedFlag@@@@UActorSetPositionRequestComponent@@@@@Z
@@ -49,8 +46,9 @@ _tickChunkMoveNeededSystemSynchronous4(class ActorOwnerComponent const&, struct 
 MCAPI void _tickMoveHitboxSystem3(struct ActorSetPositionRequestComponent const&, class HitboxComponent&);
 
 // symbol:
-// ?_tickShulkerUpdatePositionSystem5@ActorSetPosSystemImpl@@YAXAEBUStateVectorComponent@@AEAUSynchedActorDataComponent@@@Z
-MCAPI void _tickShulkerUpdatePositionSystem5(struct StateVectorComponent const&, struct SynchedActorDataComponent&);
+// ?_tickShulkerUpdatePositionSystem5@ActorSetPosSystemImpl@@YAXAEBUStateVectorComponent@@AEAUSynchedActorDataComponent@@AEAUActorDataFlagComponent@@AEAUActorDataDirtyFlagsComponent@@@Z
+MCAPI void
+_tickShulkerUpdatePositionSystem5(struct StateVectorComponent const&, struct SynchedActorDataComponent&, struct ActorDataFlagComponent&, struct ActorDataDirtyFlagsComponent&);
 // NOLINTEND
 
 }; // namespace ActorSetPosSystemImpl

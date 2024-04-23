@@ -16,10 +16,10 @@ namespace Json { class Value; }
 
 class FlatWorldGenerator : public ::WorldGenerator {
 public:
-    std::vector<Block const*>         mPrototypeBlocks; // this+0x90
-    BlockVolume                       mPrototype;       // this+0xA8
-    Biome const*                      mBiome;           // this+0xD0
-    std::unique_ptr<FixedBiomeSource> mBiomeSource;     // this+0xD8
+    std::vector<Block const*>         mPrototypeBlocks; // this+0x188
+    BlockVolume                       mPrototype;       // this+0x1A0
+    Biome const*                      mBiome;           // this+0x1C8
+    std::unique_ptr<FixedBiomeSource> mBiomeSource;     // this+0x1D0
 
     // prevent constructor by default
     FlatWorldGenerator& operator=(FlatWorldGenerator const&);
@@ -75,10 +75,10 @@ public:
 
     // ChunkSource reload function
     // vIndex: 9, symbol: ?postProcess@FlatWorldGenerator@@UEAA_NAEAVChunkViewSource@@@Z
-    virtual bool postProcess(class ChunkViewSource&);
+    virtual bool postProcess(class ChunkViewSource& neighborhood);
 
     // vIndex: 11, symbol: ?loadChunk@FlatWorldGenerator@@UEAAXAEAVLevelChunk@@_N@Z
-    virtual void loadChunk(class LevelChunk&, bool);
+    virtual void loadChunk(class LevelChunk& levelchunk, bool forceImmediateReplacementDataLoad);
 
     // symbol: ??0FlatWorldGenerator@@QEAA@AEAVDimension@@IAEBVValue@Json@@@Z
     MCAPI FlatWorldGenerator(class Dimension& dimension, uint, class Json::Value const& generationOptionsJSON);

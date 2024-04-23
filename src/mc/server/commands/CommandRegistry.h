@@ -23,6 +23,7 @@
 namespace Json { class Value; }
 // clang-format on
 
+class Command;
 class CommandParameterData;
 class CommandFilePath;
 class CommandIntegerRange;
@@ -58,15 +59,15 @@ public:
     using ParseFn =
         bool (CommandRegistry::*)(void*, ParseToken const&, CommandOrigin const&, int, std::string&, std::vector<std::string>&)
             const;
-    using FactoryFn       = std::unique_ptr<class Command> (*)();
+    using FactoryFn       = std::unique_ptr<class Command>();
     using ProcessFunction = std::function<ParseToken*(ParseToken&, Symbol)>;
 
     struct ChainedSubcommand {
     public:
         // prevent constructor by default
-        ChainedSubcommand& operator=(ChainedSubcommand const&) = delete;
-        ChainedSubcommand(ChainedSubcommand const&)            = delete;
-        ChainedSubcommand()                                    = delete;
+        ChainedSubcommand& operator=(ChainedSubcommand const&);
+        ChainedSubcommand(ChainedSubcommand const&);
+        ChainedSubcommand();
 
     public:
         // NOLINTBEGIN
@@ -78,10 +79,10 @@ public:
 
     struct Enum {
 
-        std::string                                         name;   // this+0x0
-        Bedrock::typeid_t<CommandRegistry>                  type;   // this+0x20
-        ParseFn                                             parse;  // this+0x28
-        std::vector<std::tuple<ulong, ulong, ulong, ulong>> values; // this+0x30
+        std::string                            name;   // this+0x0
+        Bedrock::typeid_t<CommandRegistry>     type;   // this+0x20
+        ParseFn                                parse;  // this+0x28
+        std::vector<std::pair<uint64, uint64>> values; // this+0x30
 
     public:
         // NOLINTBEGIN
@@ -93,12 +94,10 @@ public:
 
     struct Overload {
         CommandVersion                    version;       // this+0x0
-        FactoryFn                         alloc;         // this+0x8
+        FactoryFn*                        alloc;         // this+0x8
         std::vector<CommandParameterData> params;        // this+0x10
         int                               versionOffset; // this+0x28
         std::vector<Symbol>               paramsSymbol;  // this+0x30
-
-        LLAPI Overload(CommandVersion version, FactoryFn factory, std::vector<CommandParameterData> args);
 
     public:
         // NOLINTBEGIN
@@ -234,24 +233,16 @@ public:
         std::string            name;                 // this+0x0
         std::string            desc;                 // this+0x20
         std::vector<Overload>  overloads;            // this+0x40
-        std::vector<void*>     unk88;                // this+0x58
+        std::vector<void*>     mUnknown;             // this+0x58  // ChainedSubcommand
         CommandPermissionLevel perm;                 // this+0x70
-        Symbol                 main_symbol;          // this+0x74
-        Symbol                 alt_symbol;           // this+0x78
+        Symbol                 mainSymbol;           // this+0x74
+        Symbol                 altSymbol;            // this+0x78
         CommandFlag            flag;                 // this+0x7C
         int                    firstRule{};          // this+0x80
         int                    firstFactorization{}; // this+0x84
         int                    firstOptional{};      // this+0x88
         bool                   runnable{};           // this+0x8C
         size_t                 ruleCounter{};        // this+0x90
-
-        LLAPI Signature(
-            std::string_view       name,
-            std::string_view       desc,
-            CommandPermissionLevel perm,
-            Symbol                 symbol,
-            CommandFlag            flag
-        );
 
     public:
         // NOLINTBEGIN
@@ -292,7 +283,7 @@ public:
         // symbol:
         // ?createSelector@Parser@CommandRegistry@@QEAA?AV?$unique_ptr@V?$CommandSelector@VActor@@@@U?$default_delete@V?$CommandSelector@VActor@@@@@std@@@std@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@AEBVCommandOrigin@@@Z
         MCAPI std::unique_ptr<class CommandSelector<class Actor>>
-              createSelector(std::string const&, class CommandOrigin const& origin);
+              createSelector(std::string const& selectorString, class CommandOrigin const& origin);
 
         // symbol:
         // ?getErrorMessage@Parser@CommandRegistry@@QEBAAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
@@ -319,13 +310,12 @@ public:
         // NOLINTBEGIN
         // symbol:
         // ?_findParsePrediction@Parser@CommandRegistry@@AEBA?AV?$dense_map_iterator@V?$_Vector_const_iterator@V?$_Vector_val@U?$_Simple_types@U?$dense_map_node@U?$pair@VSymbol@CommandRegistry@@V12@@std@@H@internal@entt@@@std@@@std@@@std@@@internal@entt@@AEBULexicalToken@2@AEBVSymbol@2@@Z
-        MCAPI entt::internal::dense_map_iterator<std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<
-            entt::internal::
-                dense_map_node<std::pair<class CommandRegistry::Symbol, class CommandRegistry::Symbol>, int>>>>>
-              _findParsePrediction(
-                  struct CommandRegistry::LexicalToken const& lexToken,
-                  class CommandRegistry::Symbol const&        stackSymbol
-              ) const;
+        MCAPI entt::dense_map<std::pair<class CommandRegistry::Symbol, class CommandRegistry::Symbol>, int>::
+            const_iterator
+            _findParsePrediction(
+                struct CommandRegistry::LexicalToken const& lexToken,
+                class CommandRegistry::Symbol const&        stackSymbol
+            ) const;
 
         // symbol:
         // ?_parse@Parser@CommandRegistry@@AEAA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
@@ -400,13 +390,13 @@ public:
     std::vector<OptionalParameterChain>                         mOptionals;                    // this+0xA8
     std::vector<std::string>                                    mEnumValues;                   // this+0xC0
     std::vector<Enum>                                           mEnums;                        // this+0xD8
-    std::vector<int>                                            mUnknow_1;                     // this+0xF0
-    std::vector<int>                                            mUnknow_2;                     // this+0x108
+    std::vector<int>                                            mUnknown1;                     // this+0xF0
+    std::vector<int>                                            mUnknown2;                     // this+0x108
     std::vector<Factorization>                                  mFactorizations;               // this+0x120
     std::vector<std::string>                                    mPostfixes;                    // this+0x138
     std::map<std::string, uint>                                 mEnumLookup;                   // this+0x150
-    std::map<std::string, ulong>                                mEnumValueLookup;              // this+0x160
-    std::map<std::string, int>                                  mUnknow_3;                     // this+0x170
+    std::map<std::string, uint64>                               mEnumValueLookup;              // this+0x160
+    std::map<std::string, int>                                  mUnknown3;                     // this+0x170
     std::map<std::string, int>                                  mChainedSubcommandLookUp;      // this+0x180
     std::vector<Symbol>                                         mCommandSymbols;               // this+0x190
     std::map<std::string, Signature>                            mSignatures;                   // this+0x1A8
@@ -415,7 +405,7 @@ public:
     std::vector<SemanticConstraint>                             mSemanticConstraints;          // this+0x1D8
     std::map<SemanticConstraint, uchar>                         mSemanticConstraintLookup;     // this+0x1F0
     std::vector<ConstrainedValue>                               mConstrainedValues;            // this+0x200
-    std::map<std::pair<ulong, uint>, uint>                      mConstrainedValueLookup;       // this+0x218
+    std::map<std::pair<uint64, uint>, uint>                     mConstrainedValueLookup;       // this+0x218
     std::vector<SoftEnum>                                       mSoftEnums;                    // this+0x228
     std::map<std::string, uint>                                 mSoftEnumLookup;               // this+0x240
     std::vector<RegistryState>                                  mStateStack;                   // this+0x250
@@ -424,63 +414,22 @@ public:
     std::unordered_map<uchar, uchar>                            mAllowEmptySymbols;            // this+0x308
     std::function<void(CommandFlag&, std::string const&)>       mCommandOverrideFunctor;       // this+0x348
 
-    // following is the command parameter overloading
-
-    template <std::default_initializable T>
-    [[nodiscard]] inline static std::unique_ptr<Command> allocateCommand() {
-        return std::make_unique<T>();
-    };
-
-    LLAPI void registerOverload(std::string const& name, FactoryFn factory, std::vector<CommandParameterData>&& args);
-
-    template <std::default_initializable T, typename... Params>
-    inline void registerOverload(std::string const& name, Params... params) {
-        registerOverload(name, &allocateCommand<T>, {std::move(params)...});
-    };
-
-    // following sections add sections for directive parameter enumeration
-    bool
-    parseEnumStringAndInt(void* target, CommandRegistry::ParseToken const& token, CommandOrigin const&, int, std::string&, std::vector<std::string>&)
-        const {
-        auto str                              = token.toString();
-        auto data                             = getEnumData(token);
-        *(std::pair<std::string, int>*)target = {str, (int)data};
-        return true;
-    };
-
-    template <typename Type>
-    bool
-    parseEnum(void* target, CommandRegistry::ParseToken const& token, CommandOrigin const&, int, std::string&, std::vector<std::string>&)
-        const {
-        auto data      = getEnumData(token);
-        *(Type*)target = (Type)(data);
-        return true;
-    };
-
     template <typename T>
-    CommandRegistry* addEnum(std::string const& name, std::vector<std::pair<std::string, T>> const& values) {
-        std::vector<std::pair<std::string, uint64>> converted;
-        converted.reserve(values.size());
-        for (auto& value : values) converted.emplace_back(value.first, (uint64)(value.second));
-        _addEnumValuesInternal(name, converted, Bedrock::type_id<CommandRegistry, T>(), &CommandRegistry::parseEnum<T>);
-        return this;
+    bool parse(
+        void*                              storage,
+        CommandRegistry::ParseToken const& token,
+        CommandOrigin const& /*origin*/,
+        int /*version*/,
+        std::string& /*error*/,
+        std::vector<std::string>& /*errorParams*/
+    ) const {
+        if constexpr (std::is_enum_v<T>) {
+            *(T*)storage = (T)getEnumData(token);
+            return true;
+        } else {
+            return false;
+        }
     }
-
-    template <typename T>
-    bool
-    parse(void*, CommandRegistry::ParseToken const&, CommandOrigin const&, int, std::string&, std::vector<std::string>&)
-        const {
-        return false;
-    };
-
-    // API
-    LLNDAPI std::vector<std::string> getEnumNames();
-    LLNDAPI std::vector<std::string> getSoftEnumNames();
-    LLNDAPI std::vector<std::string> getEnumValues(std::string const& name);
-    LLNDAPI std::vector<std::string> getSoftEnumValues(std::string const& name);
-    LLNDAPI std::string getCommandFullName(std::string const& name);
-    // Experiment
-    LLAPI bool unregisterCommand(std::string const& name);
 
 public:
     // prevent constructor by default
@@ -566,9 +515,9 @@ public:
     // ?registerCommand@CommandRegistry@@QEAAXAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEBDW4CommandPermissionLevel@@UCommandFlag@@3@Z
     MCAPI void registerCommand(
         std::string const&       name,
-        char const*              description,
+        char const*              description, // will copy to std::string
         ::CommandPermissionLevel requirement,
-        struct CommandFlag = CommandFlagValue::None,
+        struct CommandFlag       f,
         struct CommandFlag = CommandFlagValue::None // useless, idiot
     );
 
@@ -633,6 +582,9 @@ public:
 
     // symbol: ?HASPERMISSIONSTATE_ENUM_ENABLED@CommandRegistry@@2PEBDEB
     MCAPI static char const* HASPERMISSIONSTATE_ENUM_ENABLED;
+
+    // symbol: ?HASPROPERTY_PARAM_PROPERTY_NAME@CommandRegistry@@2PEBDEB
+    MCAPI static char const* HASPROPERTY_PARAM_PROPERTY_NAME;
 
     // symbol: ?TAG_VALUES_SOFTENUM_NAME@CommandRegistry@@2PEBDEB
     MCAPI static char const* TAG_VALUES_SOFTENUM_NAME;
@@ -954,6 +906,11 @@ public:
         std::vector<std::string>&                 errorParams
     );
 
+    // symbol:
+    // ?readString@CommandRegistry@@CA_NAEAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBUParseToken@1@0AEAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@3@@Z
+    MCAPI static bool
+    readString(std::string&, struct CommandRegistry::ParseToken const&, std::string&, std::vector<std::string>&);
+
     // NOLINTEND
 
 private:
@@ -1045,9 +1002,18 @@ MCTAPI bool CommandRegistry::parse<WildcardCommandSelector<
     const;
 
 MCTAPI bool CommandRegistry::parse<std::unique_ptr<
-    Command>>(void*, CommandRegistry::ParseToken const&, CommandOrigin const&, int, std::string&, std::vector<std::string>&)
+    ::Command>>(void*, CommandRegistry::ParseToken const&, CommandOrigin const&, int, std::string&, std::vector<std::string>&)
     const;
 
 MCTAPI bool CommandRegistry::parse<std::vector<
     BlockStateCommandParam>>(void*, CommandRegistry::ParseToken const&, CommandOrigin const&, int, std::string&, std::vector<std::string>&)
     const;
+
+template <>
+inline bool CommandRegistry::parse<std::pair<
+    std::string,
+    uint64>>(void* target, CommandRegistry::ParseToken const& token, CommandOrigin const&, int, std::string&, std::vector<std::string>&)
+    const {
+    *(std::pair<std::string, uint64>*)target = {token.toString(), getEnumData(token)};
+    return true;
+}

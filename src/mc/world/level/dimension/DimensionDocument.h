@@ -2,6 +2,11 @@
 
 #include "mc/_HeaderOutputPredefine.h"
 
+// auto generated forward declare list
+// clang-format off
+namespace cereal { struct ReflectionCtx; }
+// clang-format on
+
 struct DimensionDocument {
 public:
     // DimensionDocument inner types declare
@@ -24,7 +29,6 @@ public:
             // Components inner types declare
             // clang-format off
             struct Bounds;
-            struct Generation;
             // clang-format on
 
             // Components inner types define
@@ -37,23 +41,8 @@ public:
 
             public:
                 // NOLINTBEGIN
-                // symbol: ?bindType@Bounds@Components@Dimension@DimensionDocument@@SAXXZ
-                MCAPI static void bindType();
-
-                // NOLINTEND
-            };
-
-            struct Generation {
-            public:
-                // prevent constructor by default
-                Generation& operator=(Generation const&);
-                Generation(Generation const&);
-                Generation();
-
-            public:
-                // NOLINTBEGIN
-                // symbol: ?bindType@Generation@Components@Dimension@DimensionDocument@@SAXXZ
-                MCAPI static void bindType();
+                // symbol: ?bindType@Bounds@Components@Dimension@DimensionDocument@@SAXAEAUReflectionCtx@cereal@@@Z
+                MCAPI static void bindType(struct cereal::ReflectionCtx&);
 
                 // NOLINTEND
             };
@@ -72,8 +61,8 @@ public:
             // symbol: ??1Components@Dimension@DimensionDocument@@QEAA@XZ
             MCAPI ~Components();
 
-            // symbol: ?bindType@Components@Dimension@DimensionDocument@@SAXXZ
-            MCAPI static void bindType();
+            // symbol: ?bindType@Components@Dimension@DimensionDocument@@SAXAEAUReflectionCtx@cereal@@@Z
+            MCAPI static void bindType(struct cereal::ReflectionCtx&);
 
             // NOLINTEND
         };
@@ -89,9 +78,6 @@ public:
             // NOLINTBEGIN
             // symbol: ??1Description@Dimension@DimensionDocument@@QEAA@XZ
             MCAPI ~Description();
-
-            // symbol: ?bindType@Description@Dimension@DimensionDocument@@SAXXZ
-            MCAPI static void bindType();
 
             // NOLINTEND
         };
@@ -112,8 +98,8 @@ public:
         // symbol: ??1Dimension@DimensionDocument@@QEAA@XZ
         MCAPI ~Dimension();
 
-        // symbol: ?bindType@Dimension@DimensionDocument@@SAXXZ
-        MCAPI static void bindType();
+        // symbol: ?bindType@Dimension@DimensionDocument@@SAXAEAUReflectionCtx@cereal@@@Z
+        MCAPI static void bindType(struct cereal::ReflectionCtx&);
 
         // NOLINTEND
     };
@@ -122,17 +108,18 @@ public:
     // prevent constructor by default
     DimensionDocument& operator=(DimensionDocument const&);
     DimensionDocument(DimensionDocument const&);
+    DimensionDocument();
 
 public:
     // NOLINTBEGIN
-    // symbol: ??0DimensionDocument@@QEAA@XZ
-    MCAPI DimensionDocument();
+    // symbol: ??0DimensionDocument@@QEAA@AEAUReflectionCtx@cereal@@@Z
+    MCAPI explicit DimensionDocument(struct cereal::ReflectionCtx&);
 
     // symbol: ??1DimensionDocument@@QEAA@XZ
     MCAPI ~DimensionDocument();
 
-    // symbol: ?bindType@DimensionDocument@@SAXXZ
-    MCAPI static void bindType();
+    // symbol: ?bindType@DimensionDocument@@SAXAEAUReflectionCtx@cereal@@@Z
+    MCAPI static void bindType(struct cereal::ReflectionCtx&);
 
     // NOLINTEND
 };

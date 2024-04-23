@@ -7,6 +7,11 @@
 #include "mc/enums/LogAreaID.h"
 #include "mc/enums/LogLevel.h"
 
+// auto generated forward declare list
+// clang-format off
+namespace Bedrock { class StaticOptimizedString; }
+// clang-format on
+
 class ContentLog {
 public:
     // ContentLog inner types declare
@@ -41,8 +46,8 @@ public:
 
     public:
         // NOLINTBEGIN
-        // symbol: ??0ContentLogScope@ContentLog@@QEAA@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
-        MCAPI explicit ContentLogScope(std::string scope);
+        // symbol: ??0ContentLogScope@ContentLog@@QEAA@VStaticOptimizedString@Bedrock@@@Z
+        MCAPI explicit ContentLogScope(class Bedrock::StaticOptimizedString);
 
         // symbol: ??1ContentLogScope@ContentLog@@QEAA@XZ
         MCAPI ~ContentLogScope();
@@ -70,6 +75,9 @@ public:
 
     // symbol: ??0ContentLog@@QEAA@XZ
     MCAPI ContentLog();
+
+    // symbol: ?getScope@ContentLog@@QEAA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
+    MCAPI std::string getScope();
 
     // symbol: ?isEnabled@ContentLog@@QEBA_NXZ
     MCAPI bool isEnabled() const;

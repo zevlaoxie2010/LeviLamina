@@ -4,10 +4,18 @@
 #include "mc/deps/core/string/HashedString.h"
 
 // auto generated inclusion list
+#include "mc/deps/core/common/bedrock/EnableNonOwnerReferences.h"
 #include "mc/world/level/storage/GameRule.h"
 
-class GameRules {
+// auto generated forward declare list
+// clang-format off
+namespace Bedrock { class EnableNonOwnerReferences; }
+namespace Bedrock::PubSub { class Subscription; }
+// clang-format on
+
+class GameRules : public ::Bedrock::EnableNonOwnerReferences {
 public:
+    // GameRules inner types define
     enum class GameRulesIndex : int {
         InvalidGameRule         = -1,
         CommandBlockOutput      = 0x0,
@@ -56,6 +64,9 @@ public:
 
 public:
     // NOLINTBEGIN
+    // vIndex: 0, symbol: ??1GameRules@@UEAA@XZ
+    virtual ~GameRules();
+
     // symbol: ??0GameRules@@QEAA@XZ
     MCAPI GameRules();
 
@@ -71,6 +82,9 @@ public:
 
     // symbol: ?getBool@GameRules@@QEBA_NUGameRuleId@@_N@Z
     MCAPI bool getBool(struct GameRuleId ruleType, bool defaultValue) const;
+
+    // symbol: ?getFloat@GameRules@@QEBAMUGameRuleId@@@Z
+    MCAPI float getFloat(struct GameRuleId ruleType) const;
 
     // symbol: ?getInt@GameRules@@QEBAHUGameRuleId@@@Z
     MCAPI int getInt(struct GameRuleId ruleType) const;
@@ -90,6 +104,14 @@ public:
     // symbol:
     // ?nameToGameRuleIndex@GameRules@@QEBA?AUGameRuleId@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
     MCAPI struct GameRuleId nameToGameRuleIndex(std::string const& name) const;
+
+    // symbol: ??4GameRules@@QEAAAEAV0@AEBV0@@Z
+    MCAPI class GameRules& operator=(class GameRules const&);
+
+    // symbol:
+    // ?registerOnGameRuleChangeCallback@GameRules@@QEAA?AVSubscription@PubSub@Bedrock@@V?$function@$$A6AXAEBVGameRules@@W4GameRulesIndex@1@@Z@std@@@Z
+    MCAPI class Bedrock::PubSub::Subscription
+        registerOnGameRuleChangeCallback(std::function<void(class GameRules const&, ::GameRules::GameRulesIndex)>);
 
     // symbol: ?setMarketplaceOverrides@GameRules@@QEAAXXZ
     MCAPI void setMarketplaceOverrides();
@@ -129,9 +151,6 @@ public:
 
     // symbol: ?setTagData@GameRules@@QEBAXAEAVCompoundTag@@@Z
     MCAPI void setTagData(class CompoundTag& tag) const;
-
-    // symbol: ??1GameRules@@QEAA@XZ
-    MCAPI ~GameRules();
 
     // symbol: ?DEFAULT_PLAYER_SPAWN_RADIUS@GameRules@@2IB
     MCAPI static uint const DEFAULT_PLAYER_SPAWN_RADIUS;

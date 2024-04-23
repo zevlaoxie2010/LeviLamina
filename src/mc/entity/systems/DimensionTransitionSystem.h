@@ -30,6 +30,15 @@ public:
     );
 
     // symbol:
+    // ?_tickReadyToContinueServer@DimensionTransitionSystem@@SAXV?$ViewT@VStrictEntityContext@@U?$Exclude@UPassengerComponent@@UVehicleComponent@@UDimensionTransitionComponent@@@@UPlayerChangeDimensionRequestComponent@@@@@Z
+    MCAPI static void _tickReadyToContinueServer(
+        class ViewT<
+            class StrictEntityContext,
+            struct Exclude<struct PassengerComponent, struct VehicleComponent, struct DimensionTransitionComponent>,
+            struct PlayerChangeDimensionRequestComponent> view
+    );
+
+    // symbol:
     // ?_tickVehicleDismount@DimensionTransitionSystem@@SAXV?$ViewT@VStrictEntityContext@@U?$Include@UPlayerChangeDimensionRequestComponent@@UPassengerComponent@@@@@@V?$ViewT@VStrictEntityContext@@U?$Include@UPlayerChangeDimensionRequestComponent@@@@$$CBUVehicleComponent@@@@V?$EntityModifier@V?$FlagComponent@UStopRidingRequestFlag@@@@V?$FlagComponent@UExitFromPassengerFlag@@@@@@@Z
     MCAPI static void _tickVehicleDismount(
         class ViewT<
@@ -59,15 +68,9 @@ public:
     removeChangeDimensionRequest(class StrictEntityContext const&, class EntityModifier<struct PlayerChangeDimensionRequestComponent>);
 
     // symbol:
-    // ?requestPlayerChangeDimension@DimensionTransitionSystem@@SAXAEBVStrictEntityContext@@V?$unique_ptr@VChangeDimensionRequest@@U?$default_delete@VChangeDimensionRequest@@@std@@@std@@V?$ViewT@VStrictEntityContext@@U?$Include@UPlayerChangeDimensionRequestComponent@@@@@@V?$ViewT@VStrictEntityContext@@VDimensionStateComponent@@UStateVectorComponent@@@@V?$EntityModifier@UPlayerChangeDimensionRequestComponent@@@@_N@Z
-    MCAPI static void requestPlayerChangeDimension(
-        class StrictEntityContext const&              player,
-        std::unique_ptr<class ChangeDimensionRequest> request,
-        class ViewT<class StrictEntityContext, struct Include<struct PlayerChangeDimensionRequestComponent>>,
-        class ViewT<class StrictEntityContext, class DimensionStateComponent, struct StateVectorComponent>,
-        class EntityModifier<struct PlayerChangeDimensionRequestComponent> modifier,
-        bool                                                               isClientSide
-    );
+    // ?requestPlayerChangeDimension@DimensionTransitionSystem@@SAXAEBVStrictEntityContext@@$$QEAVChangeDimensionRequest@@V?$ViewT@VStrictEntityContext@@VDimensionStateComponent@@UStateVectorComponent@@@@V?$EntityModifier@UPlayerChangeDimensionRequestComponent@@@@@Z
+    MCAPI static void
+    requestPlayerChangeDimension(class StrictEntityContext const&, class ChangeDimensionRequest&&, class ViewT<class StrictEntityContext, class DimensionStateComponent, struct StateVectorComponent>, class EntityModifier<struct PlayerChangeDimensionRequestComponent>);
 
     // symbol:
     // ?shouldLevelWaitForSystem@DimensionTransitionSystem@@SA_NAEBVStrictEntityContext@@V?$ViewT@VStrictEntityContext@@$$CBUPlayerChangeDimensionRequestComponent@@@@@Z

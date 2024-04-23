@@ -16,7 +16,6 @@ public:
     // prevent constructor by default
     RecordItemComponent& operator=(RecordItemComponent const&);
     RecordItemComponent(RecordItemComponent const&);
-    RecordItemComponent();
 
 public:
     // NOLINTBEGIN
@@ -51,6 +50,9 @@ public:
 
     // vIndex: 9, symbol: ?_initializeComponent@ItemComponent@@MEAAXXZ
     virtual void _initializeComponent();
+
+    // symbol: ??0RecordItemComponent@@QEAA@XZ
+    MCAPI RecordItemComponent();
 
     // symbol: ??0RecordItemComponent@@QEAA@W4LevelSoundEvent@Legacy@Puv@@MH@Z
     MCAPI RecordItemComponent(::Puv::Legacy::LevelSoundEvent, float, int);

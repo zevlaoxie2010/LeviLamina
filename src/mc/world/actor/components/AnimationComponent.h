@@ -47,8 +47,11 @@ public:
     MCAPI std::shared_ptr<class ActorAnimationControllerStatePlayer> const
           getCurrentAnimationControllerStatePlayer() const;
 
+    // symbol: ?getCurrentFrameIndex@AnimationComponent@@QEAA_JXZ
+    MCAPI int64 getCurrentFrameIndex();
+
     // symbol: ?getLocator@AnimationComponent@@QEAAPEAVModelPartLocator@@AEB_K@Z
-    MCAPI class ModelPartLocator* getLocator(uint64 const&);
+    MCAPI class ModelPartLocator* getLocator(uint64 const& locatorNameHash);
 
     // symbol: ?getRenderParams@AnimationComponent@@QEAAAEAVRenderParams@@XZ
     MCAPI class RenderParams& getRenderParams();
@@ -79,7 +82,10 @@ public:
     MCAPI void setDirty();
 
     // symbol: ?setLastReloadInitTimeStampClient@AnimationComponent@@QEAAX_K@Z
-    MCAPI void setLastReloadInitTimeStampClient(uint64);
+    MCAPI void setLastReloadInitTimeStampClient(uint64 lastReloadInitTimeStamp);
+
+    // symbol: ?setupDeltaTimeAndLifeTimeParams@AnimationComponent@@QEAAX_N@Z
+    MCAPI void setupDeltaTimeAndLifeTimeParams(bool incrementLifetime);
 
     // symbol: ?shouldReloadBasedOnLastReloadInitTimeStamp@AnimationComponent@@QEBA_NXZ
     MCAPI bool shouldReloadBasedOnLastReloadInitTimeStamp() const;

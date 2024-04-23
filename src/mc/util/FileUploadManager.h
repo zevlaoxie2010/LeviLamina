@@ -53,15 +53,15 @@ public:
     virtual void uploadFileToRealmStorage(
         std::string const&      uploadId,
         class Core::Path const& path,
-        int,
-        std::string const& realmsGuid
+        int                     slotIndex,
+        std::string const&      realmsGuid
     ) = 0;
 
     // symbol: ??0FileUploadManager@@QEAA@AEAVTaskGroup@@V?$shared_ptr@VIFileChunkUploader@@@std@@@Z
     MCAPI FileUploadManager(class TaskGroup& taskGroup, std::shared_ptr<class IFileChunkUploader> fileUploader);
 
     // symbol: ?addCallbackQueue@FileUploadManager@@QEAAXV?$function@$$A6AXXZ@std@@@Z
-    MCAPI void addCallbackQueue(std::function<void(void)> callback);
+    MCAPI void addCallbackQueue(std::function<void()> callback);
 
     // symbol: ?setFailed@FileUploadManager@@QEAAXW4UploadError@@@Z
     MCAPI void setFailed(::UploadError reason);

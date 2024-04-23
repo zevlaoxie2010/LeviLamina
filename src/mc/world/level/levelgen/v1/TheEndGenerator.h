@@ -1,6 +1,9 @@
 #pragma once
 
 #include "mc/_HeaderOutputPredefine.h"
+#include "mc/world/level/biome/source/FixedBiomeSource.h"
+#include "mc/world/level/biome/surface/PerlinNoise.h"
+#include "mc/world/level/biome/surface/PerlinSimplexNoise.h"
 
 // auto generated inclusion list
 #include "mc/deps/core/data/DividedPos2d.h"
@@ -9,14 +12,14 @@
 
 class TheEndGenerator : public ::WorldGenerator {
 public:
-    std::unique_ptr<PerlinNoise>        mLPerlinNoise1;    // this+0x68
-    std::unique_ptr<PerlinNoise>        mLPerlinNoise2;    // this+0x70
-    std::unique_ptr<PerlinNoise>        mPerlinNoise1;     // this+0x78
-    std::unique_ptr<SimplexNoise>       mIslandNoise;      // this+0x80
-    std::unique_ptr<PerlinSimplexNoise> mMaterialAdjNoise; // this+0x88
+    std::unique_ptr<PerlinNoise>        mLPerlinNoise1; // this+0x188
+    std::unique_ptr<PerlinNoise>        mLPerlinNoise2;
+    std::unique_ptr<PerlinNoise>        mPerlinNoise1;
+    std::unique_ptr<SimplexNoise>       mIslandNoise;
+    std::unique_ptr<PerlinSimplexNoise> mMaterialAdjNoise;
     // Bedrock::Threading::InstancedThreadLocal<TheEndGenerator::ThreadData>
-    char                              generatorHelpersPool[168]; // this+0x90
-    std::unique_ptr<FixedBiomeSource> mBiomeSource;              // this+0x138
+    char                              mGeneratorHelpersPool[168];
+    std::unique_ptr<FixedBiomeSource> mBiomeSource; // this+0x258
 
     // prevent constructor by default
     TheEndGenerator& operator=(TheEndGenerator const&);
@@ -82,10 +85,8 @@ public:
     // vIndex: 37, symbol: ?prepareHeights@TheEndGenerator@@UEAAXAEAVBlockVolume@@AEBVChunkPos@@_N@Z
     virtual void prepareHeights(class BlockVolume& box, class ChunkPos const& chunkPos, bool factorInBeardsAndShavers);
 
-    // symbol:
-    // ??0TheEndGenerator@@QEAA@AEAVDimension@@IPEBVBiome@@V?$unique_ptr@VStructureFeatureRegistry@@U?$default_delete@VStructureFeatureRegistry@@@std@@@std@@@Z
-    MCAPI
-    TheEndGenerator(class Dimension& dimension, uint seed, class Biome const*, std::unique_ptr<class StructureFeatureRegistry>);
+    // symbol: ??0TheEndGenerator@@QEAA@AEAVDimension@@IPEBVBiome@@@Z
+    MCAPI TheEndGenerator(class Dimension&, uint, class Biome const*);
 
     // symbol: ?buildSurfaces@TheEndGenerator@@QEAAXAEAVBlockVolume@@AEBVChunkPos@@AEAVLevelChunk@@@Z
     MCAPI void buildSurfaces(class BlockVolume& box, class ChunkPos const& chunkPos, class LevelChunk& levelChunk);
@@ -108,8 +109,8 @@ public:
         class BlockVolume&    box,
         class ChunkPos const& chunkPos,
         bool                  factorInBeardsAndShavers,
-        std::vector<short>*,
-        int
+        std::vector<short>*   ZXheights,
+        int                   skipTopN
     );
 
     // symbol: ?getIslandHeightValue@TheEndGenerator@@AEBAMHHHH@Z

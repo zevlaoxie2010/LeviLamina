@@ -45,108 +45,63 @@ public:
     // vIndex: 10, symbol: __gen_??1Agent@@UEAA@XZ
     virtual ~Agent() = default;
 
-    // vIndex: 23, symbol: __unk_vfn_23
-    virtual void __unk_vfn_23();
-
-    // vIndex: 26, symbol: ?teleportTo@Agent@@UEAAXAEBVVec3@@_NHH1@Z
+    // vIndex: 25, symbol: ?teleportTo@Agent@@UEAAXAEBVVec3@@_NHH1@Z
     virtual void teleportTo(class Vec3 const& pos, bool shouldStopRiding, int cause, int entityType, bool);
 
-    // vIndex: 29, symbol: ?normalTick@Agent@@UEAAXXZ
+    // vIndex: 28, symbol: ?normalTick@Agent@@UEAAXXZ
     virtual void normalTick();
 
-    // vIndex: 37, symbol: ?isInvisible@Agent@@UEBA_NXZ
+    // vIndex: 36, symbol: ?isInvisible@Agent@@UEBA_NXZ
     virtual bool isInvisible() const;
 
-    // vIndex: 38, symbol: ?canShowNameTag@Agent@@UEBA_NXZ
+    // vIndex: 37, symbol: ?canShowNameTag@Agent@@UEBA_NXZ
     virtual bool canShowNameTag() const;
 
-    // vIndex: 39, symbol: __unk_vfn_39
-    virtual void __unk_vfn_39();
-
-    // vIndex: 41, symbol: ?getNameTagTextColor@Agent@@UEBA?AVColor@mce@@XZ
+    // vIndex: 39, symbol: ?getNameTagTextColor@Agent@@UEBA?AVColor@mce@@XZ
     virtual class mce::Color getNameTagTextColor() const;
 
-    // vIndex: 42, symbol: __unk_vfn_42
-    virtual void __unk_vfn_42();
-
-    // vIndex: 47, symbol: __unk_vfn_47
-    virtual void __unk_vfn_47();
-
-    // vIndex: 51, symbol: ?isPickable@Agent@@UEAA_NXZ
+    // vIndex: 47, symbol: ?isPickable@Agent@@UEAA_NXZ
     virtual bool isPickable();
 
-    // vIndex: 60, symbol: __unk_vfn_60
-    virtual void __unk_vfn_60();
+    // vIndex: 56, symbol: ?isTargetable@Agent@@UEBA_NXZ
+    virtual bool isTargetable() const;
 
-    // vIndex: 61, symbol: __unk_vfn_61
-    virtual void __unk_vfn_61();
-
-    // vIndex: 62, symbol: __unk_vfn_62
-    virtual void __unk_vfn_62();
-
-    // vIndex: 68, symbol: ?setOwner@Agent@@UEAAXUActorUniqueID@@@Z
+    // vIndex: 64, symbol: ?setOwner@Agent@@UEAAXUActorUniqueID@@@Z
     virtual void setOwner(struct ActorUniqueID id);
 
-    // vIndex: 83, symbol: ?handleEntityEvent@Agent@@UEAAXW4ActorEvent@@H@Z
+    // vIndex: 79, symbol: ?handleEntityEvent@Agent@@UEAAXW4ActorEvent@@H@Z
     virtual void handleEntityEvent(::ActorEvent id, int data);
 
-    // vIndex: 92, symbol: ?setCarriedItem@Agent@@UEAAXAEBVItemStack@@@Z
+    // vIndex: 88, symbol: ?setCarriedItem@Agent@@UEAAXAEBVItemStack@@@Z
     virtual void setCarriedItem(class ItemStack const& item);
 
-    // vIndex: 107, symbol: __unk_vfn_107
-    virtual void __unk_vfn_107();
-
-    // vIndex: 115, symbol: ?canBePulledIntoVehicle@Agent@@UEBA_NXZ
+    // vIndex: 108, symbol: ?canBePulledIntoVehicle@Agent@@UEBA_NXZ
     virtual bool canBePulledIntoVehicle() const;
 
-    // vIndex: 124, symbol: ?canBeAffected@Agent@@UEBA_NI@Z
+    // vIndex: 117, symbol: ?canBeAffected@Agent@@UEBA_NI@Z
     virtual bool canBeAffected(uint) const;
 
-    // vIndex: 144, symbol: __unk_vfn_144
-    virtual void __unk_vfn_144();
-
-    // vIndex: 146, symbol: ?kill@Agent@@UEAAXXZ
+    // vIndex: 136, symbol: ?kill@Agent@@UEAAXXZ
     virtual void kill();
 
-    // vIndex: 160, symbol: ?updateEntitySpecificMolangVariables@Agent@@UEAAXAEAVRenderParams@@@Z
+    // vIndex: 150, symbol: ?updateEntitySpecificMolangVariables@Agent@@UEAAXAEAVRenderParams@@@Z
     virtual void updateEntitySpecificMolangVariables(class RenderParams& renderParams);
 
-    // vIndex: 162, symbol: __unk_vfn_162
-    virtual void __unk_vfn_162();
-
-    // vIndex: 163, symbol: ?_hurt@Agent@@EEAA_NAEBVActorDamageSource@@M_N1@Z
+    // vIndex: 152, symbol: ?_hurt@Agent@@EEAA_NAEBVActorDamageSource@@M_N1@Z
     virtual bool _hurt(class ActorDamageSource const& source, float damage, bool knock, bool ignite);
 
-    // vIndex: 167, symbol: __unk_vfn_167
-    virtual void __unk_vfn_167();
-
-    // vIndex: 168, symbol: __unk_vfn_168
-    virtual void __unk_vfn_168();
-
-    // vIndex: 169, symbol: ?knockback@Agent@@UEAAXPEAVActor@@HMMMMM@Z
+    // vIndex: 157, symbol: ?knockback@Agent@@UEAAXPEAVActor@@HMMMMM@Z
     virtual void knockback(class Actor*, int, float, float, float, float, float);
 
-    // vIndex: 199, symbol: ?createAIGoals@Agent@@UEAA_NXZ
+    // vIndex: 187, symbol: ?createAIGoals@Agent@@UEAA_NXZ
     virtual bool createAIGoals();
 
-    // vIndex: 205, symbol: ?canExistWhenDisallowMob@Agent@@UEBA_NXZ
+    // vIndex: 192, symbol: ?canExistWhenDisallowMob@Agent@@UEBA_NXZ
     virtual bool canExistWhenDisallowMob() const;
 
-    // vIndex: 206, symbol:
+    // vIndex: 193, symbol:
     // ?initBodyControl@Agent@@EEAA?AV?$unique_ptr@VBodyControl@@U?$default_delete@VBodyControl@@@std@@@std@@XZ
     virtual std::unique_ptr<class BodyControl> initBodyControl();
-
-    // symbol: ?breaksFallingBlocks@Agent@@UEBA_NXZ
-    MCVAPI bool breaksFallingBlocks() const;
-
-    // symbol: ?getAlwaysShowNameTag@Agent@@UEBA_NXZ
-    MCVAPI bool getAlwaysShowNameTag() const;
-
-    // symbol: ?interactPreventDefault@Agent@@UEAA_NXZ
-    MCVAPI bool interactPreventDefault();
-
-    // symbol: ?isTargetable@Agent@@UEBA_NXZ
-    MCVAPI bool isTargetable() const;
 
     // symbol: ??0Agent@@QEAA@PEAVActorDefinitionGroup@@AEBUActorDefinitionIdentifier@@AEAVEntityContext@@@Z
     MCAPI Agent(
@@ -196,12 +151,6 @@ public:
 
     // symbol: ?shrug@Agent@@QEAAXXZ
     MCAPI void shrug();
-
-    // symbol: ?startCommandMode@Agent@@QEAAXXZ
-    MCAPI void startCommandMode();
-
-    // symbol: ?stopCommandMode@Agent@@QEAAXXZ
-    MCAPI void stopCommandMode();
 
     // symbol: ?swingArm@Agent@@QEAAXXZ
     MCAPI void swingArm();

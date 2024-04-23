@@ -9,6 +9,7 @@
 #include "mc/external/scripting/Result.h"
 #include "mc/external/scripting/StrongTypedObjectHandle.h"
 #include "mc/external/scripting/TypedObjectHandle.h"
+#include "mc/scripting/modules/minecraft/ScriptWeatherType.h"
 #include "mc/world/AutomaticID.h"
 
 // auto generated forward declare list
@@ -19,6 +20,7 @@ class Level;
 class Vec3;
 namespace ScriptModuleMinecraft { class ScriptActor; }
 namespace ScriptModuleMinecraft { class ScriptActorIterator; }
+namespace ScriptModuleMinecraft { class ScriptBiomeType; }
 namespace ScriptModuleMinecraft { class ScriptBlock; }
 namespace ScriptModuleMinecraft { class ScriptBlockPermutation; }
 namespace ScriptModuleMinecraft { class ScriptBlockRaycastHit; }
@@ -30,6 +32,7 @@ namespace ScriptModuleMinecraft { class ScriptPlayer; }
 namespace ScriptModuleMinecraft { class ScriptPlayerIterator; }
 namespace ScriptModuleMinecraft { class ScriptVector; }
 namespace ScriptModuleMinecraft { struct ScriptActorQueryOptions; }
+namespace ScriptModuleMinecraft { struct ScriptBiomeSearchOptions; }
 namespace ScriptModuleMinecraft { struct ScriptBlockFillOptions; }
 namespace ScriptModuleMinecraft { struct ScriptBlockRaycastOptions; }
 namespace ScriptModuleMinecraft { struct ScriptCommandError; }
@@ -38,10 +41,13 @@ namespace ScriptModuleMinecraft { struct ScriptEntityRaycastOptions; }
 namespace ScriptModuleMinecraft { struct ScriptExplosionOptions; }
 namespace ScriptModuleMinecraft { struct ScriptLocationInUnloadedChunkError; }
 namespace ScriptModuleMinecraft { struct ScriptLocationOutOfWorldBoundsError; }
+namespace ScriptModuleMinecraft { struct ScriptWorldSoundOptions; }
 namespace Scripting { class DependencyLocator; }
 namespace Scripting { class ScriptObjectFactory; }
 namespace Scripting { class WeakLifetimeScope; }
 namespace Scripting { struct ContextConfig; }
+namespace Scripting { struct EngineError; }
+namespace Scripting { struct Error; }
 namespace Scripting { struct JSON; }
 namespace Scripting { struct NumberRange; }
 // clang-format on
@@ -49,10 +55,6 @@ namespace Scripting { struct NumberRange; }
 namespace ScriptModuleMinecraft {
 
 class ScriptDimension {
-public:
-    // ScriptDimension inner types define
-    enum class ScriptWeatherType {};
-
 public:
     // prevent constructor by default
     ScriptDimension& operator=(ScriptDimension const&);
@@ -65,9 +67,9 @@ public:
     virtual ~ScriptDimension() = default;
 
     // symbol:
-    // ?createExplosion@ScriptDimension@ScriptModuleMinecraft@@QEBA?AV?$Result@XUScriptLocationInUnloadedChunkError@ScriptModuleMinecraft@@UScriptLocationOutOfWorldBoundsError@2@@Scripting@@AEBVVec3@@MV?$optional@UScriptExplosionOptions@ScriptModuleMinecraft@@@std@@@Z
+    // ?createExplosion@ScriptDimension@ScriptModuleMinecraft@@QEBA?AV?$Result@_NUScriptLocationInUnloadedChunkError@ScriptModuleMinecraft@@UScriptLocationOutOfWorldBoundsError@2@@Scripting@@AEBVVec3@@MV?$optional@UScriptExplosionOptions@ScriptModuleMinecraft@@@std@@@Z
     MCAPI class Scripting::Result<
-        void,
+        bool,
         struct ScriptModuleMinecraft::ScriptLocationInUnloadedChunkError,
         struct ScriptModuleMinecraft::ScriptLocationOutOfWorldBoundsError>
     createExplosion(class Vec3 const& pos, float radius, std::optional<struct ScriptModuleMinecraft::ScriptExplosionOptions>)
@@ -92,6 +94,12 @@ public:
     );
 
     // symbol:
+    // ?findClosestBiome@ScriptDimension@ScriptModuleMinecraft@@QEBA?AV?$Result@V?$optional@VVec3@@@std@@UEngineError@Scripting@@UError@4@@Scripting@@AEBVVec3@@AEBV?$variant@V?$StrongTypedObjectHandle@VScriptBiomeType@ScriptModuleMinecraft@@@Scripting@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@V?$optional@UScriptBiomeSearchOptions@ScriptModuleMinecraft@@@7@@Z
+    MCAPI class Scripting::Result<std::optional<class Vec3>, struct Scripting::EngineError, struct Scripting::Error>
+    findClosestBiome(class Vec3 const&, std::variant<class Scripting::StrongTypedObjectHandle<class ScriptModuleMinecraft::ScriptBiomeType>, std::string> const&, std::optional<struct ScriptModuleMinecraft::ScriptBiomeSearchOptions>)
+        const;
+
+    // symbol:
     // ?getBlock@ScriptDimension@ScriptModuleMinecraft@@QEBA?AV?$Result@V?$optional@V?$StrongTypedObjectHandle@VScriptBlock@ScriptModuleMinecraft@@@Scripting@@@std@@UScriptLocationInUnloadedChunkError@ScriptModuleMinecraft@@UScriptLocationOutOfWorldBoundsError@4@@Scripting@@VWeakLifetimeScope@4@AEBVVec3@@@Z
     MCAPI class Scripting::Result<
         std::optional<class Scripting::StrongTypedObjectHandle<class ScriptModuleMinecraft::ScriptBlock>>,
@@ -100,8 +108,8 @@ public:
     getBlock(class Scripting::WeakLifetimeScope scope, class Vec3 const& position) const;
 
     // symbol:
-    // ?getBlockFromRay@ScriptDimension@ScriptModuleMinecraft@@QEBA?AV?$optional@VScriptBlockRaycastHit@ScriptModuleMinecraft@@@std@@VWeakLifetimeScope@Scripting@@AEBVVec3@@1AEBV?$optional@UScriptBlockRaycastOptions@ScriptModuleMinecraft@@@4@@Z
-    MCAPI std::optional<class ScriptModuleMinecraft::ScriptBlockRaycastHit> getBlockFromRay(
+    // ?getBlockFromRay@ScriptDimension@ScriptModuleMinecraft@@QEBA?AV?$Result@V?$optional@VScriptBlockRaycastHit@ScriptModuleMinecraft@@@std@@$$V@Scripting@@VWeakLifetimeScope@4@AEBVVec3@@1AEBV?$optional@UScriptBlockRaycastOptions@ScriptModuleMinecraft@@@std@@@Z
+    MCAPI class Scripting::Result<std::optional<class ScriptModuleMinecraft::ScriptBlockRaycastHit>> getBlockFromRay(
         class Scripting::WeakLifetimeScope                                            scope,
         class Vec3 const&                                                             pos,
         class Vec3 const&                                                             vector,
@@ -196,6 +204,11 @@ public:
     MCAPI class ScriptModuleMinecraft::ScriptDimension& operator=(class ScriptModuleMinecraft::ScriptDimension&& rhs);
 
     // symbol:
+    // ?playSound@ScriptDimension@ScriptModuleMinecraft@@QEAA?AV?$Result@X$$V@Scripting@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVVec3@@V?$optional@UScriptWorldSoundOptions@ScriptModuleMinecraft@@@6@@Z
+    MCAPI class Scripting::Result<void>
+    playSound(std::string const&, class Vec3 const&, std::optional<struct ScriptModuleMinecraft::ScriptWorldSoundOptions>);
+
+    // symbol:
     // ?runCommand@ScriptDimension@ScriptModuleMinecraft@@QEAA?AV?$Result@V?$StrongTypedObjectHandle@UScriptCommandResult@ScriptModuleMinecraft@@@Scripting@@UScriptCommandError@ScriptModuleMinecraft@@@Scripting@@AEAVDependencyLocator@4@AEBUContextConfig@4@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
     MCAPI class Scripting::Result<
         class Scripting::StrongTypedObjectHandle<struct ScriptModuleMinecraft::ScriptCommandResult>,
@@ -225,9 +238,8 @@ public:
     runCommand_V010(struct Scripting::ContextConfig const&, std::string const& commandString);
 
     // symbol:
-    // ?setWeather@ScriptDimension@ScriptModuleMinecraft@@QEAA?AV?$Result@X$$V@Scripting@@W4ScriptWeatherType@12@V?$optional@H@std@@@Z
-    MCAPI class Scripting::Result<void>
-        setWeather(::ScriptModuleMinecraft::ScriptDimension::ScriptWeatherType, std::optional<int>);
+    // ?setWeather@ScriptDimension@ScriptModuleMinecraft@@QEAA?AV?$Result@X$$V@Scripting@@W4ScriptWeatherType@2@V?$optional@H@std@@@Z
+    MCAPI class Scripting::Result<void> setWeather(::ScriptModuleMinecraft::ScriptWeatherType, std::optional<int>);
 
     // symbol:
     // ?spawnEntity@ScriptDimension@ScriptModuleMinecraft@@QEBA?AV?$Result@V?$StrongTypedObjectHandle@VScriptActor@ScriptModuleMinecraft@@@Scripting@@UScriptLocationInUnloadedChunkError@ScriptModuleMinecraft@@UScriptLocationOutOfWorldBoundsError@4@@Scripting@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVVec3@@@Z
@@ -284,10 +296,9 @@ public:
     MCAPI static class Scripting::ClassBindingBuilder<class ScriptModuleMinecraft::ScriptDimension> bind();
 
     // symbol:
-    // ?bindScriptWeatherType@ScriptDimension@ScriptModuleMinecraft@@SA?AV?$EnumBindingBuilder@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4ScriptWeatherType@ScriptDimension@ScriptModuleMinecraft@@@Scripting@@XZ
-    MCAPI static class Scripting::
-        EnumBindingBuilder<std::string, ::ScriptModuleMinecraft::ScriptDimension::ScriptWeatherType>
-        bindScriptWeatherType();
+    // ?bindScriptWeatherType@ScriptDimension@ScriptModuleMinecraft@@SA?AV?$EnumBindingBuilder@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4ScriptWeatherType@ScriptModuleMinecraft@@@Scripting@@XZ
+    MCAPI static class Scripting::EnumBindingBuilder<std::string, ::ScriptModuleMinecraft::ScriptWeatherType>
+    bindScriptWeatherType();
 
     // symbol:
     // ?getOrCreateHandle@ScriptDimension@ScriptModuleMinecraft@@SA?AV?$StrongTypedObjectHandle@VScriptDimension@ScriptModuleMinecraft@@@Scripting@@AEAVDimension@@AEBVWeakLifetimeScope@4@@Z

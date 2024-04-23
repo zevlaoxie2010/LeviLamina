@@ -43,8 +43,8 @@ public:
     };
 
 public:
-    std::vector<std::unique_ptr<CompoundTag>>                           mStructurePaletteIdToSerializationId;
-    std::unordered_map<ulong, StructureBlockPalette::BlockPositionData> mBlockPositionData;
+    std::vector<std::unique_ptr<CompoundTag>>                            mStructurePaletteIdToSerializationId;
+    std::unordered_map<uint64, StructureBlockPalette::BlockPositionData> mBlockPositionData;
 
     // prevent constructor by default
     StructureBlockPalette& operator=(StructureBlockPalette const&);
@@ -69,7 +69,7 @@ public:
         const;
 
     // symbol: ?getBlockPositionData@StructureBlockPalette@@QEBAPEBUBlockPositionData@1@_K@Z
-    MCAPI struct StructureBlockPalette::BlockPositionData const* getBlockPositionData(uint64) const;
+    MCAPI struct StructureBlockPalette::BlockPositionData const* getBlockPositionData(uint64 blockIndex) const;
 
     // symbol:
     // ?save@StructureBlockPalette@@QEBA?AV?$unique_ptr@VCompoundTag@@U?$default_delete@VCompoundTag@@@std@@@std@@XZ

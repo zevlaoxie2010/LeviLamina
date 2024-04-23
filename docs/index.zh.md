@@ -16,52 +16,18 @@ LeviLamina（以下简称“本软件”）由LiteLDev（以下简称“开发�
 
 开发者保留随时修改、更新或终止本软件及其相关服务的权利，无需事先通知用户。用户应备份重要数据并定期检查本软件的更新。用户在使用本软件时应遵守相关法律法规，尊重他人的知识产权和隐私权，不得将本软件用于任何非法或侵权活动。如果用户违反上述规定，给任何第三方造成任何损害或被任何第三方索赔，开发者不承担任何责任。如果您对本免责声明有任何疑问或意见，请联系开发者。
 
-## 安装
+## 星标历史
 
-该项目使用 [lip](https://github.com/lippkg/lip)。如果您尚未在本地安装，请前往查看。
-
-首先，创建一个新的目录用于您的Minecraft服务器，并进入该目录：
-
-```sh
-mkdir myserver
-cd myserver
-```
-
-接下来，使用lip安装捆绑了Minecraft Bedrock Server的LeviLamina：
-
-```sh
-lip install github.com/LiteLDev/LeviLamina
-```
-
-如需更多信息，请参阅[文档](https://levilamina.liteldev.com)。
-
-### 更新
-
-在涉及数据安全时，我们建议不要在当前位置更新LeviLamina。相反，我们建议创建一个新目录，在新目录中安装新版本的LeviLamina，并将旧位置的`worlds`目录复制到新目录中。然后，按照插件开发者提供的说明，将您使用的插件的配置文件和数据文件迁移到新目录中。
-
-然而，如果您坚持要在相同位置更新，您可以使用以下命令来更新LeviLamina：
-
-```sh
-lip install --upgrade github.com/LiteLDev/LeviLamina
-```
-
-## 使用方法
-
-要启动服务器，只需运行`bedrock_server_mod.exe`：
-
-```sh
-./bedrock_server_mod.exe
-```
-
-如需更多信息，请参阅[文档](https://levilamina.liteldev.com)。
-
-## 星星历史
-
-![星星历史图](https://api.star-history.com/svg?repos=LiteLDev/LeviLamina&type=Date)
+![星标历史图](https://api.star-history.com/svg?repos=LiteLDev/LeviLamina&type=Date)
 
 ## 感谢
 
-我们衷心感谢[所有捐赠者](https://5g8svn.sharepoint.com/:x:/s/LiteLDev/EXx2ndbuC-9Bj5SR-FlJ-HUBZWy0wODjQCDb8OkzuKTFJg?e=QBF6nQ)！
+我们衷心感谢[所有捐赠者](https://5g8svn.sharepoint.com/:x:/s/LiteLDev/EXx2ndbuC-9Bj5SR-FlJ-HUBZWy0wODjQCDb8OkzuKTFJg?e=QBF6nQ)和所有的开发者！
+
+**感谢 [JetBrains](https://www.jetbrains.com/)
+给开源开发者分配免费的IDE许可证，例如 [CLion](https://www.jetbrains.com/clion/)** 。
+
+[<img src="https://s1.imagehub.cc/images/2024/02/20/cd20ed7a227411430d760ee39df01795.png" alt="cd20ed7a227411430d760ee39df01795.png" width="200"/>](https://www.jetbrains.com/)
 
 ## 贡献
 
@@ -77,4 +43,6 @@ LeviLamina遵循[Code of Conduct](https://www.contributor-covenant.org/version/2
 
 ## 许可证
 
-LGPL-3.0-only © LiteLDev
+版权所有 © 2023-2024 LiteLDev, 保留所有权利.
+
+本项目采用 LGPL-3.0 许可证发行。

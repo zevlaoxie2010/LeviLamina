@@ -19,13 +19,14 @@ public:
     ItemStackNetIdVariant mNetIdVariant{};   // this+0x20
     uint                  mBlockRuntimeId{}; // this+0x38
     std::string           mUserDataBuffer{}; // this+0x40
-public:
-    NetworkItemStackDescriptor() = default;
 
 public:
     // NOLINTBEGIN
     // vIndex: 0, symbol: ??1NetworkItemStackDescriptor@@UEAA@XZ
     virtual ~NetworkItemStackDescriptor();
+
+    // symbol: ??0NetworkItemStackDescriptor@@QEAA@XZ
+    MCAPI NetworkItemStackDescriptor();
 
     // symbol: ??0NetworkItemStackDescriptor@@QEAA@AEBVItemStack@@@Z
     MCAPI explicit NetworkItemStackDescriptor(class ItemStack const& item);

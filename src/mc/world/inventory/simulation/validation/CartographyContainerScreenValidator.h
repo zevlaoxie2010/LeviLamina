@@ -11,6 +11,7 @@ public:
     // prevent constructor by default
     CartographyContainerScreenValidator& operator=(CartographyContainerScreenValidator const&);
     CartographyContainerScreenValidator(CartographyContainerScreenValidator const&);
+    CartographyContainerScreenValidator();
 
 public:
     // NOLINTBEGIN
@@ -23,10 +24,7 @@ public:
     // vIndex: 3, symbol:
     // ?getCraftResult@CartographyContainerScreenValidator@@UEAA?AUContainerValidationCraftResult@@AEBVContainerScreenContext@@AEAVContainerScreenValidation@@V?$unique_ptr@UContainerValidationCraftInputs@@U?$default_delete@UContainerValidationCraftInputs@@@std@@@std@@@Z
     virtual struct ContainerValidationCraftResult
-    getCraftResult(class ContainerScreenContext const&, class ContainerScreenValidation&, std::unique_ptr<struct ContainerValidationCraftInputs>);
-
-    // symbol: ??0CartographyContainerScreenValidator@@QEAA@XZ
-    MCAPI CartographyContainerScreenValidator();
+    getCraftResult(class ContainerScreenContext const& screenContext, class ContainerScreenValidation&, std::unique_ptr<struct ContainerValidationCraftInputs>);
 
     // NOLINTEND
 };

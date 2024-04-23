@@ -47,7 +47,7 @@ public:
 
     // vIndex: 8, symbol: ?_useOn@PlanterItemComponent@@MEBA_NAEAVItemStack@@AEAVActor@@AEBVBlockPos@@EAEBVVec3@@@Z
     virtual bool _useOn(
-        class ItemStack&      itemStack,
+        class ItemStack&      item,
         class Actor&          entity,
         class BlockPos const& blockPos,
         uchar                 face,
@@ -82,13 +82,10 @@ public:
 
     // private:
     // NOLINTBEGIN
-    // symbol: ?_placeBlock@PlanterItemComponent@@AEBA_NAEAVItemStack@@AEAVActor@@AEBVBlock@@AEBVBlockPos@@@Z
-    MCAPI bool _placeBlock(
-        class ItemStack&      itemStack,
-        class Actor&          entity,
-        class Block const&    block,
-        class BlockPos const& blockPos
-    ) const;
+    // symbol: ?_placeBlock@PlanterItemComponent@@AEBA_NAEAVItemStack@@AEAVActor@@AEBVBlock@@AEBVBlockPos@@EAEBVVec3@@@Z
+    MCAPI bool
+    _placeBlock(class ItemStack&, class Actor&, class Block const&, class BlockPos const&, uchar, class Vec3 const&)
+        const;
 
     // NOLINTEND
 };

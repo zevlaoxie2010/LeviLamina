@@ -6,6 +6,8 @@ namespace Json {
 class Value;
 }
 class CommandRegistry;
+class Command;
+class CommandIntegerRange;
 template <typename>
 class CommandSelector;
 template <typename>
@@ -18,10 +20,12 @@ class typeid_t {
 public:
     constexpr static ushort count = 0;
 
-    ushort value;
+    ushort value{};
     [[nodiscard]] constexpr typeid_t(typeid_t const& id) : value(id.value) {}
     [[nodiscard]] constexpr typeid_t(ushort value) : value(value) {}
-    [[nodiscard]] inline typeid_t() : value(++_getCounter()) {}
+    [[nodiscard]] constexpr typeid_t() = default;
+
+    constexpr bool operator==(typeid_t const& other) const { return value == other.value; }
 
     static std::atomic_ushort& _getCounter() {
 
@@ -37,7 +41,7 @@ LLAPI std::atomic_ushort& typeid_t<CommandRegistry>::_getCounter();
 
 template <typename Category, typename Type>
 typeid_t<Category> type_id() {
-    static typeid_t<Category> id{};
+    static typeid_t<Category> id{++typeid_t<Category>::_getCounter()};
     return id;
 }
 
@@ -49,7 +53,7 @@ MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, bool
 MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, float>();
 MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, DimensionType>();
 MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, std::string>();
-MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, std::unique_ptr<class Command>>();
+MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, std::unique_ptr<::Command>>();
 MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, std::vector<class BlockStateCommandParam>>();
 MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, class CommandBlockName>();
 MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, class CommandFilePath>();
@@ -66,4 +70,7 @@ MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, clas
 MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, class RelativeFloat>();
 MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, class WildcardCommandSelector<class Actor>>();
 MCTAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, struct ActorDefinitionIdentifier const*>();
+
+template<> LLAPI Bedrock::typeid_t<CommandRegistry> Bedrock::type_id<CommandRegistry, CommandIntegerRange>();
+
 // clang-format on

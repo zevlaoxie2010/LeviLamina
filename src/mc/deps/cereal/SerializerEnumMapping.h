@@ -30,10 +30,6 @@ public:
         std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string, int64>>>>>
     mapping() const;
 
-    // symbol:
-    // ?toString@SerializerEnumMapping@cereal@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
-    MCAPI std::string toString() const;
-
     // symbol: ??1SerializerEnumMapping@cereal@@QEAA@XZ
     MCAPI ~SerializerEnumMapping();
 

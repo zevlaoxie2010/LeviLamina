@@ -32,7 +32,7 @@ public:
 
     // symbol:
     // ?findCreativeItemEntry@CreativeItemRegistry@@QEAAPEAVCreativeItemEntry@@AEBV?$TypedServerNetId@UCreativeItemNetIdTag@@I$0A@@@@Z
-    MCAPI class CreativeItemEntry* findCreativeItemEntry(CreativeItemNetId const&);
+    MCAPI class CreativeItemEntry* findCreativeItemEntry(CreativeItemNetId const& netId);
 
     // symbol: ?getCreativeCategory@CreativeItemRegistry@@QEAAPEAVCreativeItemGroupCategory@@W4CreativeItemCategory@@@Z
     MCAPI class CreativeItemGroupCategory* getCreativeCategory(::CreativeItemCategory category);
@@ -56,7 +56,7 @@ public:
 
     // symbol:
     // ?newItemEntry@CreativeItemRegistry@@QEAAPEAVCreativeItemEntry@@AEBV?$TypedServerNetId@UCreativeItemNetIdTag@@I$0A@@@AEBVItemInstance@@@Z
-    MCAPI class CreativeItemEntry* newItemEntry(CreativeItemNetId const&, class ItemInstance const& item);
+    MCAPI class CreativeItemEntry* newItemEntry(CreativeItemNetId const& creativeNetId, class ItemInstance const& item);
 
     // symbol: ?resetGroups@CreativeItemRegistry@@QEAAXXZ
     MCAPI void resetGroups();
@@ -72,9 +72,6 @@ public:
 
     // symbol: ?forEachCreativeItemInstance@CreativeItemRegistry@@SAXV?$function@$$A6A_NAEAVItemInstance@@@Z@std@@@Z
     MCAPI static void forEachCreativeItemInstance(std::function<bool(class ItemInstance&)> func);
-
-    // symbol: ?reset@CreativeItemRegistry@@SAXXZ
-    MCAPI static void reset();
 
     // symbol:
     // ?setCurrentRegistry@CreativeItemRegistry@@SAX$$QEAV?$unique_ptr@VCreativeItemRegistry@@U?$default_delete@VCreativeItemRegistry@@@std@@@std@@@Z

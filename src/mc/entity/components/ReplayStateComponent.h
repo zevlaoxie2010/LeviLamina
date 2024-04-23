@@ -2,6 +2,10 @@
 
 #include "mc/_HeaderOutputPredefine.h"
 
+// auto generated inclusion list
+#include "mc/common/wrapper/AdvanceFrameResult.h"
+#include "mc/common/wrapper/ReplayCorrectionResult.h"
+
 class ReplayStateComponent {
 public:
     // prevent constructor by default
@@ -16,13 +20,21 @@ public:
 
     // symbol:
     // ??0ReplayStateComponent@@QEAA@V?$unique_ptr@VActorHistory@@U?$default_delete@VActorHistory@@@std@@@std@@V?$unique_ptr@UIReplayStatePolicy@@U?$default_delete@UIReplayStatePolicy@@@std@@@2@@Z
-    MCAPI ReplayStateComponent(std::unique_ptr<class ActorHistory>, std::unique_ptr<struct IReplayStatePolicy> policy);
-
-    // symbol: ?addInputToCurrentFrame@ReplayStateComponent@@QEBAXV?$shared_ptr@UIReplayableActorInput@@@std@@@Z
-    MCAPI void addInputToCurrentFrame(std::shared_ptr<struct IReplayableActorInput> input) const;
+    MCAPI ReplayStateComponent(
+        std::unique_ptr<class ActorHistory>        history,
+        std::unique_ptr<struct IReplayStatePolicy> policy
+    );
 
     // symbol: ?addInputToFrontOfCurrentFrame@ReplayStateComponent@@QEBAXV?$shared_ptr@UIReplayableActorInput@@@std@@@Z
     MCAPI void addInputToFrontOfCurrentFrame(std::shared_ptr<struct IReplayableActorInput>) const;
+
+    // symbol:
+    // ?applyFrameCorrection@ReplayStateComponent@@QEAA?AW4ReplayCorrectionResult@@AEAVActor@@V?$shared_ptr@UIMovementCorrection@@@std@@_K@Z
+    MCAPI ::ReplayCorrectionResult
+    applyFrameCorrection(class Actor&, std::shared_ptr<struct IMovementCorrection>, uint64);
+
+    // symbol: ?clearHistory@ReplayStateComponent@@QEAAXXZ
+    MCAPI void clearHistory();
 
     // symbol: ?getCurrentTick@ReplayStateComponent@@QEBA_KXZ
     MCAPI uint64 getCurrentTick() const;
@@ -31,16 +43,24 @@ public:
     MCAPI class ReplayStateComponent& operator=(class ReplayStateComponent&&);
 
     // symbol:
-    // ?shouldSendCorrectionToClient@ReplayStateComponent@@QEBA?AUMovementCorrection@@AEAVEntityContext@@AEBVIConstBlockSource@@AEBVPlayerAuthInputPacket@@@Z
+    // ?shouldSendCorrectionToClient@ReplayStateComponent@@QEBA?AUMovementCorrection@@AEAVEntityContext@@AEBVPlayerAuthInputPacket@@@Z
     MCAPI struct MovementCorrection
-    shouldSendCorrectionToClient(class EntityContext&, class IConstBlockSource const&, class PlayerAuthInputPacket const&)
-        const;
+    shouldSendCorrectionToClient(class EntityContext&, class PlayerAuthInputPacket const&) const;
 
     // symbol: ?tick@ReplayStateComponent@@QEAAXPEAVActor@@_KPEAVEntityRegistry@@@Z
-    MCAPI void tick(class Actor*, uint64, class EntityRegistry*);
+    MCAPI void tick(class Actor* actor, uint64 currentTick, class EntityRegistry* registry);
 
     // symbol: ??1ReplayStateComponent@@QEAA@XZ
     MCAPI ~ReplayStateComponent();
+
+    // NOLINTEND
+
+    // private:
+    // NOLINTBEGIN
+    // symbol:
+    // ?_applyCorrection@ReplayStateComponent@@AEBA?AW4AdvanceFrameResult@@V?$shared_ptr@UIMovementCorrection@@@std@@AEAVActor@@_K_N@Z
+    MCAPI ::AdvanceFrameResult
+    _applyCorrection(std::shared_ptr<struct IMovementCorrection>, class Actor&, uint64, bool) const;
 
     // NOLINTEND
 };

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <string_view>
+#include <cstddef>
 #include <type_traits>
-
-#include "ll/api/reflection/TypeName.h"
+#include <utility>
 
 #include "ll/api/base/Concepts.h"
 #include "ll/api/base/Meta.h"
+#include "ll/api/reflection/TypeName.h"
 
 #if defined(__clang__) && !defined(BOOST_PFR_CORE_NAME_PARSING)
 #define BOOST_PFR_CORE_NAME_PARSING                                                                                    \
@@ -26,11 +26,13 @@ inline constexpr bool is_reflectable_v =
 template <class T>
 concept Reflectable = is_reflectable_v<T>;
 
+template <class T>
+inline constexpr auto const name_array_v = boost::pfr::names_as_array<std::remove_cvref_t<T>>();
+
 template <Reflectable T, class F>
 constexpr void forEachMember(T&& value, F&& func) {
-    static constexpr auto const namearray = boost::pfr::names_as_array<std::remove_cvref_t<T>>();
     boost::pfr::for_each_field(std::forward<T>(value), [func = std::forward<F>(func)](auto&& field, std::size_t idx) {
-        func(namearray[idx], std::forward<decltype(field)>(field));
+        func(name_array_v<T>[idx], std::forward<decltype(field)>(field));
     });
 }
 } // namespace ll::reflection

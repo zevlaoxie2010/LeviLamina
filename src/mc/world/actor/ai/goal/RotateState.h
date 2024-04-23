@@ -20,8 +20,8 @@ public:
     // vIndex: 1, symbol: ?tick@RotateState@@UEAAXXZ
     virtual void tick();
 
-    // vIndex: 2, symbol: __unk_vfn_2
-    virtual void __unk_vfn_2();
+    // vIndex: 2, symbol: ?start@PetSleepWithOwnerState@@UEAAXXZ
+    virtual void start();
 
     // vIndex: 3, symbol: ?stop@PetSleepWithOwnerState@@UEAAXXZ
     virtual void stop();

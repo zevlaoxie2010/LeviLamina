@@ -24,11 +24,12 @@ public:
 
     // vIndex: 1, symbol:
     // ?handleConsumedItem@CraftHandlerTrade@@EEAA?AW4ItemStackNetResult@@W4ContainerEnumName@@EAEBVItemStack@@@Z
-    virtual ::ItemStackNetResult handleConsumedItem(::ContainerEnumName, uchar slot, class ItemStack const&);
+    virtual ::ItemStackNetResult
+    handleConsumedItem(::ContainerEnumName openContainerNetId, uchar slot, class ItemStack const& consumedItem);
 
     // vIndex: 4, symbol:
     // ?_handleCraftAction@CraftHandlerTrade@@MEAA?AW4ItemStackNetResult@@AEBVItemStackRequestActionCraftBase@@@Z
-    virtual ::ItemStackNetResult _handleCraftAction(class ItemStackRequestActionCraftBase const&);
+    virtual ::ItemStackNetResult _handleCraftAction(class ItemStackRequestActionCraftBase const& requestAction);
 
     // vIndex: 5, symbol: ?_postCraftRequest@CraftHandlerTrade@@EEAAX_N@Z
     virtual void _postCraftRequest(bool wasSuccess);
@@ -43,7 +44,7 @@ public:
 
     // symbol:
     // ?_handleTrade1@CraftHandlerTrade@@AEAA?AW4ItemStackNetResult@@AEBV?$ItemStackRequestActionCraft@V?$TypedServerNetId@URecipeNetIdTag@@I$0A@@@$0M@@@@Z
-    MCAPI ::ItemStackNetResult _handleTrade1(class ItemStackRequestActionCraft<RecipeNetId, 12> const&);
+    MCAPI ::ItemStackNetResult _handleTrade1(class ItemStackRequestActionCraft<RecipeNetId, 12> const& requestAction);
 
     // symbol:
     // ?_initResultItem@CraftHandlerTrade@@AEAA?AW4ItemStackNetResult@@AEBV?$TypedServerNetId@URecipeNetIdTag@@I$0A@@@@Z
@@ -53,7 +54,8 @@ public:
     MCAPI ::ItemStackNetResult _initTrade2Consumes();
 
     // symbol: ?_matchesAuxValueTrade2@CraftHandlerTrade@@AEBA_NAEBVItemStackBase@@0@Z
-    MCAPI bool _matchesAuxValueTrade2(class ItemStackBase const&, class ItemStackBase const& expected) const;
+    MCAPI bool
+    _matchesAuxValueTrade2(class ItemStackBase const& consumedItem, class ItemStackBase const& expected) const;
 
     // NOLINTEND
 };

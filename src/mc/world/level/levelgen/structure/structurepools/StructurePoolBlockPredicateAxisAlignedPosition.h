@@ -21,10 +21,13 @@ public:
     virtual bool test(class Block const& block, class Randomize& randomize) const;
 
     // vIndex: 2, symbol: ?test@StructurePoolBlockPredicateAxisAlignedPosition@@UEBA_NAEBVBlockPos@@0AEAVRandomize@@@Z
-    virtual bool test(class BlockPos const&, class BlockPos const&, class Randomize& randomize) const;
+    virtual bool test(class BlockPos const& pos, class BlockPos const& refPos, class Randomize& randomize) const;
+
+    // vIndex: 3, symbol: ?finalize@IStructurePoolBlockPredicate@@UEAA_NAEAVBlockSource@@AEAVIRandom@@@Z
+    virtual bool finalize(class BlockSource&, class IRandom&);
 
     // symbol: ??0StructurePoolBlockPredicateAxisAlignedPosition@@QEAA@MMHHE@Z
-    MCAPI StructurePoolBlockPredicateAxisAlignedPosition(float, float, int, int, uchar axis);
+    MCAPI StructurePoolBlockPredicateAxisAlignedPosition(float minChance, float maxChance, int, int, uchar axis);
 
     // NOLINTEND
 };

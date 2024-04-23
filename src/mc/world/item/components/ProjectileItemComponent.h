@@ -55,13 +55,21 @@ public:
     // symbol: ??0ProjectileItemComponent@@QEAA@W4ActorType@@M@Z
     MCAPI ProjectileItemComponent(::ActorType, float);
 
+    // symbol: ?dispense@ProjectileItemComponent@@QEBA_NAEAVBlockSource@@AEAVContainer@@HAEBVVec3@@E@Z
+    MCAPI bool
+    dispense(class BlockSource& region, class Container& container, int slot, class Vec3 const& pos, uchar face) const;
+
     // symbol: ?getShootDir@ProjectileItemComponent@@QEBA?AVVec3@@AEBVPlayer@@M@Z
     MCAPI class Vec3 getShootDir(class Player const& player, float angleOffset) const;
 
     // symbol: ?shootProjectile@ProjectileItemComponent@@QEBAPEAVActor@@AEAVBlockSource@@AEBVVec3@@1MPEAVPlayer@@@Z
-    MCAPI class Actor*
-    shootProjectile(class BlockSource& region, class Vec3 const&, class Vec3 const&, float power, class Player* player)
-        const;
+    MCAPI class Actor* shootProjectile(
+        class BlockSource& region,
+        class Vec3 const&  aimPos,
+        class Vec3 const&  aimDir,
+        float              power,
+        class Player*      player
+    ) const;
 
     // symbol:
     // ?bindType@ProjectileItemComponent@@SAXAEAUReflectionCtx@cereal@@AEBV?$vector@W4AllExperiments@@V?$allocator@W4AllExperiments@@@std@@@std@@V?$optional@VSemVersion@@@5@@Z

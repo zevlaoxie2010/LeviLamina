@@ -3,8 +3,7 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
-#include "mc/common/wrapper/OwnerPtrT.h"
-#include "mc/common/wrapper/SharePtrRefTraits.h"
+#include "mc/common/wrapper/OwnerPtr.h"
 #include "mc/deps/core/PathBuffer.h"
 #include "mc/deps/core/common/bedrock/NonOwnerPointer.h"
 
@@ -43,8 +42,8 @@ public:
     );
 
     // symbol:
-    // ?createLevelStorage@LevelListCache@@UEAA?AV?$OwnerPtrT@U?$SharePtrRefTraits@VLevelStorage@@@@@@AEAVScheduler@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVContentIdentity@@AEBV?$not_null@V?$NonOwnerPointer@$$CBVIContentKeyProvider@@@Bedrock@@@gsl@@AEBV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@5@V?$not_null@V?$NonOwnerPointer@VLevelDbEnv@@@Bedrock@@@8@V?$unique_ptr@VLevelStorageEventing@@U?$default_delete@VLevelStorageEventing@@@std@@@5@@Z
-    MCVAPI class OwnerPtrT<struct SharePtrRefTraits<class LevelStorage>> createLevelStorage(
+    // ?createLevelStorage@LevelListCache@@UEAA?AV?$OwnerPtr@VLevelStorage@@@@AEAVScheduler@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVContentIdentity@@AEBV?$not_null@V?$NonOwnerPointer@$$CBVIContentKeyProvider@@@Bedrock@@@gsl@@AEBV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@5@V?$not_null@V?$NonOwnerPointer@VLevelDbEnv@@@Bedrock@@@8@V?$unique_ptr@VLevelStorageEventing@@U?$default_delete@VLevelStorageEventing@@@std@@@5@@Z
+    MCVAPI class OwnerPtr<class LevelStorage> createLevelStorage(
         class Scheduler&                                                    scheduler,
         std::string const&                                                  levelId,
         class ContentIdentity const&                                        contentIdentity,
@@ -97,6 +96,9 @@ public:
     // ?getShallowLevelSummary@LevelListCache@@UEAAPEAULevelSummary@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
     MCVAPI struct LevelSummary* getShallowLevelSummary(std::string const& levelId);
 
+    // symbol: ?hasCachedLevels@LevelListCache@@UEBA_N_N@Z
+    MCVAPI bool hasCachedLevels(bool) const;
+
     // symbol: ?hasLevelWithId@LevelListCache@@UEAA_NAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
     MCVAPI bool hasLevelWithId(std::string const& levelId);
 
@@ -115,6 +117,10 @@ public:
     // symbol: ?removeObserver@LevelListCache@@UEAAXAEAVLevelLocationObserver@@@Z
     MCVAPI void removeObserver(class LevelLocationObserver& observer);
 
+    // symbol:
+    // ?renameAndSaveLevelData@LevelListCache@@UEAAXAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0AEBVLevelData@@@Z
+    MCVAPI void renameAndSaveLevelData(std::string const&, std::string const&, class LevelData const&);
+
     // symbol: ?renameLevel@LevelListCache@@UEAAXAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z
     MCVAPI void renameLevel(std::string const& levelId, std::string const& newLevelName);
 
@@ -127,7 +133,7 @@ public:
     MCVAPI void updateLevelCache(std::string const& levelId);
 
     // symbol: ??0LevelListCache@@QEAA@AEAVLevelStorageSource@@$$QEAV?$function@$$A6A_NXZ@std@@@Z
-    MCAPI LevelListCache(class LevelStorageSource&, std::function<bool(void)>&&);
+    MCAPI LevelListCache(class LevelStorageSource& levelStorageSource, std::function<bool()>&& checkIsSafeToFlushCache);
 
     // NOLINTEND
 
@@ -141,7 +147,7 @@ public:
 
     // symbol:
     // ?_addToCache@LevelListCache@@AEAAPEAVLevelCache@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$$QEAV2@@Z
-    MCAPI class LevelCache* _addToCache(std::string const& levelId, class LevelCache&&);
+    MCAPI class LevelCache* _addToCache(std::string const& levelId, class LevelCache&& levelCache);
 
     // symbol:
     // ?_createAndAddToCache@LevelListCache@@AEAAPEAVLevelCache@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVPath@Core@@@Z

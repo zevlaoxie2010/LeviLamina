@@ -1,27 +1,53 @@
 #include "ll/core/LeviLamina.h"
 
+#include <chrono>
 #include <csignal>
+#include <cstdio>
+#include <cwchar>
+#include <exception>
+#include <filesystem>
 #include <string>
+#include <system_error>
+#include <vector>
+
+#include "fmt/core.h"
 
 #include "ll/api/Logger.h"
+#include "ll/api/i18n/I18n.h"
 #include "ll/api/memory/Hook.h"
+#include "ll/api/plugin/Plugin.h"
 #include "ll/api/service/Bedrock.h"
 #include "ll/api/service/PlayerInfo.h"
 #include "ll/api/service/ServerInfo.h"
 #include "ll/api/utils/ErrorUtils.h"
+#include "ll/api/utils/HashUtils.h"
+
+#include "mc/server/common/DedicatedServer.h"
+#include "mc/server/common/commands/StopCommand.h"
+
 #include "ll/core/Config.h"
 #include "ll/core/CrashLogger.h"
 #include "ll/core/Version.h"
+#include "ll/core/command/BuiltinCommands.h"
 #include "ll/core/plugin/PluginRegistrar.h"
 
+#include <windows.h>
+
+#include <consoleapi.h>
+#include <errhandlingapi.h>
+#include <handleapi.h>
+#include <libloaderapi.h>
+#include <minwindef.h>
+#include <processenv.h>
+#include <processthreadsapi.h>
+#include <psapi.h>
+#include <tlhelp32.h>
+#include <winbase.h>
+#include <winnt.h>
+
+#if defined(LL_DEBUG) && _HAS_CXX23
 #include "ll/api/utils/StacktraceUtils.h"
-
-#include "mc/world/Minecraft.h"
-
-#include "windows.h"
-
-#include "psapi.h"
-#include "tlhelp32.h"
+#endif
 
 namespace ll {
 
@@ -84,10 +110,10 @@ void checkOtherBdsInstance() {
             }
             // Compare the path
             if (path == currentPath) {
-                logger.error("ll.main.checkOtherBdsInstance.detected"_tr);
-                logger.error("ll.main.checkOtherBdsInstance.tip"_tr);
+                logger.error("Detected the existence of another BDS process with the same path!"_tr());
+                logger.error("This may cause the network port and the level to be occupied"_tr());
                 while (true) {
-                    logger.error("ll.main.checkOtherBdsInstance.ask"_tr(pid));
+                    logger.error("Do you want to terminate the process with PID {0}?  (y=Yes, n=No, e=Exit)"_tr(pid));
                     char input;
                     rewind(stdin);
                     input = static_cast<char>(getchar());
@@ -122,18 +148,20 @@ void printWelcomeMsg() {
     logger.info(R"(                                                                      )");
     logger.info(R"(                                                                      )");
 
-    logger.info("ll.notice.license"_tr("LGPLv3"));
-    logger.info("ll.notice.newForum"_tr("https://forum.litebds.com"));
-    logger.info("ll.notice.translateText"_tr("https://crowdin.com/project/liteloaderbds"));
-    logger.info("ll.notice.sponsor.thanks"_tr);
-    logger.info("");
+    logger.info("LeviLamina is a free software licensed under {0}"_tr("LGPLv3"));
+    logger.info("Help us translate & improve text -> {0}"_tr("https://translate.liteldev.com/"));
 }
 
 void checkProtocolVersion() {
     auto currentProtocol = getServerProtocolVersion();
     if (TARGET_BDS_PROTOCOL_VERSION != currentProtocol) {
-        logger.warn("ll.main.warning.protocolVersionNotMatch.1"_tr(TARGET_BDS_PROTOCOL_VERSION, currentProtocol));
-        logger.warn("ll.main.warning.protocolVersionNotMatch.2"_tr);
+        logger.warn("Protocol version not match, target version: {0}, current version: {0}"_tr(
+            TARGET_BDS_PROTOCOL_VERSION,
+            currentProtocol
+        ));
+        logger.warn(
+            "This will most likely crash the server, please use the LeviLamina that matches the BDS version!"_tr()
+        );
     }
 }
 
@@ -142,8 +170,8 @@ BOOL WINAPI ConsoleExitHandler(DWORD CEvent) {
     case CTRL_C_EVENT:
     case CTRL_CLOSE_EVENT:
     case CTRL_SHUTDOWN_EVENT: {
-        if (service::getMinecraft()) {
-            service::getMinecraft()->requestServerShutdown("");
+        if (StopCommand::$mServer()) {
+            StopCommand::$mServer()->requestServerShutdown("");
         } else {
             std::terminate();
         }
@@ -159,7 +187,7 @@ void unixSignalHandler(int signum) {
     switch (signum) {
     case SIGINT:
     case SIGTERM: {
-        if (service::getMinecraft()) service::getMinecraft()->requestServerShutdown("");
+        if (StopCommand::$mServer()) StopCommand::$mServer()->requestServerShutdown("");
         else std::terminate();
         break;
     }
@@ -168,23 +196,14 @@ void unixSignalHandler(int signum) {
     }
 }
 
-// extern
-extern void registerLeviCommands();
-
 namespace i18n {
 extern std::string globalDefaultLocaleName;
 }
 
-void startCrashLogger() {
-#if !LL_BUILTIN_CRASHLOGGER
-    CrashLogger::initCrashLogger(globalConfig.modules.crashLogger.enabled);
-#else
-    static CrashLoggerNew crashLogger{};
-#endif
-}
-
 void leviLaminaMain() {
     error_utils::setSehTranslator();
+
+    _setmode(_fileno(stdin), _O_U8TEXT);
 
     // Prohibit pop-up windows to facilitate automatic restart
     SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX | SEM_NOALIGNMENTFAULTEXCEPT);
@@ -196,7 +215,7 @@ void leviLaminaMain() {
     std::error_code ec;
     fs::create_directories(plugin::getPluginsRoot(), ec);
 
-    i18n::load(u8"plugins/LeviLamina/lang");
+    ::ll::i18n::load(plugin::getPluginsRoot() / u8"LeviLamina" / u8"lang");
 
     loadLeviConfig();
 
@@ -214,10 +233,16 @@ void leviLaminaMain() {
         checkOtherBdsInstance();
     }
     if (globalConfig.modules.playerInfo.alwaysLaunch) {
-        ll::service::PlayerInfo::getInstance();
+        service::PlayerInfo::getInstance();
     }
     if (globalConfig.modules.crashLogger.enabled) {
-        startCrashLogger();
+        if (globalConfig.modules.crashLogger.useBuiltin) {
+#if _HAS_CXX23
+            static CrashLoggerNew crashLogger{};
+#endif
+        } else {
+            CrashLogger::initCrashLogger();
+        }
     }
 
     // Register Exit Event Handler.
@@ -228,24 +253,24 @@ void leviLaminaMain() {
     printWelcomeMsg();
 
 #ifdef LL_DEBUG
-    logger.warn("ll.main.warning.inDebugMode"_tr);
+    logger.warn("LeviLamina is running in DEBUG mode!"_tr());
 #endif
 
-    plugin::PluginRegistrar::getInstance().loadAllPlugins();
+    command::registerCommands();
 
-    registerLeviCommands();
+    plugin::PluginRegistrar::getInstance().loadAllPlugins();
 }
 
 
 LL_AUTO_STATIC_HOOK(LeviLaminaMainHook, HookPriority::High, "main", int, int argc, char* argv[]) {
 
 #if defined(LL_DEBUG) && _HAS_CXX23
-    static ll::stacktrace_utils::SymbolLoader symbols{};
+    static stacktrace_utils::SymbolLoader symbols{};
 #endif
     setServerStatus(ServerStatus::Default);
     severStartBeginTime = std::chrono::steady_clock::now();
     for (int i = 0; i < argc; ++i) {
-        switch (do_hash(argv[i])) {
+        switch (doHash(argv[i])) {
         case "--noColor"_h:
             globalConfig.logger.colorLog = false;
             break;
@@ -264,12 +289,10 @@ LL_AUTO_STATIC_HOOK(LeviLaminaMainHook, HookPriority::High, "main", int, int arg
     try {
         leviLaminaMain();
     } catch (...) {
-        ll::error_utils::printCurrentException(logger);
+        error_utils::printCurrentException(logger);
     }
     auto res = origin(argc, argv);
     setServerStatus(ServerStatus::Default);
     return res;
 }
 } // namespace ll
-
-[[maybe_unused]] BOOL WINAPI DllMain(HMODULE, DWORD, LPVOID) { return true; }

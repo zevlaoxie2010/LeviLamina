@@ -1,6 +1,8 @@
 #pragma once
 
+#include "ll/api/base/StdInt.h"
 #include "mc/_HeaderOutputPredefine.h"
+#include "mc/deps/core/threading/WorkerPool.h"
 
 // auto generated inclusion list
 #include "mc/deps/core/common/bedrock/EnableNonOwnerReferences.h"
@@ -11,6 +13,21 @@ namespace Bedrock { class EnableNonOwnerReferences; }
 // clang-format on
 
 class Scheduler : public ::Bedrock::EnableNonOwnerReferences {
+public:
+    int                                   mTotalFrames;
+    int                                   mStarvedFrames;
+    int                                   mPromotionFrames;
+    int                                   mTargetFPS;
+    int                                   mEffectiveFPS;
+    int                                   mFramesOverBound;
+    double                                mAverageCallbackDuration;
+    double                                mTotalCoroutineDuration;
+    uint64                                mTotalRunCoroutines;
+    double                                mCoroutineTimeLimit;
+    std::unique_ptr<WorkerPool>           mCoroutinePool;
+    std::chrono::steady_clock::time_point mNextStarveCheckTime;
+    std::thread::id                       mThreadID;
+
 public:
     // prevent constructor by default
     Scheduler& operator=(Scheduler const&);

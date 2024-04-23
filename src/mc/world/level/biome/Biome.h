@@ -26,11 +26,9 @@ public:
 
 public:
     // clang-format off
-    [[nodiscard]] constexpr HashedString const& getHash()     const { return ll::memory::dAccess<HashedString>(this, 0x8); }
+    [[nodiscard]] constexpr HashedString const& getName()     const { return ll::memory::dAccess<HashedString>(this, 0x8); }
     [[nodiscard]] constexpr int   getDebugMapColor()          const { return ll::memory::dAccess<int>(this, 0x38); }
     [[nodiscard]] constexpr int   getDebugMapOddColor()       const { return ll::memory::dAccess<int>(this, 0x3C); }
-    [[nodiscard]] constexpr float getTemperature()            const { return ll::memory::dAccess<float>(this, 0x40); }
-    //[[nodiscard]] constexpr float getDownfall()             const { return ll::memory::dAccess<float>(this, 0x44); }
     [[nodiscard]] constexpr float getRedSporeDensity()        const { return ll::memory::dAccess<float>(this, 0x48); }
     [[nodiscard]] constexpr float getBlueSporeDensity()       const { return ll::memory::dAccess<float>(this, 0x4C); }
     [[nodiscard]] constexpr float getAshDensity()             const { return ll::memory::dAccess<float>(this, 0x50); }
@@ -47,18 +45,6 @@ public:
     [[nodiscard]] constexpr int   getId()                     const { return ll::memory::dAccess<int>(this, 0x88); }
     // clang-format on
 
-    // WeakRefT<SharePtrRefTraits<FogDefinition const>> mFogDefinition;   // this+0x90
-    // OceanRuinConfiguration                           mOceanRuinConfig; // this+0xA0
-    // std::vector<MobSpawnerData>                      mMobs; // this+0xB0
-
-    // PerlinSimplexNoise         mTemperatureNoise;       // this+0xC8
-    // PerlinSimplexNoise         mFrozenTemperatureNoise; // this+0xF0
-    // OwnerPtrT<EntityRefTraits> mEntity;                 // this+0x118
-    // PerlinSimplexNoise         mBiomeInfoNoise;         // this+0x130
-    // Biome::CachedClientComponentData mCachedClientComponentData;
-
-    [[nodiscard]] constexpr std::string const& getName() const { return getHash().getString(); }
-
     // prevent constructor by default
     Biome& operator=(Biome const&);
     Biome(Biome const&);
@@ -69,12 +55,8 @@ public:
     // vIndex: 0, symbol: __gen_??1Biome@@UEAA@XZ
     virtual ~Biome() = default;
 
-    // symbol:
-    // ?addTag@Biome@@QEAAAEAV1@VHashedString@@AEAV?$TagRegistry@U?$IDType@UBiomeTagIDType@@@@U?$IDType@UBiomeTagSetIDType@@@@@@@Z
-    MCAPI class Biome& addTag(
-        class HashedString                                                                                tag,
-        class TagRegistry<struct IDType<struct BiomeTagIDType>, struct IDType<struct BiomeTagSetIDType>>& tagRegistry
-    );
+    // symbol: ??0Biome@@QEAA@H@Z
+    MCAPI explicit Biome(int id);
 
     // symbol: ?cacheClientComponentData@Biome@@QEAAXXZ
     MCAPI void cacheClientComponentData();
@@ -87,6 +69,9 @@ public:
 
     // symbol: ?getBirchFoliageColor@Biome@@QEBAHAEBVBlockPos@@@Z
     MCAPI int getBirchFoliageColor(class BlockPos const& pos) const;
+
+    // symbol: ?getDefaultBiomeTemperature@Biome@@QEBAMXZ
+    MCAPI float getDefaultBiomeTemperature() const;
 
     // symbol: ?getDownfall@Biome@@QEBAMXZ
     MCAPI float getDownfall() const;
@@ -141,7 +126,7 @@ public:
     // symbol:
     // ?hasTag@Biome@@QEBA_N_KAEBV?$TagRegistry@U?$IDType@UBiomeTagIDType@@@@U?$IDType@UBiomeTagSetIDType@@@@@@@Z
     MCAPI bool hasTag(
-        uint64,
+        uint64 tagHash,
         class TagRegistry<struct IDType<struct BiomeTagIDType>, struct IDType<struct BiomeTagSetIDType>> const&
             tagRegistry
     ) const;

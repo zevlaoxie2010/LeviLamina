@@ -19,17 +19,23 @@ public:
     // symbol: ?initFromDefinition@PushableComponent@@QEAAXAEAVActor@@AEBUPushableDescription@@@Z
     MCAPI void initFromDefinition(class Actor&, struct PushableDescription const& desc);
 
-    // symbol: ?isPushable@PushableComponent@@QEAA_NXZ
-    MCAPI bool isPushable();
+    // symbol: ?isPushable@PushableComponent@@QEBA_NXZ
+    MCAPI bool isPushable() const;
 
-    // symbol: ?isPushableByPiston@PushableComponent@@QEAA_NXZ
-    MCAPI bool isPushableByPiston();
+    // symbol: ?isPushableByPiston@PushableComponent@@QEBA_NXZ
+    MCAPI bool isPushableByPiston() const;
 
     // symbol: ?push@PushableComponent@@QEAAXAEAVActor@@AEBVVec3@@@Z
     MCAPI void push(class Actor& owner, class Vec3 const& vec);
 
     // symbol: ?push@PushableComponent@@QEAAXAEAVActor@@0_N@Z
     MCAPI void push(class Actor& owner, class Actor& other, bool pushSelfOnly);
+
+    // symbol: ?pullToRide@PushableComponent@@SAXAEAVActor@@0@Z
+    MCAPI static void pullToRide(class Actor&, class Actor&);
+
+    // symbol: ?skipPush@PushableComponent@@SA_NAEAVActor@@0@Z
+    MCAPI static bool skipPush(class Actor&, class Actor&);
 
     // NOLINTEND
 

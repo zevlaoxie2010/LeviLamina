@@ -14,14 +14,20 @@ public:
 
 public:
     // NOLINTBEGIN
-    // symbol: ??0SubChunkRelighter@@QEAA@AEAVBlockSource@@_KAEBVChunkPos@@_N3@Z
+    // symbol: ??0SubChunkRelighter@@QEAA@AEAVIBlockSource@@_KAEBVChunkPos@@_N3@Z
     MCAPI SubChunkRelighter(
-        class BlockSource&    source,
+        class IBlockSource&   source,
         uint64                centerSubChunkIndex,
         class ChunkPos const& centerChunkPos,
         bool                  originalLighting,
         bool                  useFullyDarkSubchunk
     );
+
+    // symbol: ?_checkEdgeForSubtractiveBlockLightProcessing@SubChunkRelighter@@QEAAXAEBUSubChunkLightIndex@@@Z
+    MCAPI void _checkEdgeForSubtractiveBlockLightProcessing(struct SubChunkLightIndex const&);
+
+    // symbol: ?_checkEdgeForSubtractiveSkyLightProcessing@SubChunkRelighter@@QEAAXAEBUSubChunkLightIndex@@@Z
+    MCAPI void _checkEdgeForSubtractiveSkyLightProcessing(struct SubChunkLightIndex const&);
 
     // symbol: ?_getAbsorption@SubChunkRelighter@@QEBAPEAUSubChunk@@USubChunkLightIndex@@AEAE@Z
     MCAPI struct SubChunk* _getAbsorption(struct SubChunkLightIndex coordIndex, uchar& absorption) const;
@@ -57,8 +63,8 @@ public:
         struct Brightness         newBrightness,
         struct Brightness         oldAbsorption,
         struct Brightness         newAbsorption,
-        uint,
-        uint subChunkIndex
+        uint                      lightType,
+        uint                      subChunkIndex
     );
 
     // symbol: ?_setPropagatedBlockLightValue@SubChunkRelighter@@QEAAXUSubChunkLightIndex@@E@Z
@@ -90,8 +96,10 @@ public:
     MCAPI struct SubChunkBrightnessStorage::LightPair
     getLightPairWithPlaceholderCheck(class Pos const& coord, struct SubChunkBrightnessStorage::LightPair const&) const;
 
-    // symbol: ?getTouchedSubChunks@SubChunkRelighter@@QEAAXAEAV?$vector@VPos@@V?$allocator@VPos@@@std@@@std@@@Z
-    MCAPI void getTouchedSubChunks(std::vector<class Pos>& subChunkPosList);
+    // symbol:
+    // ?relightSubChunk@SubChunkRelighter@@QEAAXAEBVLevelChunk@@AEBV?$vector@USubChunkLightUpdate@@V?$allocator@USubChunkLightUpdate@@@std@@@std@@AEAV?$vector@VBlockPos@@V?$allocator@VBlockPos@@@std@@@4@@Z
+    MCAPI void
+    relightSubChunk(class LevelChunk const&, std::vector<struct SubChunkLightUpdate> const&, std::vector<class BlockPos>&);
 
     // symbol: ?setBlockLight@SubChunkRelighter@@QEAAXAEBVPos@@UBrightness@@111@Z
     MCAPI void setBlockLight(
@@ -160,11 +168,13 @@ private:
     // symbol: ?sDarkSpinLock@SubChunkRelighter@@0VSpinLock@@A
     MCAPI static class SpinLock sDarkSpinLock;
 
-    // symbol: ?sFullyDarkSubChunk@SubChunkRelighter@@0USubChunk@@A
-    MCAPI static struct SubChunk sFullyDarkSubChunk;
+    // symbol:
+    // ?sFullyDarkSubChunk@SubChunkRelighter@@0V?$unique_ptr@USubChunk@@U?$default_delete@USubChunk@@@std@@@std@@A
+    MCAPI static std::unique_ptr<struct SubChunk> sFullyDarkSubChunk;
 
-    // symbol: ?sFullyLitSubChunk@SubChunkRelighter@@0USubChunk@@A
-    MCAPI static struct SubChunk sFullyLitSubChunk;
+    // symbol:
+    // ?sFullyLitSubChunk@SubChunkRelighter@@0V?$unique_ptr@USubChunk@@U?$default_delete@USubChunk@@@std@@@std@@A
+    MCAPI static std::unique_ptr<struct SubChunk> sFullyLitSubChunk;
 
     // symbol: ?sLitSpinLock@SubChunkRelighter@@0VSpinLock@@A
     MCAPI static class SpinLock sLitSpinLock;

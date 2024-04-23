@@ -1,33 +1,28 @@
 #pragma once
 
 #include "mc/_HeaderOutputPredefine.h"
-#include "mc/nbt/TagMemoryChunk.h"
 
 // auto generated inclusion list
+#include "mc/deps/core/common/bedrock/Result.h"
 #include "mc/nbt/Tag.h"
 
 class ByteArrayTag : public ::Tag {
 public:
-    TagMemoryChunk data{};
+    std::vector<uchar> data;
 
-    [[nodiscard]] _CONSTEXPR23 operator TagMemoryChunk const&() const { return data; } // NOLINT
-    [[nodiscard]] _CONSTEXPR23 operator TagMemoryChunk&() { return data; }             // NOLINT
+    [[nodiscard]] constexpr operator std::vector<uchar> const&() const { return data; }
+    [[nodiscard]] constexpr operator std::vector<uchar>&() { return data; }
 
-    ByteArrayTag() = default;
+    [[nodiscard]] constexpr ByteArrayTag() = default;
 
-    template <class T>
-        requires(std::is_trivially_destructible_v<T>)
-    [[nodiscard]] _CONSTEXPR23 ByteArrayTag(std::in_place_type_t<T>, TagMemoryChunk mem) : data(std::move(mem)) {
-        data.mSize = data.mSize * sizeof(T);
-    }
+    [[nodiscard]] constexpr ByteArrayTag(std::vector<uchar> arr) : data(std::move(arr)) {} // NOLINT
 
-    [[nodiscard]] _CONSTEXPR23 ByteArrayTag(std::vector<schar> const& arr) : data(std::span{arr}) {} // NOLINT
+    [[nodiscard]] constexpr ByteArrayTag(std::initializer_list<uchar> val) : data(std::move(val)) {} // NOLINT
 
-    std::span<schar> view() const { return std::span<schar>((schar*)data.mBuffer.get(), data.mSize); }
+    [[nodiscard]] constexpr uchar const& operator[](size_t index) const { return data[index]; }
+    [[nodiscard]] constexpr uchar&       operator[](size_t index) { return data[index]; }
 
-    [[nodiscard]] _CONSTEXPR23 schar& operator[](size_t index) const { return view()[index]; }
-
-    [[nodiscard]] _CONSTEXPR23 size_t size() const { return data.mSize; }
+    [[nodiscard]] constexpr size_t size() const { return data.size(); }
 
 public:
     // NOLINTBEGIN
@@ -37,8 +32,8 @@ public:
     // vIndex: 2, symbol: ?write@ByteArrayTag@@UEBAXAEAVIDataOutput@@@Z
     virtual void write(class IDataOutput& dos) const;
 
-    // vIndex: 3, symbol: ?load@ByteArrayTag@@UEAAXAEAVIDataInput@@@Z
-    virtual void load(class IDataInput& dis);
+    // vIndex: 3, symbol: ?load@ByteArrayTag@@UEAA?AV?$Result@XVerror_code@std@@@Bedrock@@AEAVIDataInput@@@Z
+    virtual class Bedrock::Result<void> load(class IDataInput& dis);
 
     // vIndex: 4, symbol: ?toString@ByteArrayTag@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     virtual std::string toString() const;

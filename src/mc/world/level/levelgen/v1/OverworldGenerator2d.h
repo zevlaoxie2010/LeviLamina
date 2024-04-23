@@ -6,25 +6,23 @@
 #include "mc/world/level/levelgen/v1/BeardKernel.h"
 
 // auto generated inclusion list
-#include "mc/deps/core/data/OperationNode.h"
 #include "mc/deps/core/utility/MultidimensionalArray.h"
-#include "mc/world/level/levelgen/GeneratorType.h"
 #include "mc/world/level/levelgen/v1/OverworldGenerator.h"
 
 class Biome;
 
 class OverworldGenerator2d : public ::OverworldGenerator {
 public:
-    std::unique_ptr<PerlinNoise>        minLimitPerlinNoise; // this+0x170
-    std::unique_ptr<PerlinNoise>        maxLimitPerlinNoise; // this+0x178
-    std::unique_ptr<PerlinNoise>        mainPerlinNoise;     // this+0x180
-    std::unique_ptr<PerlinSimplexNoise> surfaceNoise;        // this+0x188
-    std::unique_ptr<PerlinNoise>        scaleNoise;          // this+0x190
-    std::unique_ptr<PerlinNoise>        depthNoise;          // this+0x198
-    std::unique_ptr<PerlinNoise>        forestNoise;         // this+0x1A0
-    std::unique_ptr<PerlinSimplexNoise> mMaterialAdjNoise;   // this+0x1A8
-    BeardKernel*                        mBeardKernel;        // this+0x1B0
-    std::unique_ptr<BiomeSource>        mBiomeSource;        // this+0xD9B0
+    std::unique_ptr<PerlinNoise>        mMinLimitPerlinNoise; // this+0x170
+    std::unique_ptr<PerlinNoise>        mMaxLimitPerlinNoise; // this+0x178
+    std::unique_ptr<PerlinNoise>        mMainPerlinNoise;     // this+0x180
+    std::unique_ptr<PerlinSimplexNoise> mSurfaceNoise;        // this+0x188
+    std::unique_ptr<PerlinNoise>        mScaleNoise;          // this+0x190
+    std::unique_ptr<PerlinNoise>        mDepthNoise;          // this+0x198
+    std::unique_ptr<PerlinNoise>        mForestNoise;         // this+0x1A0
+    std::unique_ptr<PerlinSimplexNoise> mMaterialAdjNoise;    // this+0x1A8
+    BeardKernel*                        mBeardKernel;         // this+0x1B0
+    std::unique_ptr<BiomeSource>        mBiomeSource;         // this+0xD9B0
 
     // prevent constructor by default
     OverworldGenerator2d& operator=(OverworldGenerator2d const&);
@@ -80,16 +78,8 @@ public:
     // ?getXoroshiroPositionalRandomFactory@OverworldGenerator2d@@EEBA?AV?$optional@VXoroshiroPositionalRandomFactory@@@std@@XZ
     virtual std::optional<class XoroshiroPositionalRandomFactory> getXoroshiroPositionalRandomFactory() const;
 
-    // symbol:
-    // ??0OverworldGenerator2d@@QEAA@AEAVDimension@@I_NPEBVBiome@@V?$unique_ptr@VStructureFeatureRegistry@@U?$default_delete@VStructureFeatureRegistry@@@std@@@std@@@Z
-    MCAPI
-    OverworldGenerator2d(
-        class Dimension&                          dimension,
-        uint                                      seed,
-        bool                                      isLegacyWorld,
-        Biome const*                              biomeOverride,
-        std::unique_ptr<StructureFeatureRegistry> structureFeatureRegistry
-    );
+    // symbol: ??0OverworldGenerator2d@@QEAA@AEAVDimension@@I_NPEBVBiome@@@Z
+    MCAPI OverworldGenerator2d(class Dimension&, uint, bool, class Biome const*);
 
     // NOLINTEND
 
@@ -99,15 +89,6 @@ public:
     // ?_generateDensityCellsForChunk@OverworldGenerator2d@@AEBA?AV?$MultidimensionalArray@M$04$04$0CJ@@Util@@AEBVChunkPos@@@Z
     MCAPI class Util::MultidimensionalArray<float, 5, 5, 41>
     _generateDensityCellsForChunk(class ChunkPos const& chunkPos) const;
-
-    // symbol:
-    // ?_makeBiomeSource@OverworldGenerator2d@@CA?AV?$unique_ptr@VBiomeSource@@U?$default_delete@VBiomeSource@@@std@@@std@@IAEBVDimension@@@Z
-    MCAPI static std::unique_ptr<class BiomeSource> _makeBiomeSource(uint seed, class Dimension const& dimension);
-
-    // symbol:
-    // ?_makeCommonNodeGraph@OverworldGenerator2d@@CA?AV?$shared_ptr@V?$OperationNode@PEAVBiome@@VPos2d@@@@@std@@W4GeneratorType@@AEBVBiomeRegistry@@@Z
-    MCAPI static std::shared_ptr<class OperationNode<class Biome*, class Pos2d>>
-    _makeCommonNodeGraph(::GeneratorType generatorType, class BiomeRegistry const& biomeRegistry);
 
     // NOLINTEND
 };

@@ -35,20 +35,20 @@ public:
     // ?configureLevel@VanillaGameModuleServer@@UEAAXAEBV?$not_null@V?$NonOwnerPointer@VLevel@@@Bedrock@@@gsl@@AEBVExperiments@@AEAVResourcePackManager@@AEBVBaseGameVersion@@@Z
     virtual void configureLevel(
         Bedrock::NotNullNonOwnerPtr<class Level> const& level,
-        class Experiments const&,
-        class ResourcePackManager&   resourcePackManager,
-        class BaseGameVersion const& baseGameVersion
+        class Experiments const&                        experiments,
+        class ResourcePackManager&                      resourcePackManager,
+        class BaseGameVersion const&                    baseGameVersion
     );
 
-    // vIndex: 4, symbol: __unk_vfn_4
-    virtual void __unk_vfn_4();
+    // vIndex: 4, symbol: ?configureNewPlayer@VanillaGameModuleServer@@UEAAXAEAVPlayer@@@Z
+    virtual void configureNewPlayer(class Player& player);
 
     // vIndex: 5, symbol:
     // ?configureDocumentation@VanillaGameModuleServer@@UEAAXAEAVIGameModuleDocumentation@@VItemRegistryRef@@@Z
     virtual void configureDocumentation(class IGameModuleDocumentation& moduleDocumentation, class ItemRegistryRef);
 
-    // vIndex: 6, symbol: __unk_vfn_6
-    virtual void __unk_vfn_6();
+    // vIndex: 6, symbol: ?tick@VanillaGameModuleServer@@UEAAXXZ
+    virtual void tick();
 
     // vIndex: 7, symbol: ?setupCommands@VanillaGameModuleServer@@UEAAXAEAVCommandRegistry@@@Z
     virtual void setupCommands(class CommandRegistry& commandRegistry);
@@ -59,12 +59,6 @@ public:
         class ServerInstance&                                   server,
         Bedrock::NotNullNonOwnerPtr<class ServerNetworkHandler> handler
     );
-
-    // symbol: ?configureNewPlayer@VanillaGameModuleServer@@UEAAXAEAVPlayer@@@Z
-    MCVAPI void configureNewPlayer(class Player& player);
-
-    // symbol: ?tick@VanillaGameModuleServer@@UEAAXXZ
-    MCVAPI void tick();
 
     // symbol: ??0VanillaGameModuleServer@@QEAA@XZ
     MCAPI VanillaGameModuleServer();
@@ -82,10 +76,10 @@ public:
     // ?_configureWorldGen@VanillaGameModuleServer@@AEAAXAEAVIWorldRegistriesProvider@@AEBUSpawnSettings@@AEBVExperiments@@AEAVResourcePackManager@@AEBVBaseGameVersion@@@Z
     MCAPI void _configureWorldGen(
         class IWorldRegistriesProvider& worldRegistries,
-        struct SpawnSettings const&,
-        class Experiments const&,
-        class ResourcePackManager&   resourcePackManager,
-        class BaseGameVersion const& baseGameVersion
+        struct SpawnSettings const&     spawnSettings,
+        class Experiments const&        experiments,
+        class ResourcePackManager&      resourcePackManager,
+        class BaseGameVersion const&    baseGameVersion
     );
 
     // symbol:

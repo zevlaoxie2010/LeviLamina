@@ -1,10 +1,11 @@
 #pragma once
 
 #include "mc/_HeaderOutputPredefine.h"
-#include "mc/entity/EntityRefTraits.h"
+#include "mc/entity/gamerefs_entity/EntityRefTraits.h"
+#include "mc/network/ClientOrServerNetworkSystemRef.h"
 
 // auto generated inclusion list
-#include "mc/common/wrapper/OwnerPtrT.h"
+#include "mc/common/wrapper/OwnerPtr.h"
 #include "mc/enums/SubClientId.h"
 #include "mc/network/PacketSender.h"
 
@@ -12,10 +13,10 @@ class NetworkSystem;
 class NetEventCallback;
 class LoopbackPacketSender : public ::PacketSender {
 public:
-    NetworkSystem*                                 mNetwork;           // this+0x20
-    std::vector<NetEventCallback*>                 mLoopbackCallbacks; // this+0x28
-    const std::vector<OwnerPtrT<EntityRefTraits>>* mUserList;          // this+0x40
-    std::vector<NetworkIdentifierWithSubId>        mTempUserIds;       // this+0x48
+    ClientOrServerNetworkSystemRef              mNetwork;           // this+0x20
+    std::vector<NetEventCallback*>              mLoopbackCallbacks; // this+0x30
+    std::vector<OwnerPtr<EntityContext>> const* mUserList;          // this+0x48
+    std::vector<NetworkIdentifierWithSubId>     mTempUserIds;       // this+0x50
 
     // prevent constructor by default
     LoopbackPacketSender& operator=(LoopbackPacketSender const&);
@@ -51,7 +52,7 @@ public:
     sendBroadcast(class NetworkIdentifier const& exceptId, ::SubClientId exceptSubid, class Packet const& packet);
 
     // vIndex: 8, symbol: ?flush@LoopbackPacketSender@@UEAAXAEBVNetworkIdentifier@@$$QEAV?$function@$$A6AXXZ@std@@@Z
-    virtual void flush(class NetworkIdentifier const& id, std::function<void(void)>&& callback);
+    virtual void flush(class NetworkIdentifier const& id, std::function<void()>&& callback);
 
     // symbol: ??0LoopbackPacketSender@@QEAA@W4SubClientId@@AEAVServerNetworkSystem@@@Z
     MCAPI LoopbackPacketSender(::SubClientId subid, class ServerNetworkSystem& network);
@@ -63,8 +64,8 @@ public:
     MCAPI void removeLoopbackCallback(class NetEventCallback& callback);
 
     // symbol:
-    // ?setUserList@LoopbackPacketSender@@QEAAXPEBV?$vector@V?$OwnerPtrT@UEntityRefTraits@@@@V?$allocator@V?$OwnerPtrT@UEntityRefTraits@@@@@std@@@std@@@Z
-    MCAPI void setUserList(std::vector<class OwnerPtrT<struct EntityRefTraits>> const* userList);
+    // ?setUserList@LoopbackPacketSender@@QEAAXPEBV?$vector@V?$OwnerPtr@VEntityContext@@@@V?$allocator@V?$OwnerPtr@VEntityContext@@@@@std@@@std@@@Z
+    MCAPI void setUserList(std::vector<class OwnerPtr<class EntityContext>> const*);
 
     // NOLINTEND
 };

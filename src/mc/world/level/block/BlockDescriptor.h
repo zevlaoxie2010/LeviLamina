@@ -47,6 +47,13 @@ public:
 
     public:
         // NOLINTBEGIN
+        // symbol:
+        // ??0State@BlockDescriptor@@QEAA@VHashedString@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
+        MCAPI State(class HashedString, std::string const&);
+
+        // symbol: ??0State@BlockDescriptor@@QEAA@VHashedString@@H@Z
+        MCAPI State(class HashedString, int);
+
         // symbol: ??0State@BlockDescriptor@@QEAA@VHashedString@@UCompound@1v1_20_50@Puv@@@Z
         MCAPI State(class HashedString, struct Puv::v1_20_50::BlockDescriptor::Compound);
 
@@ -75,7 +82,7 @@ public:
 
     // symbol:
     // ??0BlockDescriptor@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$$QEAV?$vector@UState@BlockDescriptor@@V?$allocator@UState@BlockDescriptor@@@std@@@2@@Z
-    MCAPI BlockDescriptor(std::string const& name, std::vector<struct BlockDescriptor::State>&&);
+    MCAPI BlockDescriptor(std::string const& name, std::vector<struct BlockDescriptor::State>&& states);
 
     // symbol: ?getBlockOrUnknownBlock@BlockDescriptor@@QEBAAEBVBlock@@XZ
     MCAPI class Block const& getBlockOrUnknownBlock() const;
@@ -112,6 +119,9 @@ public:
     // symbol: ??8BlockDescriptor@@QEBA_NAEBV0@@Z
     MCAPI bool operator==(class BlockDescriptor const& rhs) const;
 
+    // symbol: ?setContentLogOnError@BlockDescriptor@@QEBAX_N@Z
+    MCAPI void setContentLogOnError(bool) const;
+
     // symbol:
     // ?toCompoundTag@BlockDescriptor@@QEBA?AV?$unique_ptr@VCompoundTag@@U?$default_delete@VCompoundTag@@@std@@@std@@XZ
     MCAPI std::unique_ptr<class CompoundTag> toCompoundTag() const;
@@ -127,11 +137,14 @@ public:
 
     // symbol:
     // ?anyMatch@BlockDescriptor@@SA_NAEBV?$vector@VBlockDescriptor@@V?$allocator@VBlockDescriptor@@@std@@@std@@AEBVBlock@@@Z
-    MCAPI static bool anyMatch(std::vector<class BlockDescriptor> const&, class Block const& block);
+    MCAPI static bool anyMatch(std::vector<class BlockDescriptor> const& blockDescriptors, class Block const& block);
 
     // symbol:
     // ?anyMatch@BlockDescriptor@@SA_NAEBV?$vector@VBlockDescriptor@@V?$allocator@VBlockDescriptor@@@std@@@std@@AEBV1@@Z
-    MCAPI static bool anyMatch(std::vector<class BlockDescriptor> const&, class BlockDescriptor const&);
+    MCAPI static bool anyMatch(
+        std::vector<class BlockDescriptor> const& blockDescriptors,
+        class BlockDescriptor const&              otherBlockDescriptor
+    );
 
     // symbol: ?bindType@BlockDescriptor@@SAXAEAUReflectionCtx@cereal@@@Z
     MCAPI static void bindType(struct cereal::ReflectionCtx&);
@@ -141,7 +154,8 @@ public:
 
     // symbol:
     // ?fromTagExpression@BlockDescriptor@@SA?AV1@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4MolangVersion@@@Z
-    MCAPI static class BlockDescriptor fromTagExpression(std::string const&, ::MolangVersion);
+    MCAPI static class BlockDescriptor
+    fromTagExpression(std::string const& tagExpression, ::MolangVersion molangVersion);
 
     // symbol: ?JSON_NAME_FIELD@BlockDescriptor@@2QBDB
     MCAPI static char const JSON_NAME_FIELD[];

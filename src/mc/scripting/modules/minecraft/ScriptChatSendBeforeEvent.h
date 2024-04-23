@@ -21,10 +21,6 @@ public:
     // symbol: ??0ScriptChatSendBeforeEvent@ScriptModuleMinecraft@@QEAA@AEBU01@@Z
     MCAPI ScriptChatSendBeforeEvent(struct ScriptModuleMinecraft::ScriptChatSendBeforeEvent const&);
 
-    // symbol: ??4ScriptChatSendBeforeEvent@ScriptModuleMinecraft@@QEAAAEAU01@$$QEAU01@@Z
-    MCAPI struct ScriptModuleMinecraft::ScriptChatSendBeforeEvent&
-    operator=(struct ScriptModuleMinecraft::ScriptChatSendBeforeEvent&&);
-
     // symbol:
     // ?bind@ScriptChatSendBeforeEvent@ScriptModuleMinecraft@@SA?AV?$ClassBindingBuilder@UScriptChatSendBeforeEvent@ScriptModuleMinecraft@@@Scripting@@XZ
     MCAPI static class Scripting::ClassBindingBuilder<struct ScriptModuleMinecraft::ScriptChatSendBeforeEvent> bind();

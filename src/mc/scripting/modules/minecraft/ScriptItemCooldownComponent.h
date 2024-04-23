@@ -19,12 +19,13 @@ namespace ScriptModuleMinecraft {
 class ScriptItemCooldownComponent : public ::ScriptModuleMinecraft::ScriptItemComponent {
 public:
     // prevent constructor by default
+    ScriptItemCooldownComponent& operator=(ScriptItemCooldownComponent const&);
     ScriptItemCooldownComponent();
 
 public:
     // NOLINTBEGIN
-    // vIndex: 0, symbol: ??1ScriptItemCooldownComponent@ScriptModuleMinecraft@@UEAA@XZ
-    virtual ~ScriptItemCooldownComponent();
+    // vIndex: 0, symbol: __gen_??1ScriptItemCooldownComponent@ScriptModuleMinecraft@@UEAA@XZ
+    virtual ~ScriptItemCooldownComponent() = default;
 
     // symbol: ??0ScriptItemCooldownComponent@ScriptModuleMinecraft@@QEAA@AEBV01@@Z
     MCAPI ScriptItemCooldownComponent(class ScriptModuleMinecraft::ScriptItemCooldownComponent const&);
@@ -36,9 +37,13 @@ public:
     // symbol: ?getCooldownTicks@ScriptItemCooldownComponent@ScriptModuleMinecraft@@QEAA?AV?$Result@H$$V@Scripting@@XZ
     MCAPI class Scripting::Result<int> getCooldownTicks();
 
-    // symbol: ??4ScriptItemCooldownComponent@ScriptModuleMinecraft@@QEAAAEAV01@AEBV01@@Z
-    MCAPI class ScriptModuleMinecraft::ScriptItemCooldownComponent&
-    operator=(class ScriptModuleMinecraft::ScriptItemCooldownComponent const&);
+    // symbol:
+    // ?getCooldownTicksRemaining@ScriptItemCooldownComponent@ScriptModuleMinecraft@@QEAA?AV?$Result@H$$V@Scripting@@AEAVScriptPlayer@2@@Z
+    MCAPI class Scripting::Result<int> getCooldownTicksRemaining(class ScriptModuleMinecraft::ScriptPlayer&);
+
+    // symbol:
+    // ?isCooldownCategory@ScriptItemCooldownComponent@ScriptModuleMinecraft@@QEAA?AV?$Result@_N$$V@Scripting@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
+    MCAPI class Scripting::Result<bool> isCooldownCategory(std::string const&);
 
     // symbol:
     // ?startCooldown@ScriptItemCooldownComponent@ScriptModuleMinecraft@@QEAA?AV?$Result@X$$V@Scripting@@AEAVScriptPlayer@2@@Z

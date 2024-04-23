@@ -17,7 +17,9 @@ public:
     [[nodiscard]] constexpr ServiceId(std::string_view name, size_t version) noexcept
     : name(name),
       version(version),
-      hash(ll::hash_utils::hashCombine(ll::hash_utils::do_hash(name), version)) {}
+      hash(ll::hash_utils::doHash(name)) {
+        ll::hash_utils::hashCombine(version, hash);
+    }
 
     template <class T>
     [[nodiscard]] constexpr ServiceId(auto_name_t<T>, size_t version) noexcept
@@ -38,7 +40,7 @@ public:
     }
 };
 
-constexpr ServiceId EmptyServiceId{"", 0};
+constexpr ServiceId EmptyServiceId{{}, 0};
 
 template <class T>
 constexpr ServiceId getServiceId = []() -> ServiceId {
@@ -46,7 +48,7 @@ constexpr ServiceId getServiceId = []() -> ServiceId {
     if constexpr (requires { self::ServiceId; } && self::ServiceId != EmptyServiceId) {
         return self::ServiceId;
     } else {
-        static_assert(false, "ServiceId not defined for type");
+        static_assert(ll::concepts::always_false<T>, "ServiceId not defined for type");
     }
 }();
 } // namespace ll::service

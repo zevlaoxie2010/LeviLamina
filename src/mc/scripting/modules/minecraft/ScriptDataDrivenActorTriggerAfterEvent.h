@@ -3,7 +3,7 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
-#include "mc/external/scripting/ClassBindingBuilder.h"
+#include "mc/external/scripting/ClassBindingBuilderReadOnly.h"
 
 // auto generated forward declare list
 // clang-format off
@@ -30,7 +30,7 @@ public:
     // symbol:
     // ??0ScriptDataDrivenActorTriggerAfterEvent@ScriptModuleMinecraft@@QEAA@AEBUActorDefinitionEndedEvent@@AEBVWeakLifetimeScope@Scripting@@@Z
     MCAPI ScriptDataDrivenActorTriggerAfterEvent(
-        struct ActorDefinitionEndedEvent const&,
+        struct ActorDefinitionEndedEvent const&   actorDefinitionEvent,
         class Scripting::WeakLifetimeScope const& scope
     );
 
@@ -42,14 +42,14 @@ public:
     MCAPI ~ScriptDataDrivenActorTriggerAfterEvent();
 
     // symbol:
-    // ?bind@ScriptDataDrivenActorTriggerAfterEvent@ScriptModuleMinecraft@@SA?AV?$ClassBindingBuilder@UScriptDataDrivenActorTriggerAfterEvent@ScriptModuleMinecraft@@@Scripting@@XZ
-    MCAPI static class Scripting::ClassBindingBuilder<
+    // ?bind@ScriptDataDrivenActorTriggerAfterEvent@ScriptModuleMinecraft@@SA?AV?$ClassBindingBuilderReadOnly@UScriptDataDrivenActorTriggerAfterEvent@ScriptModuleMinecraft@@@Scripting@@XZ
+    MCAPI static class Scripting::ClassBindingBuilderReadOnly<
         struct ScriptModuleMinecraft::ScriptDataDrivenActorTriggerAfterEvent>
     bind();
 
     // symbol:
-    // ?bindV010@ScriptDataDrivenActorTriggerAfterEvent@ScriptModuleMinecraft@@SA?AV?$ClassBindingBuilder@UScriptDataDrivenActorTriggerAfterEvent@ScriptModuleMinecraft@@@Scripting@@XZ
-    MCAPI static class Scripting::ClassBindingBuilder<
+    // ?bindV010@ScriptDataDrivenActorTriggerAfterEvent@ScriptModuleMinecraft@@SA?AV?$ClassBindingBuilderReadOnly@UScriptDataDrivenActorTriggerAfterEvent@ScriptModuleMinecraft@@@Scripting@@XZ
+    MCAPI static class Scripting::ClassBindingBuilderReadOnly<
         struct ScriptModuleMinecraft::ScriptDataDrivenActorTriggerAfterEvent>
     bindV010();
 

@@ -32,8 +32,9 @@ public:
         // vIndex: 0, symbol: __gen_??1GameTestNetworkListener@GameTestNetworkAdapter@@UEAA@XZ
         virtual ~GameTestNetworkListener() = default;
 
-        // vIndex: 1, symbol: __unk_vfn_1
-        virtual void __unk_vfn_1();
+        // vIndex: 1, symbol:
+        // ?onTestStructureLoaded@GameTestBatchRunnerGameTestListener@gametest@@UEAAXAEAVBaseGameTestInstance@2@@Z
+        virtual void onTestStructureLoaded(class gametest::BaseGameTestInstance&);
 
         // vIndex: 2, symbol:
         // ?onTestPassed@GameTestNetworkListener@GameTestNetworkAdapter@@UEAAXAEAVBaseGameTestInstance@gametest@@@Z
@@ -42,6 +43,15 @@ public:
         // vIndex: 3, symbol:
         // ?onTestFailed@GameTestNetworkListener@GameTestNetworkAdapter@@UEAAXAEAVBaseGameTestInstance@gametest@@@Z
         virtual void onTestFailed(class gametest::BaseGameTestInstance&);
+
+        // vIndex: 4, symbol: ?onTestStarted@IGameTestListener@gametest@@UEAAXAEAVBaseGameTestInstance@2@@Z
+        virtual void onTestStarted(class gametest::BaseGameTestInstance&);
+
+        // vIndex: 5, symbol: ?onTestRetryStarted@IGameTestListener@gametest@@UEAAXAEAVBaseGameTestInstance@2@@Z
+        virtual void onTestRetryStarted(class gametest::BaseGameTestInstance&);
+
+        // vIndex: 6, symbol: ?onTestRetryFinished@IGameTestListener@gametest@@UEAAXAEAVBaseGameTestInstance@2@@Z
+        virtual void onTestRetryFinished(class gametest::BaseGameTestInstance&);
 
         // NOLINTEND
     };

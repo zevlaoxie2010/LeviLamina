@@ -17,10 +17,11 @@ class BlockPos;
 
 class StructureTemplate {
 public:
-    std::string                                         mName;                  // this+0x0
-    StructureTemplateData                               mStructureTemplateData; // this+0x20
-    uchar                                               mStructureVersion;      // this+0xD0
-    Bedrock::NonOwnerPointer<IUnknownBlockTypeRegistry> mUnknownBlockRegistry;
+    std::string                                         mName;                  // this+0x8
+    StructureTemplateData                               mStructureTemplateData; // this+0x28
+    uchar                                               mStructureVersion;      // this+0xD8
+    Bedrock::NonOwnerPointer<IUnknownBlockTypeRegistry> mUnknownBlockRegistry;  // this+0xE0
+    uchar                                               mUnknown;
 
     inline bool load(class CompoundTag const& nbt) { return mStructureTemplateData.load(nbt); }
 
@@ -66,6 +67,9 @@ public:
     // ??0StructureTemplate@@QEAA@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$NonOwnerPointer@VIUnknownBlockTypeRegistry@@@Bedrock@@@Z
     MCAPI StructureTemplate(std::string_view name, class Bedrock::NonOwnerPointer<class IUnknownBlockTypeRegistry>);
 
+    // symbol: ?fillEmpty@StructureTemplate@@QEAAXAEBVBlockPos@@@Z
+    MCAPI void fillEmpty(class BlockPos const&);
+
     // symbol: ?fillFromWorld@StructureTemplate@@QEAAXAEAVBlockSource@@AEBVBlockPos@@AEBVStructureSettings@@@Z
     MCAPI void fillFromWorld(
         class BlockSource&             region,
@@ -83,12 +87,15 @@ public:
     // symbol: ?getName@StructureTemplate@@QEBAAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     MCAPI std::string const& getName() const;
 
+    // symbol: ?getRemovable@StructureTemplate@@QEBA_NXZ
+    MCAPI bool getRemovable() const;
+
     // symbol: ?getSize@StructureTemplate@@QEBAAEBVBlockPos@@XZ
     MCAPI class BlockPos const& getSize() const;
 
     // symbol: ?getTransformedBounds@StructureTemplate@@QEBA?AVBoundingBox@@VBlockPos@@AEBVStructureSettings@@@Z
     MCAPI class BoundingBox
-    getTransformedBounds(class BlockPos, class StructureSettings const& structureSettings) const;
+    getTransformedBounds(class BlockPos loadPosition, class StructureSettings const& structureSettings) const;
 
     // symbol: ?isLoaded@StructureTemplate@@QEBA_NXZ
     MCAPI bool isLoaded() const;
@@ -105,8 +112,10 @@ public:
     ) const;
 
     // symbol: ?placeNextSegmentInWorld@StructureTemplate@@QEBAXAEAVStructureAnimationData@@AEBVBlockPalette@@@Z
-    MCAPI void
-    placeNextSegmentInWorld(class StructureAnimationData&, class BlockPalette const& globalBlockPalette) const;
+    MCAPI void placeNextSegmentInWorld(
+        class StructureAnimationData& structureAnimationData,
+        class BlockPalette const&     globalBlockPalette
+    ) const;
 
     // symbol: ?save@StructureTemplate@@QEBA?AV?$unique_ptr@VCompoundTag@@U?$default_delete@VCompoundTag@@@std@@@std@@XZ
     MCAPI std::unique_ptr<class CompoundTag> save() const;
@@ -167,6 +176,20 @@ public:
         bool updateItemData,
         bool ignoreJigsawBlocks
     ) const;
+
+    // NOLINTEND
+
+private:
+    // NOLINTBEGIN
+    // symbol: ?NO_BLOCK_INDEX_VALUE@StructureTemplate@@0HB
+    MCAPI static int const NO_BLOCK_INDEX_VALUE;
+
+    // NOLINTEND
+
+    // member accessor
+public:
+    // NOLINTBEGIN
+    static auto& $NO_BLOCK_INDEX_VALUE() { return NO_BLOCK_INDEX_VALUE; }
 
     // NOLINTEND
 };

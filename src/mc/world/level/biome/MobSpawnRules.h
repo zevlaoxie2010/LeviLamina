@@ -27,8 +27,18 @@ public:
     // symbol: ?canSpawnInConditions@MobSpawnRules@@QEBA_NAEBVSpawnConditions@@AEAVBlockSource@@@Z
     MCAPI bool canSpawnInConditions(class SpawnConditions const& conditions, class BlockSource& region) const;
 
+    // symbol: ?getAboveBlockDistance@MobSpawnRules@@QEBAHXZ
+    MCAPI int getAboveBlockDistance() const;
+
     // symbol: ?getDelayRange@MobSpawnRules@@QEBA?BU?$pair@HH@std@@XZ
     MCAPI std::pair<int, int> const getDelayRange() const;
+
+    // symbol: ?getDelaySpawnChance@MobSpawnRules@@QEBAHXZ
+    MCAPI int getDelaySpawnChance() const;
+
+    // symbol:
+    // ?getGuaranteedPermutations@MobSpawnRules@@QEBAAEBV?$vector@VMobSpawnerPermutation@@V?$allocator@VMobSpawnerPermutation@@@std@@@std@@XZ
+    MCAPI std::vector<class MobSpawnerPermutation> const& getGuaranteedPermutations() const;
 
     // symbol:
     // ?getHerdListMutable@MobSpawnRules@@QEAAAEAV?$vector@UMobSpawnHerdInfo@@V?$allocator@UMobSpawnHerdInfo@@@std@@@std@@XZ
@@ -38,8 +48,22 @@ public:
     MCAPI std::string const getMobToDelayId() const;
 
     // symbol:
-    // ?getSpawnAboveBlockListMutable@MobSpawnRules@@QEAAAEAV?$unordered_set@PEBVBlockLegacy@@U?$hash@PEBVBlockLegacy@@@std@@U?$equal_to@PEBVBlockLegacy@@@3@V?$allocator@PEBVBlockLegacy@@@3@@std@@XZ
-    MCAPI std::unordered_set<class BlockLegacy const*>& getSpawnAboveBlockListMutable();
+    // ?getPermutations@MobSpawnRules@@QEBAAEBV?$vector@VMobSpawnerPermutation@@V?$allocator@VMobSpawnerPermutation@@@std@@@std@@XZ
+    MCAPI std::vector<class MobSpawnerPermutation> const& getPermutations() const;
+
+    // symbol: ?getPersistence@MobSpawnRules@@QEBA_NXZ
+    MCAPI bool getPersistence() const;
+
+    // symbol: ?getPopulationCap@MobSpawnRules@@QEBAHAEBVSpawnConditions@@@Z
+    MCAPI int getPopulationCap(class SpawnConditions const& conditions) const;
+
+    // symbol:
+    // ?getSpawnAboveBlockList@MobSpawnRules@@QEBAAEBV?$vector@VBlockDescriptor@@V?$allocator@VBlockDescriptor@@@std@@@std@@XZ
+    MCAPI std::vector<class BlockDescriptor> const& getSpawnAboveBlockList() const;
+
+    // symbol:
+    // ?getSpawnAboveBlockListMutable@MobSpawnRules@@QEAAAEAV?$vector@VBlockDescriptor@@V?$allocator@VBlockDescriptor@@@std@@@std@@XZ
+    MCAPI std::vector<class BlockDescriptor>& getSpawnAboveBlockListMutable();
 
     // symbol:
     // ?getSpawnCount@MobSpawnRules@@QEBAHAEBVSpawnConditions@@AEAVBlockSource@@AEAVRandom@@AEBUMobSpawnHerdInfo@@@Z
@@ -51,12 +75,26 @@ public:
     ) const;
 
     // symbol:
-    // ?getSpawnOnBlockListMutable@MobSpawnRules@@QEAAAEAV?$unordered_set@PEBVBlockLegacy@@U?$hash@PEBVBlockLegacy@@@std@@U?$equal_to@PEBVBlockLegacy@@@3@V?$allocator@PEBVBlockLegacy@@@3@@std@@XZ
-    MCAPI std::unordered_set<class BlockLegacy const*>& getSpawnOnBlockListMutable();
+    // ?getSpawnOnBlockList@MobSpawnRules@@QEBAAEBV?$vector@VBlockDescriptor@@V?$allocator@VBlockDescriptor@@@std@@@std@@XZ
+    MCAPI std::vector<class BlockDescriptor> const& getSpawnOnBlockList() const;
 
     // symbol:
-    // ?getSpawnOnBlockPreventedListMutable@MobSpawnRules@@QEAAAEAV?$unordered_set@PEBVBlockLegacy@@U?$hash@PEBVBlockLegacy@@@std@@U?$equal_to@PEBVBlockLegacy@@@3@V?$allocator@PEBVBlockLegacy@@@3@@std@@XZ
-    MCAPI std::unordered_set<class BlockLegacy const*>& getSpawnOnBlockPreventedListMutable();
+    // ?getSpawnOnBlockListMutable@MobSpawnRules@@QEAAAEAV?$vector@VBlockDescriptor@@V?$allocator@VBlockDescriptor@@@std@@@std@@XZ
+    MCAPI std::vector<class BlockDescriptor>& getSpawnOnBlockListMutable();
+
+    // symbol:
+    // ?getSpawnOnBlockPreventedList@MobSpawnRules@@QEBAAEBV?$vector@VBlockDescriptor@@V?$allocator@VBlockDescriptor@@@std@@@std@@XZ
+    MCAPI std::vector<class BlockDescriptor> const& getSpawnOnBlockPreventedList() const;
+
+    // symbol:
+    // ?getSpawnOnBlockPreventedListMutable@MobSpawnRules@@QEAAAEAV?$vector@VBlockDescriptor@@V?$allocator@VBlockDescriptor@@@std@@@std@@XZ
+    MCAPI std::vector<class BlockDescriptor>& getSpawnOnBlockPreventedListMutable();
+
+    // symbol: ?isLavaSpawner@MobSpawnRules@@QEBA_NXZ
+    MCAPI bool isLavaSpawner() const;
+
+    // symbol: ?isUnderwaterSpawner@MobSpawnRules@@QEBA_NXZ
+    MCAPI bool isUnderwaterSpawner() const;
 
     // symbol: ??4MobSpawnRules@@QEAAAEAV0@$$QEAV0@@Z
     MCAPI class MobSpawnRules& operator=(class MobSpawnRules&&);
@@ -135,7 +173,7 @@ public:
     MCAPI class MobSpawnRules& setUnderwaterSpawner();
 
     // symbol: ?setWorldAgeRange@MobSpawnRules@@QEAAAEAV1@_K0@Z
-    MCAPI class MobSpawnRules& setWorldAgeRange(uint64, uint64);
+    MCAPI class MobSpawnRules& setWorldAgeRange(uint64 min, uint64 max);
 
     // symbol: ??1MobSpawnRules@@QEAA@XZ
     MCAPI ~MobSpawnRules();

@@ -3,12 +3,14 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
+#include "mc/common/wrapper/CoordinatorResult.h"
 #include "mc/common/wrapper/WeakPtr.h"
 #include "mc/deps/puv/UseAnimation.h"
 #include "mc/entity/utilities/ActorLocation.h"
 #include "mc/enums/CreativeItemCategory.h"
 #include "mc/enums/InHandUpdateType.h"
 #include "mc/events/LevelSoundEvent.h"
+#include "mc/events/NotifyItemUsedOnEvent.h"
 #include "mc/world/item/components/ItemAcquisitionMethod.h"
 #include "mc/world/item/components/ItemColor.h"
 #include "mc/world/item/components/ItemUseMethod.h"
@@ -40,7 +42,7 @@ public:
         // NOLINTBEGIN
         // symbol:
         // ??0ScopedCreativeGroup@Item@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVItemInstance@@@Z
-        MCAPI ScopedCreativeGroup(std::string const& groupName, class ItemInstance const&);
+        MCAPI ScopedCreativeGroup(std::string const& groupName, class ItemInstance const& iconInstance);
 
         // symbol:
         // ??0ScopedCreativeGroup@Item@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEBVBlock@@PEBVCompoundTag@@@Z
@@ -48,9 +50,13 @@ public:
         ScopedCreativeGroup(std::string const& groupName, class Block const* block, class CompoundTag const* userData);
 
         // symbol:
-        // ??0ScopedCreativeGroup@Item@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@FFPEBVCompoundTag@@@Z
-        MCAPI
-        ScopedCreativeGroup(std::string const& groupName, short id, short auxValue, class CompoundTag const* userData);
+        // ??0ScopedCreativeGroup@Item@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEAV1@FPEBVCompoundTag@@@Z
+        MCAPI ScopedCreativeGroup(
+            std::string const&       groupName,
+            class Item*              item,
+            short                    auxValue,
+            class CompoundTag const* userData
+        );
 
         // symbol: ??1ScopedCreativeGroup@Item@@QEAA@XZ
         MCAPI ~ScopedCreativeGroup();
@@ -123,8 +129,8 @@ public:
     // ?executeEvent@Item@@UEBAXAEAVItemStackBase@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEAVRenderParams@@@Z
     virtual void executeEvent(class ItemStackBase& item, std::string const& name, class RenderParams& params) const;
 
-    // vIndex: 8, symbol: __unk_vfn_8
-    virtual void __unk_vfn_8();
+    // vIndex: 8, symbol: ?isComponentBased@Item@@UEBA_NXZ
+    virtual bool isComponentBased() const;
 
     // vIndex: 9, symbol: ?isArmor@Item@@UEBA_NXZ
     virtual bool isArmor() const;
@@ -132,11 +138,11 @@ public:
     // vIndex: 10, symbol: ?isBlockPlanterItem@Item@@UEBA_NXZ
     virtual bool isBlockPlanterItem() const;
 
-    // vIndex: 11, symbol: __unk_vfn_11
-    virtual void __unk_vfn_11();
+    // vIndex: 11, symbol: ?isBucket@Item@@UEBA_NXZ
+    virtual bool isBucket() const;
 
-    // vIndex: 12, symbol: __unk_vfn_12
-    virtual void __unk_vfn_12();
+    // vIndex: 12, symbol: ?isCandle@Item@@UEBA_NXZ
+    virtual bool isCandle() const;
 
     // vIndex: 13, symbol: ?isDamageable@Item@@UEBA_NXZ
     virtual bool isDamageable() const;
@@ -150,8 +156,8 @@ public:
     // vIndex: 16, symbol: ?getItemColor@Item@@UEBA?AW4ItemColor@@XZ
     virtual ::ItemColor getItemColor() const;
 
-    // vIndex: 17, symbol: __unk_vfn_17
-    virtual void __unk_vfn_17();
+    // vIndex: 17, symbol: ?isFertilizer@Item@@UEBA_NXZ
+    virtual bool isFertilizer() const;
 
     // vIndex: 18, symbol: ?isFood@Item@@UEBA_NXZ
     virtual bool isFood() const;
@@ -162,84 +168,87 @@ public:
     // vIndex: 20, symbol: ?isUseable@Item@@UEBA_NXZ
     virtual bool isUseable() const;
 
-    // vIndex: 21, symbol: ?getComponent@Item@@UEBAPEAVItemComponent@@AEBVHashedString@@@Z
+    // vIndex: 21, symbol: ?isTrimAllowed@Item@@UEBA_NXZ
+    virtual bool isTrimAllowed() const;
+
+    // vIndex: 22, symbol: ?getComponent@Item@@UEBAPEAVItemComponent@@AEBVHashedString@@@Z
     virtual class ItemComponent* getComponent(class HashedString const&) const;
 
-    // vIndex: 22, symbol: ?getFood@Item@@UEBAPEAVIFoodItemComponent@@XZ
+    // vIndex: 23, symbol: ?getFood@Item@@UEBAPEAVIFoodItemComponent@@XZ
     virtual class IFoodItemComponent* getFood() const;
 
-    // vIndex: 23, symbol: ?setMaxDamage@Item@@UEAAAEAV1@H@Z
+    // vIndex: 24, symbol: ?setMaxDamage@Item@@UEAAAEAV1@H@Z
     virtual class Item& setMaxDamage(int maxDamage);
 
-    // vIndex: 24, symbol: ?setMaxUseDuration@Item@@UEAAAEAV1@H@Z
+    // vIndex: 25, symbol: ?setMaxUseDuration@Item@@UEAAAEAV1@H@Z
     virtual class Item& setMaxUseDuration(int maxUseDuration);
 
-    // vIndex: 25, symbol:
+    // vIndex: 26, symbol:
     // ?buildNetworkTag@Item@@UEBA?AV?$unique_ptr@VCompoundTag@@U?$default_delete@VCompoundTag@@@std@@@std@@XZ
     virtual std::unique_ptr<class CompoundTag> buildNetworkTag() const;
 
-    // vIndex: 26, symbol: ?initializeFromNetwork@Item@@UEAAXAEBVCompoundTag@@@Z
+    // vIndex: 27, symbol: ?initializeFromNetwork@Item@@UEAAXAEBVCompoundTag@@@Z
     virtual void initializeFromNetwork(class CompoundTag const& tag);
 
-    // vIndex: 27, symbol:
+    // vIndex: 28, symbol:
     // ?validateFromNetwork@Item@@UEAA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AEBVCompoundTag@@@Z
     virtual std::vector<std::string> validateFromNetwork(class CompoundTag const&);
 
-    // vIndex: 28, symbol: ?getBlockShape@Item@@UEBA?AW4BlockShape@@XZ
+    // vIndex: 29, symbol: ?getBlockShape@Item@@UEBA?AW4BlockShape@@XZ
     virtual ::BlockShape getBlockShape() const;
 
-    // vIndex: 29, symbol: ?canBeDepleted@Item@@UEBA_NXZ
+    // vIndex: 30, symbol: ?canBeDepleted@Item@@UEBA_NXZ
     virtual bool canBeDepleted() const;
 
-    // vIndex: 30, symbol: ?canDestroySpecial@Item@@UEBA_NAEBVBlock@@@Z
+    // vIndex: 31, symbol: ?canDestroySpecial@Item@@UEBA_NAEBVBlock@@@Z
     virtual bool canDestroySpecial(class Block const& block) const;
 
-    // vIndex: 31, symbol: ?getLevelDataForAuxValue@Item@@UEBAHH@Z
+    // vIndex: 32, symbol: ?getLevelDataForAuxValue@Item@@UEBAHH@Z
     virtual int getLevelDataForAuxValue(int auxValue) const;
 
-    // vIndex: 32, symbol: ?isStackedByData@Item@@UEBA_NXZ
+    // vIndex: 33, symbol: ?isStackedByData@Item@@UEBA_NXZ
     virtual bool isStackedByData() const;
 
-    // vIndex: 33, symbol: ?getMaxDamage@Item@@UEBAFXZ
+    // vIndex: 34, symbol: ?getMaxDamage@Item@@UEBAFXZ
     virtual short getMaxDamage() const;
 
-    // vIndex: 34, symbol: ?getAttackDamage@Item@@UEBAHXZ
+    // vIndex: 35, symbol: ?getAttackDamage@Item@@UEBAHXZ
     virtual int getAttackDamage() const;
 
-    // vIndex: 35, symbol: ?isHandEquipped@Item@@UEBA_NXZ
+    // vIndex: 36, symbol: ?isHandEquipped@Item@@UEBA_NXZ
     virtual bool isHandEquipped() const;
 
-    // vIndex: 36, symbol: ?isGlint@Item@@UEBA_NAEBVItemStackBase@@@Z
+    // vIndex: 37, symbol: ?isGlint@Item@@UEBA_NAEBVItemStackBase@@@Z
     virtual bool isGlint(class ItemStackBase const& stack) const;
 
-    // vIndex: 37, symbol: __unk_vfn_37
-    virtual void __unk_vfn_37();
+    // vIndex: 38, symbol: ?isPattern@Item@@UEBA_NXZ
+    virtual bool isPattern() const;
 
-    // vIndex: 38, symbol: ?getPatternIndex@Item@@UEBAHXZ
+    // vIndex: 39, symbol: ?getPatternIndex@Item@@UEBAHXZ
     virtual int getPatternIndex() const;
 
-    // vIndex: 39, symbol: __unk_vfn_39
-    virtual void __unk_vfn_39();
+    // vIndex: 40, symbol: ?showsDurabilityInCreative@Item@@UEBA_NXZ
+    virtual bool showsDurabilityInCreative() const;
 
-    // vIndex: 40, symbol: ?isWearableThroughLootTable@Item@@UEBA_NPEBVCompoundTag@@@Z
+    // vIndex: 41, symbol: ?isWearableThroughLootTable@Item@@UEBA_NPEBVCompoundTag@@@Z
     virtual bool isWearableThroughLootTable(class CompoundTag const* userData) const;
 
-    // vIndex: 41, symbol: ?canDestroyInCreative@Item@@UEBA_NXZ
+    // vIndex: 42, symbol: ?canDestroyInCreative@Item@@UEBA_NXZ
     virtual bool canDestroyInCreative() const;
 
-    // vIndex: 42, symbol: ?isDestructive@Item@@UEBA_NH@Z
+    // vIndex: 43, symbol: ?isDestructive@Item@@UEBA_NH@Z
     virtual bool isDestructive(int auxValue) const;
 
-    // vIndex: 43, symbol: ?isLiquidClipItem@Item@@UEBA_NXZ
+    // vIndex: 44, symbol: ?isLiquidClipItem@Item@@UEBA_NXZ
     virtual bool isLiquidClipItem() const;
 
-    // vIndex: 44, symbol: ?shouldInteractionWithBlockBypassLiquid@Item@@UEBA_NAEBVBlock@@@Z
+    // vIndex: 45, symbol: ?shouldInteractionWithBlockBypassLiquid@Item@@UEBA_NAEBVBlock@@@Z
     virtual bool shouldInteractionWithBlockBypassLiquid(class Block const& block) const;
 
-    // vIndex: 45, symbol: ?requiresInteract@Item@@UEBA_NXZ
+    // vIndex: 46, symbol: ?requiresInteract@Item@@UEBA_NXZ
     virtual bool requiresInteract() const;
 
-    // vIndex: 46, symbol:
+    // vIndex: 47, symbol:
     // ?appendFormattedHovertext@Item@@UEBAXAEBVItemStackBase@@AEAVLevel@@AEAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z
     virtual void appendFormattedHovertext(
         class ItemStackBase const& stack,
@@ -248,110 +257,106 @@ public:
         bool                       showCategory
     ) const;
 
-    // vIndex: 47, symbol: ?isValidRepairItem@Item@@UEBA_NAEBVItemStackBase@@0AEBVBaseGameVersion@@@Z
+    // vIndex: 48, symbol: ?isValidRepairItem@Item@@UEBA_NAEBVItemStackBase@@0AEBVBaseGameVersion@@@Z
     virtual bool isValidRepairItem(
         class ItemStackBase const&   source,
         class ItemStackBase const&   repairItem,
         class BaseGameVersion const& baseGameVersion
     ) const;
 
-    // vIndex: 48, symbol: ?getEnchantSlot@Item@@UEBAHXZ
+    // vIndex: 49, symbol: ?getEnchantSlot@Item@@UEBAHXZ
     virtual int getEnchantSlot() const;
 
-    // vIndex: 49, symbol: ?getEnchantValue@Item@@UEBAHXZ
+    // vIndex: 50, symbol: ?getEnchantValue@Item@@UEBAHXZ
     virtual int getEnchantValue() const;
 
-    // vIndex: 50, symbol: ?getArmorValue@Item@@UEBAHXZ
+    // vIndex: 51, symbol: ?getArmorValue@Item@@UEBAHXZ
     virtual int getArmorValue() const;
 
-    // vIndex: 51, symbol: ?getToughnessValue@Item@@UEBAHXZ
+    // vIndex: 52, symbol: ?getToughnessValue@Item@@UEBAHXZ
     virtual int getToughnessValue() const;
 
-    // vIndex: 52, symbol: __unk_vfn_52
-    virtual void __unk_vfn_52();
+    // vIndex: 53, symbol: ?isComplex@Item@@UEBA_NXZ
+    virtual bool isComplex() const;
 
-    // vIndex: 53, symbol: ?isValidAuxValue@Item@@UEBA_NH@Z
+    // vIndex: 54, symbol: ?isValidAuxValue@Item@@UEBA_NH@Z
     virtual bool isValidAuxValue(int auxValue) const;
 
-    // vIndex: 54, symbol: ?getDamageChance@Item@@UEBAHH@Z
+    // vIndex: 55, symbol: ?getDamageChance@Item@@UEBAHH@Z
     virtual int getDamageChance(int unbreaking) const;
 
-    // vIndex: 55, symbol: ?getViewDamping@Item@@UEBAMXZ
+    // vIndex: 56, symbol: ?getViewDamping@Item@@UEBAMXZ
     virtual float getViewDamping() const;
 
-    // vIndex: 56, symbol: __unk_vfn_56
-    virtual void __unk_vfn_56();
+    // vIndex: 57, symbol: ?uniqueAuxValues@Item@@UEBA_NXZ
+    virtual bool uniqueAuxValues() const;
 
-    // vIndex: 57, symbol: __unk_vfn_57
-    virtual void __unk_vfn_57();
+    // vIndex: 58, symbol: ?isActorPlacerItem@Item@@UEBA_NXZ
+    virtual bool isActorPlacerItem() const;
 
-    // vIndex: 58, symbol: __unk_vfn_58
-    virtual void __unk_vfn_58();
+    // vIndex: 59, symbol: ?isMultiColorTinted@Item@@UEBA_NAEBVItemStack@@@Z
+    virtual bool isMultiColorTinted(class ItemStack const& instance) const;
 
-    // vIndex: 59, symbol: ?getColor@Item@@UEBA?AVColor@mce@@PEBVCompoundTag@@AEBVItemDescriptor@@@Z
+    // vIndex: 60, symbol: ?getColor@Item@@UEBA?AVColor@mce@@PEBVCompoundTag@@AEBVItemDescriptor@@@Z
     virtual class mce::Color getColor(class CompoundTag const* userData, class ItemDescriptor const& instance) const;
 
-    // vIndex: 60, symbol: ?hasCustomColor@Item@@UEBA_NPEBVCompoundTag@@@Z
+    // vIndex: 61, symbol: ?hasCustomColor@Item@@UEBA_NAEBVItemStackBase@@@Z
+    virtual bool hasCustomColor(class ItemStackBase const& instance) const;
+
+    // vIndex: 62, symbol: ?hasCustomColor@Item@@UEBA_NPEBVCompoundTag@@@Z
     virtual bool hasCustomColor(class CompoundTag const* userData) const;
 
-    // vIndex: 61, symbol: __unk_vfn_61
-    virtual void __unk_vfn_61();
-
-    // vIndex: 62, symbol: ?clearColor@Item@@UEBAXAEAVItemStackBase@@@Z
+    // vIndex: 63, symbol: ?clearColor@Item@@UEBAXAEAVItemStackBase@@@Z
     virtual void clearColor(class ItemStackBase& instance) const;
 
-    // vIndex: 63, symbol: ?clearColor@Item@@UEBAXPEAVCompoundTag@@@Z
+    // vIndex: 64, symbol: ?clearColor@Item@@UEBAXPEAVCompoundTag@@@Z
     virtual void clearColor(class CompoundTag* userData) const;
 
-    // vIndex: 64, symbol: ?setColor@Item@@UEBAXAEAVItemStackBase@@AEBVColor@mce@@@Z
+    // vIndex: 65, symbol: ?setColor@Item@@UEBAXAEAVItemStackBase@@AEBVColor@mce@@@Z
     virtual void setColor(class ItemStackBase& instance, class mce::Color const& color) const;
 
-    // vIndex: 65, symbol: __unk_vfn_65
-    virtual void __unk_vfn_65();
+    // vIndex: 66, symbol: ?getBaseColor@Item@@UEBA?AVColor@mce@@AEBVItemStack@@@Z
+    virtual class mce::Color getBaseColor(class ItemStack const& instance) const;
 
-    // vIndex: 66, symbol: __unk_vfn_66
-    virtual void __unk_vfn_66();
+    // vIndex: 67, symbol: ?getSecondaryColor@Item@@UEBA?AVColor@mce@@AEBVItemStack@@@Z
+    virtual class mce::Color getSecondaryColor(class ItemStack const& instance) const;
 
-    // vIndex: 67, symbol: ?getActorIdentifier@Item@@UEBA?AUActorDefinitionIdentifier@@AEBVItemStack@@@Z
+    // vIndex: 68, symbol: ?getActorIdentifier@Item@@UEBA?AUActorDefinitionIdentifier@@AEBVItemStack@@@Z
     virtual struct ActorDefinitionIdentifier getActorIdentifier(class ItemStack const&) const;
 
-    // vIndex: 68, symbol: ?buildIdAux@Item@@UEBAHFPEBVCompoundTag@@@Z
+    // vIndex: 69, symbol: ?buildIdAux@Item@@UEBAHFPEBVCompoundTag@@@Z
     virtual int buildIdAux(short auxValue, class CompoundTag const*) const;
 
-    // vIndex: 69, symbol: ?canUseOnSimTick@Item@@UEBA_NXZ
+    // vIndex: 70, symbol: ?canUseOnSimTick@Item@@UEBA_NXZ
     virtual bool canUseOnSimTick() const;
 
-    // vIndex: 70, symbol: ?use@Item@@UEBAAEAVItemStack@@AEAV2@AEAVPlayer@@@Z
-    virtual class ItemStack& use(class ItemStack& itemStack, class Player& player) const;
+    // vIndex: 71, symbol: ?use@Item@@UEBAAEAVItemStack@@AEAV2@AEAVPlayer@@@Z
+    virtual class ItemStack& use(class ItemStack& item, class Player& player) const;
 
-    // vIndex: 71, symbol: ?dispense@Item@@UEBA_NAEAVBlockSource@@AEAVContainer@@HAEBVVec3@@E@Z
+    // vIndex: 72, symbol: ?dispense@Item@@UEBA_NAEAVBlockSource@@AEAVContainer@@HAEBVVec3@@E@Z
     virtual bool
     dispense(class BlockSource& region, class Container& container, int slot, class Vec3 const& pos, uchar face) const;
 
-    // vIndex: 72, symbol: ?useTimeDepleted@Item@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z
+    // vIndex: 73, symbol: ?useTimeDepleted@Item@@UEBA?AW4ItemUseMethod@@AEAVItemStack@@PEAVLevel@@PEAVPlayer@@@Z
     virtual ::ItemUseMethod
     useTimeDepleted(class ItemStack& inoutInstance, class Level* level, class Player* player) const;
 
-    // vIndex: 73, symbol: ?releaseUsing@Item@@UEBAXAEAVItemStack@@PEAVPlayer@@H@Z
-    virtual void releaseUsing(class ItemStack& itemStack, class Player* player, int durationLeft) const;
+    // vIndex: 74, symbol: ?releaseUsing@Item@@UEBAXAEAVItemStack@@PEAVPlayer@@H@Z
+    virtual void releaseUsing(class ItemStack& item, class Player* player, int durationLeft) const;
 
-    // vIndex: 74, symbol: ?getDestroySpeed@Item@@UEBAMAEBVItemStackBase@@AEBVBlock@@@Z
-    virtual float getDestroySpeed(class ItemStackBase const& itemStack, class Block const& block) const;
+    // vIndex: 75, symbol: ?getDestroySpeed@Item@@UEBAMAEBVItemStackBase@@AEBVBlock@@@Z
+    virtual float getDestroySpeed(class ItemStackBase const& item, class Block const& block) const;
 
-    // vIndex: 75, symbol: ?hurtActor@Item@@UEBAXAEAVItemStack@@AEAVActor@@AEAVMob@@@Z
-    virtual void hurtActor(class ItemStack& itemStack, class Actor& actor, class Mob& attacker) const;
+    // vIndex: 76, symbol: ?hurtActor@Item@@UEBAXAEAVItemStack@@AEAVActor@@AEAVMob@@@Z
+    virtual void hurtActor(class ItemStack& item, class Actor& actor, class Mob& attacker) const;
 
-    // vIndex: 76, symbol: ?hitActor@Item@@UEBAXAEAVItemStack@@AEAVActor@@AEAVMob@@@Z
-    virtual void hitActor(class ItemStack& itemStack, class Actor& actor, class Mob& attacker) const;
+    // vIndex: 77, symbol: ?hitActor@Item@@UEBAXAEAVItemStack@@AEAVActor@@AEAVMob@@@Z
+    virtual void hitActor(class ItemStack& item, class Actor& actor, class Mob& attacker) const;
 
-    // vIndex: 77, symbol: ?hitBlock@Item@@UEBAXAEAVItemStack@@AEBVBlock@@AEBVBlockPos@@AEAVMob@@@Z
+    // vIndex: 78, symbol: ?hitBlock@Item@@UEBAXAEAVItemStack@@AEBVBlock@@AEBVBlockPos@@AEAVMob@@@Z
     virtual void
     hitBlock(class ItemStack& instance, class Block const& block, class BlockPos const& blockPos, class Mob& attacker)
         const;
-
-    // vIndex: 78, symbol: ?mineBlock@Item@@UEBA_NAEAVItemInstance@@AEBVBlock@@HHHPEAVActor@@@Z
-    virtual bool
-    mineBlock(class ItemInstance& instance, class Block const& block, int x, int y, int z, class Actor* owner) const;
 
     // vIndex: 79, symbol: ?mineBlock@Item@@UEBA_NAEAVItemStack@@AEBVBlock@@HHHPEAVActor@@@Z
     virtual bool
@@ -382,7 +387,7 @@ public:
 
     // vIndex: 86, symbol: ?inventoryTick@Item@@UEBA_NAEAVItemStack@@AEAVLevel@@AEAVActor@@H_N@Z
     virtual bool
-    inventoryTick(class ItemStack& itemStack, class Level& level, class Actor& owner, int slot, bool selected) const;
+    inventoryTick(class ItemStack& item, class Level& level, class Actor& owner, int slot, bool selected) const;
 
     // vIndex: 87, symbol: ?refreshedInContainer@Item@@UEBAXAEBVItemStackBase@@AEAVLevel@@@Z
     virtual void refreshedInContainer(class ItemStackBase const& stack, class Level& level) const;
@@ -429,11 +434,11 @@ public:
     // vIndex: 97, symbol: ?getEquipSound@Item@@UEBA?AW4LevelSoundEvent@Legacy@Puv@@XZ
     virtual ::Puv::Legacy::LevelSoundEvent getEquipSound() const;
 
-    // vIndex: 98, symbol: __unk_vfn_98
-    virtual void __unk_vfn_98();
+    // vIndex: 98, symbol: ?shouldSendInteractionGameEvents@Item@@UEBA_NXZ
+    virtual bool shouldSendInteractionGameEvents() const;
 
-    // vIndex: 99, symbol: __unk_vfn_99
-    virtual void __unk_vfn_99();
+    // vIndex: 99, symbol: ?useInterruptedByAttacking@Item@@UEBA_NXZ
+    virtual bool useInterruptedByAttacking() const;
 
     // vIndex: 100, symbol: ?hasSameRelevantUserData@Item@@UEBA_NAEBVItemStackBase@@0@Z
     virtual bool hasSameRelevantUserData(class ItemStackBase const&, class ItemStackBase const&) const;
@@ -469,7 +474,7 @@ public:
     virtual bool canBeCharged() const;
 
     // vIndex: 110, symbol: ?playSoundIncrementally@Item@@UEBAXAEBVItemStack@@AEAVMob@@@Z
-    virtual void playSoundIncrementally(class ItemStack const& itemStack, class Mob& mob) const;
+    virtual void playSoundIncrementally(class ItemStack const& item, class Mob& mob) const;
 
     // vIndex: 111, symbol: ?getFurnaceXPmultiplier@Item@@UEBAMAEBVItemStackBase@@@Z
     virtual float getFurnaceXPmultiplier(class ItemStackBase const& instance) const;
@@ -499,56 +504,11 @@ public:
     _useOn(class ItemStack& instance, class Actor& entity, class BlockPos pos, uchar face, class Vec3 const& clickPos)
         const;
 
-    // symbol: ?getBaseColor@Item@@UEBA?AVColor@mce@@AEBVItemStack@@@Z
-    MCVAPI class mce::Color getBaseColor(class ItemStack const& instance) const;
-
-    // symbol: ?getSecondaryColor@Item@@UEBA?AVColor@mce@@AEBVItemStack@@@Z
-    MCVAPI class mce::Color getSecondaryColor(class ItemStack const& instance) const;
-
-    // symbol: ?hasCustomColor@Item@@UEBA_NAEBVItemStackBase@@@Z
-    MCVAPI bool hasCustomColor(class ItemStackBase const& instance) const;
-
-    // symbol: ?isActorPlacerItem@Item@@UEBA_NXZ
-    MCVAPI bool isActorPlacerItem() const;
-
-    // symbol: ?isBucket@Item@@UEBA_NXZ
-    MCVAPI bool isBucket() const;
-
-    // symbol: ?isCandle@Item@@UEBA_NXZ
-    MCVAPI bool isCandle() const;
-
-    // symbol: ?isComplex@Item@@UEBA_NXZ
-    MCVAPI bool isComplex() const;
-
-    // symbol: ?isComponentBased@Item@@UEBA_NXZ
-    MCVAPI bool isComponentBased() const;
-
-    // symbol: ?isFertilizer@Item@@UEBA_NXZ
-    MCVAPI bool isFertilizer() const;
-
-    // symbol: ?isMultiColorTinted@Item@@UEBA_NAEBVItemStack@@@Z
-    MCVAPI bool isMultiColorTinted(class ItemStack const& instance) const;
-
-    // symbol: ?isPattern@Item@@UEBA_NXZ
-    MCVAPI bool isPattern() const;
-
-    // symbol: ?shouldSendInteractionGameEvents@Item@@UEBA_NXZ
-    MCVAPI bool shouldSendInteractionGameEvents() const;
-
-    // symbol: ?showsDurabilityInCreative@Item@@UEBA_NXZ
-    MCVAPI bool showsDurabilityInCreative() const;
-
-    // symbol: ?uniqueAuxValues@Item@@UEBA_NXZ
-    MCVAPI bool uniqueAuxValues() const;
-
-    // symbol: ?useInterruptedByAttacking@Item@@UEBA_NXZ
-    MCVAPI bool useInterruptedByAttacking() const;
-
     // symbol: ??0Item@@QEAA@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@F@Z
     MCAPI Item(std::string const& nameId, short id);
 
     // symbol: ?addOnResetBAIcallback@Item@@QEAAXAEBV?$function@$$A6AXXZ@std@@@Z
-    MCAPI void addOnResetBAIcallback(std::function<void(void)> const& callback);
+    MCAPI void addOnResetBAIcallback(std::function<void()> const& callback);
 
     // symbol: ?addTag@Item@@QEAAAEAV1@AEBVHashedString@@@Z
     MCAPI class Item& addTag(class HashedString const& tag);
@@ -558,9 +518,6 @@ public:
 
     // symbol: ?addTags@Item@@QEAAAEAV1@V?$initializer_list@V?$reference_wrapper@$$CBUItemTag@@@std@@@std@@@Z
     MCAPI class Item& addTags(std::initializer_list<std::reference_wrapper<struct ItemTag const>> tags);
-
-    // symbol: ?allowOffhand@Item@@QEBA_NXZ
-    MCAPI bool allowOffhand() const;
 
     // symbol:
     // ?buildCategoryDescriptionName@Item@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
@@ -574,12 +531,6 @@ public:
 
     // symbol: ?destroySpeedBonus@Item@@QEBAMAEBVItemStackBase@@@Z
     MCAPI float destroySpeedBonus(class ItemStackBase const& inst) const;
-
-    // symbol: ?fixupOnLoad@Item@@QEBAXAEAVItemStackBase@@@Z
-    MCAPI void fixupOnLoad(class ItemStackBase& stack) const;
-
-    // symbol: ?fixupOnLoad@Item@@QEBAXAEAVItemStackBase@@AEAVLevel@@@Z
-    MCAPI void fixupOnLoad(class ItemStackBase& stack, class Level& level) const;
 
     // symbol: ?getCamera@Item@@QEBAPEAVICameraItemComponent@@XZ
     MCAPI class ICameraItemComponent* getCamera() const;
@@ -629,32 +580,17 @@ public:
     // symbol: ?getSerializedName@Item@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     MCAPI std::string getSerializedName() const;
 
-    // symbol: ?getUseAnimation@Item@@QEBA?AW4UseAnimation@Legacy@Puv@@XZ
-    MCAPI ::Puv::Legacy::UseAnimation getUseAnimation() const;
-
-    // symbol: ?hasDamageValue@Item@@QEBA_NPEBVCompoundTag@@@Z
-    MCAPI bool hasDamageValue(class CompoundTag const* userData) const;
-
     // symbol: ?hasTag@Item@@QEBA_NAEBVHashedString@@@Z
     MCAPI bool hasTag(class HashedString const& tag) const;
 
     // symbol: ?hasTag@Item@@QEBA_NAEBUItemTag@@@Z
     MCAPI bool hasTag(struct ItemTag const& tag) const;
 
-    // symbol: ?hasTag@Item@@QEBA_NAEB_K@Z
-    MCAPI bool hasTag(uint64 const&) const;
-
     // symbol: ?isCommandOnly@Item@@QEBA_NAEBVBaseGameVersion@@@Z
     MCAPI bool isCommandOnly(class BaseGameVersion const& baseGameVersion) const;
 
     // symbol: ?isElytra@Item@@QEBA_NXZ
     MCAPI bool isElytra() const;
-
-    // symbol: ?isExplodable@Item@@QEBA_NXZ
-    MCAPI bool isExplodable() const;
-
-    // symbol: ?isFireResistant@Item@@QEBA_NXZ
-    MCAPI bool isFireResistant() const;
 
     // symbol: ?isNameTag@Item@@QEBA_NXZ
     MCAPI bool isNameTag() const;
@@ -664,9 +600,6 @@ public:
 
     // symbol: ??8Item@@QEBA_NAEBV0@@Z
     MCAPI bool operator==(class Item const& rhs) const;
-
-    // symbol: ?removeDamageValue@Item@@QEBAXAEAVItemStackBase@@@Z
-    MCAPI void removeDamageValue(class ItemStackBase& stack) const;
 
     // symbol: ?setAllowOffhand@Item@@QEAAAEAV1@_N@Z
     MCAPI class Item& setAllowOffhand(bool offhand);
@@ -687,10 +620,10 @@ public:
     MCAPI class Item& setFireResistant(bool);
 
     // symbol: ?setFurnaceBurnIntervalMultiplier@Item@@QEAAAEAV1@M@Z
-    MCAPI class Item& setFurnaceBurnIntervalMultiplier(float);
+    MCAPI class Item& setFurnaceBurnIntervalMultiplier(float multiplier);
 
     // symbol: ?setFurnaceXPmultiplier@Item@@QEAAAEAV1@M@Z
-    MCAPI class Item& setFurnaceXPmultiplier(float);
+    MCAPI class Item& setFurnaceXPmultiplier(float multiplier);
 
     // symbol: ?setHandEquipped@Item@@QEAAAEAV1@XZ
     MCAPI class Item& setHandEquipped();
@@ -730,10 +663,10 @@ public:
     updateCustomBlockEntityTag(class BlockSource& region, class ItemStackBase& instance, class BlockPos const& pos)
         const;
 
-    // symbol: ?useOn@Item@@QEBA?AVInteractionResult@@AEAVItemStack@@AEAVActor@@HHHEAEBVVec3@@@Z
+    // symbol:
+    // ?useOn@Item@@QEBA?AVInteractionResult@@AEAVItemStack@@AEAVActor@@HHHEAEBVVec3@@W4NotifyItemUsedOnEvent@@@Z
     MCAPI class InteractionResult
-    useOn(class ItemStack& itemStack, class Actor& entity, int x, int y, int z, uchar face, class Vec3 const& clickPos)
-        const;
+    useOn(class ItemStack&, class Actor&, int, int, int, uchar, class Vec3 const&, ::NotifyItemUsedOnEvent) const;
 
     // symbol: ?addCreativeItem@Item@@SAXVItemRegistryRef@@AEBVBlock@@@Z
     MCAPI static void addCreativeItem(class ItemRegistryRef, class Block const& block);
@@ -745,7 +678,8 @@ public:
     MCAPI static void addCreativeItem(class ItemRegistryRef, class ItemStack const& itemInstance);
 
     // symbol: ?addLooseCreativeItems@Item@@SAX_NAEBVBaseGameVersion@@VItemRegistryRef@@@Z
-    MCAPI static void addLooseCreativeItems(bool isClient, class BaseGameVersion const&, class ItemRegistryRef);
+    MCAPI static void
+    addLooseCreativeItems(bool isClient, class BaseGameVersion const& worldVersion, class ItemRegistryRef);
 
     // symbol: ?endCreativeItemDefinitions@Item@@SAX_N@Z
     MCAPI static void endCreativeItemDefinitions(bool isClient);
@@ -763,7 +697,7 @@ public:
     MCAPI static bool isSameTypeAndItem(class ItemStackBase const&, class ItemStackBase const&);
 
     // symbol: ?startCreativeItemDefinitions@Item@@SAX_NPEAVCreativeItemRegistry@@@Z
-    MCAPI static void startCreativeItemDefinitions(bool isClient, class CreativeItemRegistry*);
+    MCAPI static void startCreativeItemDefinitions(bool isClient, class CreativeItemRegistry* creativeItemRegistry);
 
     // symbol: ?toBlockId@Item@@SA?AUNewBlockID@@F@Z
     MCAPI static struct NewBlockID toBlockId(short itemId);
@@ -797,6 +731,12 @@ public:
         class ItemStack&        replacementItem,
         ::ItemAcquisitionMethod acquisitionMethod
     ) const;
+
+    // symbol:
+    // ?_sendTryPlaceBlockEvent@Item@@IEBA?AW4CoordinatorResult@@AEBVBlock@@AEBVBlockSource@@AEBVActor@@AEBVBlockPos@@EAEBVVec3@@@Z
+    MCAPI ::CoordinatorResult
+    _sendTryPlaceBlockEvent(class Block const&, class BlockSource const&, class Actor const&, class BlockPos const&, uchar, class Vec3 const&)
+        const;
 
     // NOLINTEND
 

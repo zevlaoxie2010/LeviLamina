@@ -3,16 +3,14 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
-#include "mc/common/wrapper/OwnerPtrT.h"
-#include "mc/deps/core/common/bedrock/EnableNonOwnerReferences.h"
+#include "mc/common/wrapper/OwnerPtr.h"
 
 // auto generated forward declare list
 // clang-format off
-namespace Bedrock { class EnableNonOwnerReferences; }
 namespace Bedrock::PubSub { class Subscription; }
 // clang-format on
 
-class GameplayUserManager : public ::Bedrock::EnableNonOwnerReferences {
+class GameplayUserManager {
 public:
     // prevent constructor by default
     GameplayUserManager& operator=(GameplayUserManager const&);
@@ -20,14 +18,11 @@ public:
 
 public:
     // NOLINTBEGIN
-    // vIndex: 0, symbol: ??1GameplayUserManager@@UEAA@XZ
-    virtual ~GameplayUserManager();
-
     // symbol: ??0GameplayUserManager@@QEAA@XZ
     MCAPI GameplayUserManager();
 
-    // symbol: ?addGameplayUser@GameplayUserManager@@QEAAXV?$OwnerPtrT@UEntityRefTraits@@@@@Z
-    MCAPI void addGameplayUser(class OwnerPtrT<struct EntityRefTraits>);
+    // symbol: ?addGameplayUser@GameplayUserManager@@QEAAXV?$OwnerPtr@VEntityContext@@@@@Z
+    MCAPI void addGameplayUser(class OwnerPtr<class EntityContext>);
 
     // symbol: ?cleanupRemovedGameplayUsers@GameplayUserManager@@QEAAXXZ
     MCAPI void cleanupRemovedGameplayUsers();
@@ -55,8 +50,8 @@ public:
     MCAPI uint64 getActivePlayerCount() const;
 
     // symbol:
-    // ?getGameplayUserEntities@GameplayUserManager@@QEBAAEBV?$vector@V?$OwnerPtrT@UEntityRefTraits@@@@V?$allocator@V?$OwnerPtrT@UEntityRefTraits@@@@@std@@@std@@XZ
-    MCAPI std::vector<class OwnerPtrT<struct EntityRefTraits>> const& getGameplayUserEntities() const;
+    // ?getGameplayUserEntities@GameplayUserManager@@QEBAAEBV?$vector@V?$OwnerPtr@VEntityContext@@@@V?$allocator@V?$OwnerPtr@VEntityContext@@@@@std@@@std@@XZ
+    MCAPI std::vector<class OwnerPtr<class EntityContext>> const& getGameplayUserEntities() const;
 
     // symbol: ?getGameplayUserEntityCount@GameplayUserManager@@QEBA_KXZ
     MCAPI uint64 getGameplayUserEntityCount() const;
@@ -76,8 +71,7 @@ public:
 
     // symbol:
     // ?registerAnyGameplayUsersRemovedCallback@GameplayUserManager@@QEAA?AVSubscription@PubSub@Bedrock@@V?$function@$$A6AXXZ@std@@@Z
-    MCAPI class Bedrock::PubSub::Subscription registerAnyGameplayUsersRemovedCallback(std::function<void(void)> callback
-    );
+    MCAPI class Bedrock::PubSub::Subscription registerAnyGameplayUsersRemovedCallback(std::function<void()> callback);
 
     // symbol:
     // ?registerGameplayUserAddedCallback@GameplayUserManager@@QEAA?AVSubscription@PubSub@Bedrock@@V?$function@$$A6AXAEAVEntityContext@@@Z@std@@@Z
@@ -116,6 +110,9 @@ public:
 
     // symbol: ?tickSuspensions@GameplayUserManager@@QEAAXXZ
     MCAPI void tickSuspensions();
+
+    // symbol: ??1GameplayUserManager@@QEAA@XZ
+    MCAPI ~GameplayUserManager();
 
     // NOLINTEND
 

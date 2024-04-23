@@ -27,11 +27,10 @@ public:
       str(str),
       lastMatch(nullptr) {} // NOLINT
 
-    [[nodiscard]] constexpr HashedString(std::string&& str) noexcept // NOLINT
-    : str(std::move(str)),
-      lastMatch(nullptr) {
-        hash = computeHash(str);
-    }
+    [[nodiscard]] constexpr HashedString(std::string&& s) noexcept // NOLINT
+    : hash(computeHash(s)),
+      str(std::move(s)),
+      lastMatch(nullptr) {}
     [[nodiscard]] constexpr HashedString(char const* str) noexcept : HashedString(std::string{str}) {} // NOLINT
 
     [[nodiscard]] constexpr HashedString(HashedString const& other) noexcept
@@ -121,9 +120,9 @@ public:
     }
 
     // Convertors
-    [[nodiscard]] constexpr explicit operator std::string const&() const { return str; }
+    [[nodiscard]] constexpr operator std::string const&() const { return str; } // NOLINT
 
-    [[nodiscard]] constexpr explicit operator std::string_view() const { return std::string_view(str); }
+    [[nodiscard]] constexpr operator std::string_view() const { return std::string_view(str); } // NOLINT
 
 public:
     // NOLINTBEGIN

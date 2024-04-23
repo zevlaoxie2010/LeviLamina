@@ -6,6 +6,7 @@ on:
       - src/**/*.h
       - Doxyfile
       - DoxygenLayout.xml
+      - mkdocs.yml
   workflow_dispatch:
 
 jobs:
@@ -17,7 +18,7 @@ jobs:
           submodules: true
 
       - run: |
-          mkdir -p site/api/native
+          mkdir -p site/api
       
       - uses: mattnotmitt/doxygen-action@1.9.5
 
@@ -71,7 +72,7 @@ jobs:
           path: site/
 
   deploy:
-    # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
     needs:
       - merge
     permissions:

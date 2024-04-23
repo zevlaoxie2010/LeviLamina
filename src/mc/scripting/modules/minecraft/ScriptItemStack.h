@@ -11,10 +11,11 @@
 // clang-format off
 class ItemInstance;
 class ItemStackBase;
-class Level;
+class Vec3;
 namespace ScriptModuleMinecraft { class ScriptItemComponent; }
 namespace ScriptModuleMinecraft { class ScriptItemType; }
 namespace Scripting { class WeakLifetimeScope; }
+namespace Scripting { struct ContextConfig; }
 namespace Scripting { struct Error; }
 namespace Scripting { struct Version; }
 // clang-format on
@@ -43,6 +44,9 @@ public:
         int
     );
 
+    // symbol: ?clearDynamicProperties@ScriptItemStack@ScriptModuleMinecraft@@QEAAXAEBUContextConfig@Scripting@@@Z
+    MCAPI void clearDynamicProperties(struct Scripting::ContextConfig const&);
+
     // symbol:
     // ?clone@ScriptItemStack@ScriptModuleMinecraft@@QEBA?AV?$StrongTypedObjectHandle@VScriptItemStack@ScriptModuleMinecraft@@@Scripting@@VWeakLifetimeScope@4@@Z
     MCAPI class Scripting::StrongTypedObjectHandle<class ScriptModuleMinecraft::ScriptItemStack>
@@ -65,6 +69,19 @@ public:
     // ?getComponents@ScriptItemStack@ScriptModuleMinecraft@@QEAA?AV?$vector@V?$StrongTypedObjectHandle@VScriptItemComponent@ScriptModuleMinecraft@@@Scripting@@V?$allocator@V?$StrongTypedObjectHandle@VScriptItemComponent@ScriptModuleMinecraft@@@Scripting@@@std@@@std@@VWeakLifetimeScope@Scripting@@@Z
     MCAPI std::vector<class Scripting::StrongTypedObjectHandle<class ScriptModuleMinecraft::ScriptItemComponent>>
           getComponents(class Scripting::WeakLifetimeScope scope);
+
+    // symbol:
+    // ?getDynamicProperty@ScriptItemStack@ScriptModuleMinecraft@@QEAA?AV?$optional@V?$variant@NM_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@VVec3@@@std@@@std@@AEBUContextConfig@Scripting@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z
+    MCAPI std::optional<std::variant<double, float, bool, std::string, class Vec3>>
+          getDynamicProperty(struct Scripting::ContextConfig const&, std::string const&);
+
+    // symbol:
+    // ?getDynamicPropertyIds@ScriptItemStack@ScriptModuleMinecraft@@QEAA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AEBUContextConfig@Scripting@@@Z
+    MCAPI std::vector<std::string> getDynamicPropertyIds(struct Scripting::ContextConfig const&);
+
+    // symbol:
+    // ?getDynamicPropertyTotalByteCount@ScriptItemStack@ScriptModuleMinecraft@@QEAAHAEBUContextConfig@Scripting@@@Z
+    MCAPI int getDynamicPropertyTotalByteCount(struct Scripting::ContextConfig const&);
 
     // symbol: ?getItemInstance@ScriptItemStack@ScriptModuleMinecraft@@QEAAAEAVItemInstance@@XZ
     MCAPI class ItemInstance& getItemInstance();
@@ -103,6 +120,12 @@ public:
     // symbol: ?isStackableWith@ScriptItemStack@ScriptModuleMinecraft@@QEBA_NAEBV12@@Z
     MCAPI bool isStackableWith(class ScriptModuleMinecraft::ScriptItemStack const& other) const;
 
+    // symbol:
+    // ?matches@ScriptItemStack@ScriptModuleMinecraft@@QEBA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$optional@V?$unordered_map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$variant@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@2@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$variant@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@2@@std@@@2@@std@@@4@@Z
+    MCAPI bool
+        matches(std::string, std::optional<std::unordered_map<std::string, std::variant<int, std::string, bool>>>)
+            const;
+
     // symbol: ??4ScriptItemStack@ScriptModuleMinecraft@@QEAAAEAV01@$$QEAV01@@Z
     MCAPI class ScriptModuleMinecraft::ScriptItemStack& operator=(class ScriptModuleMinecraft::ScriptItemStack&&);
 
@@ -119,6 +142,11 @@ public:
     // symbol:
     // ?setCanPlaceOn@ScriptItemStack@ScriptModuleMinecraft@@QEAA?AV?$Result@X$$V@Scripting@@AEBV?$optional@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@std@@@Z
     MCAPI class Scripting::Result<void> setCanPlaceOn(std::optional<std::vector<std::string>> const&);
+
+    // symbol:
+    // ?setDynamicProperty@ScriptItemStack@ScriptModuleMinecraft@@QEAA?AV?$Result@X$$V@Scripting@@AEBUContextConfig@4@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV?$optional@V?$variant@NM_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@VVec3@@@std@@@7@@Z
+    MCAPI class Scripting::Result<void>
+    setDynamicProperty(struct Scripting::ContextConfig const&, std::string const&, std::optional<std::variant<double, float, bool, std::string, class Vec3>> const&);
 
     // symbol:
     // ?setLore@ScriptItemStack@ScriptModuleMinecraft@@QEAA?AV?$Result@X$$V@Scripting@@AEBV?$optional@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@std@@@Z
@@ -140,19 +168,19 @@ public:
     MCAPI ~ScriptItemStack();
 
     // symbol:
-    // ?bind@ScriptItemStack@ScriptModuleMinecraft@@SA?AV?$ClassBindingBuilder@VScriptItemStack@ScriptModuleMinecraft@@@Scripting@@PEAVLevel@@AEBUVersion@4@@Z
+    // ?bind@ScriptItemStack@ScriptModuleMinecraft@@SA?AV?$ClassBindingBuilder@VScriptItemStack@ScriptModuleMinecraft@@@Scripting@@AEBUVersion@4@@Z
     MCAPI static class Scripting::ClassBindingBuilder<class ScriptModuleMinecraft::ScriptItemStack>
-    bind(class Level*, struct Scripting::Version const&);
+    bind(struct Scripting::Version const&);
 
     // symbol:
     // ?createHandle@ScriptItemStack@ScriptModuleMinecraft@@SA?AV?$StrongTypedObjectHandle@VScriptItemStack@ScriptModuleMinecraft@@@Scripting@@VWeakLifetimeScope@4@AEBVItemStackBase@@@Z
     MCAPI static class Scripting::StrongTypedObjectHandle<class ScriptModuleMinecraft::ScriptItemStack>
-    createHandle(class Scripting::WeakLifetimeScope scope, class ItemStackBase const& itemStack);
+    createHandle(class Scripting::WeakLifetimeScope scope, class ItemStackBase const& item);
 
     // symbol:
     // ?createOptionalHandle@ScriptItemStack@ScriptModuleMinecraft@@SA?AV?$optional@V?$StrongTypedObjectHandle@VScriptItemStack@ScriptModuleMinecraft@@@Scripting@@@std@@VWeakLifetimeScope@Scripting@@AEBVItemStackBase@@@Z
     MCAPI static std::optional<class Scripting::StrongTypedObjectHandle<class ScriptModuleMinecraft::ScriptItemStack>>
-    createOptionalHandle(class Scripting::WeakLifetimeScope scope, class ItemStackBase const& itemStack);
+    createOptionalHandle(class Scripting::WeakLifetimeScope scope, class ItemStackBase const& item);
 
     // symbol:
     // ?validateLoreLength@ScriptItemStack@ScriptModuleMinecraft@@SA?AV?$optional@UError@Scripting@@@std@@AEBV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@4@@Z

@@ -2,16 +2,11 @@
 
 #include "mc/_HeaderOutputPredefine.h"
 
-// auto generated inclusion list
-#include "mc/entity/utilities/ActorFlags.h"
-
 class SynchedActorData {
 public:
-    int (**_vptr_SynchedActorData)(void);
+    std::vector<std::unique_ptr<class DataItem>> mItemsArray;
 
-    std::vector<std::unique_ptr<class DataItem>> mItemsArray; // this+0x8
-    ushort                                       minIdxDirty; // this+0x20
-    ushort                                       maxIdxDirty; // this+0x22
+    char filler[0x30];
 
     template <typename T>
     MCAPI void define(ushort, T const&);
@@ -41,11 +36,11 @@ public:
     // symbol: ?getInt8@SynchedActorData@@QEBACG@Z
     MCAPI schar getInt8(ushort id) const;
 
-    // symbol: ?getStatusFlag@SynchedActorData@@QEBA_NW4ActorFlags@@@Z
-    MCAPI bool getStatusFlag(::ActorFlags flag) const;
-
     // symbol: ?getVec3@SynchedActorData@@QEBA?AVVec3@@G@Z
     MCAPI class Vec3 getVec3(ushort id) const;
+
+    // symbol: ?hasData@SynchedActorData@@QEBA_NG@Z
+    MCAPI bool hasData(ushort id) const;
 
     // symbol: ??4SynchedActorData@@QEAAAEAV0@$$QEAV0@@Z
     MCAPI class SynchedActorData& operator=(class SynchedActorData&& rhs);
@@ -57,9 +52,6 @@ public:
     // symbol:
     // ?packDirty@SynchedActorData@@QEAA?AV?$vector@V?$unique_ptr@VDataItem@@U?$default_delete@VDataItem@@@std@@@std@@V?$allocator@V?$unique_ptr@VDataItem@@U?$default_delete@VDataItem@@@std@@@std@@@2@@std@@AEAVEntityContext@@@Z
     MCAPI std::vector<std::unique_ptr<class DataItem>> packDirty(class EntityContext&);
-
-    // symbol: ?setStatusFlag@SynchedActorData@@QEAAXW4ActorFlags@@_N@Z
-    MCAPI void setStatusFlag(::ActorFlags flag, bool value);
 
     // symbol: ??1SynchedActorData@@QEAA@XZ
     MCAPI ~SynchedActorData();

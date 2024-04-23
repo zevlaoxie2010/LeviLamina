@@ -116,23 +116,12 @@ public:
     // symbol: ?onPlayerMove@PlayerEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@@Z
     MCVAPI ::EventResult onPlayerMove(class Player& player);
 
-    // symbol: ?onPlayerMovementAnomaly@PlayerEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@AEBVVec3@@MM@Z
-    MCVAPI ::EventResult
-    onPlayerMovementAnomaly(class Player& player, class Vec3 const& clientPos, float posDelta, float observedScore);
-
-    // symbol: ?onPlayerMovementCorrected@PlayerEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@AEBVVec3@@MM@Z
-    MCVAPI ::EventResult
-    onPlayerMovementCorrected(class Player& player, class Vec3 const& clientPos, float posDelta, float observedScore);
-
     // symbol:
     // ?onPlayerMovementRewindCorrected@PlayerEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@_KW4ReplayCorrectionResult@@@Z
     MCVAPI ::EventResult onPlayerMovementRewindCorrected(class Player&, uint64, ::ReplayCorrectionResult);
 
     // symbol: ?onPlayerNamedItem@PlayerEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@AEBVItemDescriptor@@@Z
     MCVAPI ::EventResult onPlayerNamedItem(class Player& player, class ItemDescriptor const& item);
-
-    // symbol: ?onPlayerOnGround@PlayerEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@@Z
-    MCVAPI ::EventResult onPlayerOnGround(class Player& player);
 
     // symbol:
     // ?onPlayerPiglinBarter@PlayerEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z
@@ -147,6 +136,9 @@ public:
     // ?onPlayerPortalUsed@PlayerEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@V?$AutomaticID@VDimension@@H@@1@Z
     MCVAPI ::EventResult
     onPlayerPortalUsed(class Player& player, DimensionType fromDimension, DimensionType toDimension);
+
+    // symbol: ?onPlayerPoweredBeacon@PlayerEventListener@@UEAA?AW4EventResult@@AEBVPlayer@@H@Z
+    MCVAPI ::EventResult onPlayerPoweredBeacon(class Player const&, int);
 
     // symbol: ?onPlayerSaved@PlayerEventListener@@UEAA?AW4EventResult@@AEAVPlayer@@@Z
     MCVAPI ::EventResult onPlayerSaved(class Player& player);

@@ -23,10 +23,10 @@ public:
     MemoryPage(gsl::not_null<class Bedrock::JSONObject::Document*>, class Bedrock::JSONObject::MemoryPage*, uint, uint);
 
     // symbol: ?allocateBack@MemoryPage@JSONObject@Bedrock@@QEAAPEAX_K0@Z
-    MCAPI void* allocateBack(uint64, uint64);
+    MCAPI void* allocateBack(uint64 bytes, uint64 align);
 
     // symbol: ?allocateFront@MemoryPage@JSONObject@Bedrock@@QEAAPEAX_K0@Z
-    MCAPI void* allocateFront(uint64, uint64);
+    MCAPI void* allocateFront(uint64 bytes, uint64 align);
 
     // NOLINTEND
 
@@ -34,17 +34,17 @@ public:
     // NOLINTBEGIN
     // symbol: ?_allocate@MemoryPage@JSONObject@Bedrock@@AEAAPEAXP8123@EAA_K_K0@ZP8123@EAAPEAX00@Z00@Z
     MCAPI void* _allocate(
-        uint64 (Bedrock::JSONObject::MemoryPage::*)(uint64, uint64),
-        void* (Bedrock::JSONObject::MemoryPage::*)(uint64, uint64),
-        uint64,
-        uint64
+        uint64 (Bedrock::JSONObject::MemoryPage::*allocateFn)(uint64, uint64),
+        void* (Bedrock::JSONObject::MemoryPage::*forwardFn)(uint64, uint64),
+        uint64 bytes,
+        uint64 align
     );
 
     // symbol: ?_tryAllocateBack@MemoryPage@JSONObject@Bedrock@@AEAA_K_K0@Z
-    MCAPI uint64 _tryAllocateBack(uint64, uint64);
+    MCAPI uint64 _tryAllocateBack(uint64 bytes, uint64 align);
 
     // symbol: ?_tryAllocateFront@MemoryPage@JSONObject@Bedrock@@AEAA_K_K0@Z
-    MCAPI uint64 _tryAllocateFront(uint64, uint64);
+    MCAPI uint64 _tryAllocateFront(uint64 bytes, uint64 align);
 
     // NOLINTEND
 };

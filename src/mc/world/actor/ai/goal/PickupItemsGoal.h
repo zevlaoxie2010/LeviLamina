@@ -40,7 +40,7 @@ public:
     // symbol:
     // ??0PickupItemsGoal@@QEAA@AEAVMob@@M_NHHM11H11AEBV?$vector@VItemDescriptor@@V?$allocator@VItemDescriptor@@@std@@@std@@@Z
     MCAPI
-    PickupItemsGoal(class Mob& mob, float speedModifier, bool trackTarget, int searchRange, int searchHeight, float goalRadius, bool, bool, int, bool, bool, std::vector<class ItemDescriptor> const&);
+    PickupItemsGoal(class Mob& mob, float speedModifier, bool trackTarget, int searchRange, int searchHeight, float goalRadius, bool, bool canPickupAnyItem, int, bool canPickupToHandOrEquipment, bool, std::vector<class ItemDescriptor> const&);
 
     // NOLINTEND
 
@@ -55,7 +55,7 @@ public:
     ) const;
 
     // symbol: ?_getShareableItem@PickupItemsGoal@@AEBAPEBUShareable@@AEBVItemStack@@@Z
-    MCAPI struct Shareable const* _getShareableItem(class ItemStack const& itemStack) const;
+    MCAPI struct Shareable const* _getShareableItem(class ItemStack const& item) const;
 
     // symbol: ?_hasRoomForCarriedItem@PickupItemsGoal@@AEBA_NXZ
     MCAPI bool _hasRoomForCarriedItem() const;

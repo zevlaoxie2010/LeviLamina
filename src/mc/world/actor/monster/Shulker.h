@@ -46,87 +46,48 @@ public:
     // vIndex: 10, symbol: __gen_??1Shulker@@UEAA@XZ
     virtual ~Shulker() = default;
 
-    // vIndex: 23, symbol: __unk_vfn_23
-    virtual void __unk_vfn_23();
-
-    // vIndex: 36, symbol: ?isInWall@Shulker@@UEBA_NXZ
+    // vIndex: 35, symbol: ?isInWall@Shulker@@UEBA_NXZ
     virtual bool isInWall() const;
 
-    // vIndex: 39, symbol: __unk_vfn_39
-    virtual void __unk_vfn_39();
-
-    // vIndex: 42, symbol: __unk_vfn_42
-    virtual void __unk_vfn_42();
-
-    // vIndex: 43, symbol: ?getShadowRadius@Shulker@@UEBAMXZ
+    // vIndex: 40, symbol: ?getShadowRadius@Shulker@@UEBAMXZ
     virtual float getShadowRadius() const;
 
-    // vIndex: 47, symbol: __unk_vfn_47
-    virtual void __unk_vfn_47();
-
-    // vIndex: 60, symbol: __unk_vfn_60
-    virtual void __unk_vfn_60();
-
-    // vIndex: 61, symbol: __unk_vfn_61
-    virtual void __unk_vfn_61();
-
-    // vIndex: 62, symbol: __unk_vfn_62
-    virtual void __unk_vfn_62();
-
-    // vIndex: 63, symbol: ?canAttack@Shulker@@UEBA_NPEAVActor@@_N@Z
+    // vIndex: 59, symbol: ?canAttack@Shulker@@UEBA_NPEAVActor@@_N@Z
     virtual bool canAttack(class Actor* actor, bool allowInvulnerable) const;
 
-    // vIndex: 75, symbol: ?shouldRender@Shulker@@UEBA_NXZ
+    // vIndex: 71, symbol: ?shouldRender@Shulker@@UEBA_NXZ
     virtual bool shouldRender() const;
 
-    // vIndex: 78, symbol: ?isInvulnerableTo@Shulker@@UEBA_NAEBVActorDamageSource@@@Z
+    // vIndex: 74, symbol: ?isInvulnerableTo@Shulker@@UEBA_NAEBVActorDamageSource@@@Z
     virtual bool isInvulnerableTo(class ActorDamageSource const& source) const;
 
-    // vIndex: 84, symbol: ?getPickRadius@Shulker@@UEAAMXZ
+    // vIndex: 80, symbol: ?getPickRadius@Shulker@@UEAAMXZ
     virtual float getPickRadius();
 
-    // vIndex: 107, symbol: __unk_vfn_107
-    virtual void __unk_vfn_107();
-
-    // vIndex: 144, symbol: __unk_vfn_144
-    virtual void __unk_vfn_144();
-
-    // vIndex: 160, symbol: ?updateEntitySpecificMolangVariables@Shulker@@MEAAXAEAVRenderParams@@@Z
+    // vIndex: 150, symbol: ?updateEntitySpecificMolangVariables@Shulker@@MEAAXAEAVRenderParams@@@Z
     virtual void updateEntitySpecificMolangVariables(class RenderParams& renderParams);
 
-    // vIndex: 162, symbol: __unk_vfn_162
-    virtual void __unk_vfn_162();
-
-    // vIndex: 163, symbol: ?_hurt@Shulker@@MEAA_NAEBVActorDamageSource@@M_N1@Z
+    // vIndex: 152, symbol: ?_hurt@Shulker@@MEAA_NAEBVActorDamageSource@@M_N1@Z
     virtual bool _hurt(class ActorDamageSource const& source, float damage, bool knock, bool ignite);
 
-    // vIndex: 164, symbol: ?readAdditionalSaveData@Shulker@@UEAAXAEBVCompoundTag@@AEAVDataLoadHelper@@@Z
+    // vIndex: 153, symbol: ?readAdditionalSaveData@Shulker@@UEAAXAEBVCompoundTag@@AEAVDataLoadHelper@@@Z
     virtual void readAdditionalSaveData(class CompoundTag const& tag, class DataLoadHelper& dataLoadHelper);
 
-    // vIndex: 165, symbol: ?addAdditionalSaveData@Shulker@@UEBAXAEAVCompoundTag@@@Z
+    // vIndex: 154, symbol: ?addAdditionalSaveData@Shulker@@UEBAXAEAVCompoundTag@@@Z
     virtual void addAdditionalSaveData(class CompoundTag& tag) const;
 
-    // vIndex: 167, symbol: __unk_vfn_167
-    virtual void __unk_vfn_167();
-
-    // vIndex: 168, symbol: __unk_vfn_168
-    virtual void __unk_vfn_168();
-
-    // vIndex: 179, symbol: ?checkSpawnRules@Shulker@@UEAA_N_N@Z
+    // vIndex: 167, symbol: ?checkSpawnRules@Shulker@@UEAA_N_N@Z
     virtual bool checkSpawnRules(bool fromSpawner);
 
-    // vIndex: 184, symbol: ?getMaxHeadXRot@Shulker@@UEAAMXZ
+    // vIndex: 172, symbol: ?getMaxHeadXRot@Shulker@@UEAAMXZ
     virtual float getMaxHeadXRot();
 
-    // vIndex: 187, symbol: ?getArmorValue@Shulker@@UEBAHXZ
+    // vIndex: 175, symbol: ?getArmorValue@Shulker@@UEBAHXZ
     virtual int getArmorValue() const;
 
-    // vIndex: 206, symbol:
+    // vIndex: 193, symbol:
     // ?initBodyControl@Shulker@@UEAA?AV?$unique_ptr@VBodyControl@@U?$default_delete@VBodyControl@@@std@@@std@@XZ
     virtual std::unique_ptr<class BodyControl> initBodyControl();
-
-    // symbol: ?breaksFallingBlocks@Shulker@@UEBA_NXZ
-    MCVAPI bool breaksFallingBlocks() const;
 
     // symbol: ??0Shulker@@QEAA@PEAVActorDefinitionGroup@@AEBUActorDefinitionIdentifier@@AEAVEntityContext@@@Z
     MCAPI Shulker(
@@ -137,6 +98,12 @@ public:
 
     // symbol: ?postNormalTick@Shulker@@QEAAXXZ
     MCAPI void postNormalTick();
+
+    // symbol: ?applyShulkerBounds@Shulker@@SAXAEBUShulkerBounds@@AEAVEntityContext@@@Z
+    MCAPI static void applyShulkerBounds(struct ShulkerBounds const&, class EntityContext&);
+
+    // symbol: ?computeShulkerBounds@Shulker@@SA?AUShulkerBounds@@AEBUShulkerBoundsInput@@@Z
+    MCAPI static struct ShulkerBounds computeShulkerBounds(struct ShulkerBoundsInput const&);
 
     // symbol: ?postSetPosSetShulkerAttachPosAndPeekAmount@Shulker@@SAXVSynchedActorDataWriter@@AEBVBlockPos@@@Z
     MCAPI static void

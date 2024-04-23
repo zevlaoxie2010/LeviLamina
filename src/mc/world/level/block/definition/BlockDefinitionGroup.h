@@ -41,22 +41,22 @@ public:
     // prevent constructor by default
     BlockDefinitionGroup& operator=(BlockDefinitionGroup const&);
     BlockDefinitionGroup(BlockDefinitionGroup const&);
+    BlockDefinitionGroup();
 
 public:
     // NOLINTBEGIN
-    // symbol: ??0BlockDefinitionGroup@@QEAA@XZ
-    MCAPI BlockDefinitionGroup();
-
-    // symbol: ??0BlockDefinitionGroup@@QEAA@AEAUReflectionCtx@cereal@@@Z
-    MCAPI explicit BlockDefinitionGroup(struct cereal::ReflectionCtx&);
+    // symbol: ??0BlockDefinitionGroup@@QEAA@AEBUReflectionCtx@cereal@@@Z
+    MCAPI explicit BlockDefinitionGroup(struct cereal::ReflectionCtx const&);
 
     // symbol: ?buildBlockSchema@BlockDefinitionGroup@@QEAAXAEBVBlockComponentFactory@@@Z
     MCAPI void buildBlockSchema(class BlockComponentFactory const& factory);
 
     // symbol:
     // ?generateBlockDefinition@BlockDefinitionGroup@@QEAA?AV?$unique_ptr@UBlockDefinition@@U?$default_delete@UBlockDefinition@@@std@@@std@@AEBUBlockResource@1@AEBVExperiments@@@Z
-    MCAPI std::unique_ptr<struct BlockDefinition>
-          generateBlockDefinition(struct BlockDefinitionGroup::BlockResource const& resource, class Experiments const&);
+    MCAPI std::unique_ptr<struct BlockDefinition> generateBlockDefinition(
+        struct BlockDefinitionGroup::BlockResource const& resource,
+        class Experiments const&                          experiments
+    );
 
     // symbol:
     // ?generateServerBlockProperties@BlockDefinitionGroup@@QEBA?AV?$vector@U?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@VCompoundTag@@@std@@V?$allocator@U?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@VCompoundTag@@@std@@@2@@std@@XZ
@@ -73,21 +73,30 @@ public:
     MCAPI void initializeBlocks(class Level&);
 
     // symbol:
-    // ?loadResource@BlockDefinitionGroup@@QEAA?AV?$unique_ptr@UBlockDefinition@@U?$default_delete@UBlockDefinition@@@std@@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@AEBV?$PathBuffer@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Core@@AEBV43@AEBVSemVersion@@AEBVExperiments@@@Z
-    MCAPI std::unique_ptr<struct BlockDefinition>
-    loadResource(std::string, class Core::PathBuffer<std::string> const&, std::string const&, class SemVersion const&, class Experiments const&);
+    // ?loadResource@BlockDefinitionGroup@@QEAA?AV?$unique_ptr@UBlockDefinition@@U?$default_delete@UBlockDefinition@@@std@@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@AEBV?$PathBuffer@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Core@@AEBV43@AEBVSemVersion@@AEBVExperiments@@_N@Z
+    MCAPI std::unique_ptr<struct BlockDefinition> loadResource(
+        std::string,
+        class Core::PathBuffer<std::string> const&,
+        std::string const&,
+        class SemVersion const&,
+        class Experiments const&,
+        bool
+    );
 
     // symbol:
     // ?loadResources@BlockDefinitionGroup@@QEAAXAEBVResourcePackManager@@AEBVBlockComponentFactory@@AEBVExperiments@@@Z
-    MCAPI void
-    loadResources(class ResourcePackManager const& resourcePackManager, class BlockComponentFactory const& factory, class Experiments const&);
+    MCAPI void loadResources(
+        class ResourcePackManager const&   resourcePackManager,
+        class BlockComponentFactory const& factory,
+        class Experiments const&           experiments
+    );
 
     // symbol:
     // ?registerBlockDefinition@BlockDefinitionGroup@@QEAAXV?$unique_ptr@UBlockDefinition@@U?$default_delete@UBlockDefinition@@@std@@@std@@@Z
-    MCAPI void registerBlockDefinition(std::unique_ptr<struct BlockDefinition>);
+    MCAPI void registerBlockDefinition(std::unique_ptr<struct BlockDefinition> blockDef);
 
     // symbol: ?registerBlockFromDefinition@BlockDefinitionGroup@@QEAAXAEBUBlockDefinition@@_N@Z
-    MCAPI void registerBlockFromDefinition(struct BlockDefinition const& definition, bool);
+    MCAPI void registerBlockFromDefinition(struct BlockDefinition const& definition, bool assertIfAlreadyExists);
 
     // symbol: ?registerBlocks@BlockDefinitionGroup@@QEAAXXZ
     MCAPI void registerBlocks();
@@ -123,21 +132,36 @@ public:
     );
 
     // symbol:
-    // ?_loadBlockDescription@BlockDefinitionGroup@@AEAA_NAEBVValue@Json@@AEAUBlockDescription@@AEBVSemVersion@@2AEBVExperiments@@@Z
-    MCAPI bool
-    _loadBlockDescription(class Json::Value const&, struct BlockDescription&, class SemVersion const&, class SemVersion const&, class Experiments const&);
+    // ?_loadBlockDescription@BlockDefinitionGroup@@AEAA_NAEBVValue@Json@@AEAUBlockDescription@@AEBVSemVersion@@2AEBVExperiments@@_N@Z
+    MCAPI bool _loadBlockDescription(
+        class Json::Value const&,
+        struct BlockDescription&,
+        class SemVersion const&,
+        class SemVersion const&,
+        class Experiments const&,
+        bool
+    );
 
     // symbol: ?_loadComponents@BlockDefinitionGroup@@AEAA_NAEBVValue@Json@@AEAUBlockDefinition@@AEBVExperiments@@@Z
-    MCAPI bool
-    _loadComponents(class Json::Value const& root, struct BlockDefinition& definition, class Experiments const&);
+    MCAPI bool _loadComponents(
+        class Json::Value const& root,
+        struct BlockDefinition&  definition,
+        class Experiments const& experiments
+    );
 
     // symbol: ?_loadEvents@BlockDefinitionGroup@@AEAA_NAEBVValue@Json@@AEAUBlockDefinition@@@Z
     MCAPI bool _loadEvents(class Json::Value const& root, struct BlockDefinition& definition);
 
     // symbol:
     // ?_parseComponents@BlockDefinitionGroup@@AEAA_NAEBVValue@Json@@AEAUBlockComponentGroupDescription@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBVSemVersion@@3AEBVExperiments@@@Z
-    MCAPI bool
-    _parseComponents(class Json::Value const&, struct BlockComponentGroupDescription&, std::string const& blockIdentifier, class SemVersion const& engineVersion, class SemVersion const&, class Experiments const&);
+    MCAPI bool _parseComponents(
+        class Json::Value const&,
+        struct BlockComponentGroupDescription&,
+        std::string const&      blockIdentifier,
+        class SemVersion const& engineVersion,
+        class SemVersion const&,
+        class Experiments const& experiments
+    );
 
     // symbol:
     // ?_stringToCreativeItemCategory@BlockDefinitionGroup@@AEAA?AW4CreativeItemCategory@@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z

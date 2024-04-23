@@ -1,47 +1,18 @@
 #pragma once
 
-// #define LL_HOOK_DEBUG
-
 #include <atomic>
+#include <cstdint>
 #include <memory>
+#include <string>
+#include <string_view>
 #include <type_traits>
 
-#include "ll/api/base/Concepts.h"
+#include "ll/api/base/Concepts.h" // IWYU pragma: keep
+#include "ll/api/base/FixedString.h"
 #include "ll/api/base/Macro.h"
 #include "ll/api/memory/Memory.h"
 #include "ll/api/reflection/TypeName.h"
 #include "ll/api/thread/GlobalThreadPauser.h"
-
-#ifdef LL_HOOK_DEBUG
-#include "ll/api/Logger.h"
-#define LL_HOOK_DEBUG_OUTPUT(IDENTIFIER)                                                                               \
-    static inline int debugger() {                                                                                     \
-        try {                                                                                                          \
-            static FuncPtr t = ll::memory::resolveIdentifier<OriginFuncType>(IDENTIFIER);                              \
-            if (t == nullptr) {                                                                                        \
-                fmt::print("\x1b[91mCan't resolve: [" #IDENTIFIER "]\x1b[0m\n");                                       \
-            } else {                                                                                                   \
-                auto symbols = ll::memory::lookupSymbol(t);                                                            \
-                if (symbols.size() > 1) {                                                                              \
-                    fmt::print(                                                                                        \
-                        "\x1b[93m[" #IDENTIFIER "] has {} matches, probability cause bugs.\x1b[0m\n",                  \
-                        symbols.size()                                                                                 \
-                    );                                                                                                 \
-                }                                                                                                      \
-                fmt::print("\x1b[96m v resolve [" #IDENTIFIER "] to:\x1b[0m\n");                                       \
-                for (auto& str : symbols) {                                                                            \
-                    fmt::print(" {} {}\n", (&str == &symbols.back()) ? '-' : '|', str);                                \
-                }                                                                                                      \
-            }                                                                                                          \
-        } catch (...) {                                                                                                \
-            fmt::print("\x1b[91m!!! Exception in resolve: [" #IDENTIFIER "]\x1b[0m\n");                                \
-        }                                                                                                              \
-        return 0;                                                                                                      \
-    };                                                                                                                 \
-    static inline int debugging = debugger()
-#else
-#define LL_HOOK_DEBUG_OUTPUT(...)
-#endif
 
 namespace ll::memory {
 
@@ -52,7 +23,7 @@ template <class T, class Ret, class... Args>
 struct IsConstMemberFun<Ret (T::*)(Args...) const> : std::true_type {};
 
 template <class T>
-inline constexpr bool IsConstMemberFunV = IsConstMemberFun<T>::value;
+constexpr bool IsConstMemberFunV = IsConstMemberFun<T>::value;
 
 template <class T>
 struct AddConstAtMemberFun {
@@ -67,9 +38,6 @@ struct AddConstAtMemberFun<Ret (T::*)(Args...)> {
 template <class T>
 using AddConstAtMemberFunT = typename AddConstAtMemberFun<T>::type;
 
-template <class T, class U>
-using AddConstAtMemberFunIfOriginIs = std::conditional_t<IsConstMemberFunV<U>, AddConstAtMemberFunT<T>, T>;
-
 /**
  * @brief Hook priority enum.
  * @details The higher priority, the hook will be executed earlier
@@ -82,9 +50,10 @@ enum class HookPriority : int {
     Lowest  = 400,
 };
 
-LLAPI int hook(FuncPtr target, FuncPtr detour, FuncPtr* originalFunc, HookPriority priority, bool stopTheWorld = true);
+LLAPI int
+hook(FuncPtr target, FuncPtr detour, FuncPtr* originalFunc, HookPriority priority, bool suspendThreads = true);
 
-LLAPI bool unhook(FuncPtr target, FuncPtr detour, bool stopTheWorld = true);
+LLAPI bool unhook(FuncPtr target, FuncPtr detour, bool suspendThreads = true);
 
 /**
  * @brief Get the pointer of a function by identifier.
@@ -97,8 +66,7 @@ LLNDAPI FuncPtr resolveIdentifier(std::string_view identifier, bool disableError
 template <class T>
 concept FuncPtrType = std::is_function_v<std::remove_pointer_t<T>> || std::is_member_function_pointer_v<T>;
 
-template <class T>
-    requires(FuncPtrType<T> || std::is_same_v<T, uintptr_t>)
+template <FuncPtrType T>
 constexpr FuncPtr resolveIdentifier(T identifier) {
     return toFuncPtr(identifier);
 }
@@ -109,17 +77,21 @@ constexpr FuncPtr resolveIdentifier(std::string_view identifier) {
     return resolveIdentifier(identifier);
 }
 
-// redirect to resolveIdentifier(uintptr_t)
 template <class T>
 constexpr FuncPtr resolveIdentifier(uintptr_t address) {
-    return resolveIdentifier(address);
+    return toFuncPtr(address);
 }
 
-template <FixedString>
+template <class T>
+constexpr FuncPtr resolveIdentifier(void* address) {
+    return address;
+}
+
+template <class, FixedString>
 consteval bool virtualDetector() noexcept {
     return false;
 }
-template <auto f>
+template <class T, T f>
 consteval bool virtualDetector() noexcept {
     return reflection::getRawName<f>().find("::`vcall'{") != std::string::npos;
 }
@@ -127,63 +99,70 @@ consteval bool virtualDetector() noexcept {
 template <class... Ts>
 class HookRegistrar {
 public:
-    static inline std::atomic_uint count{};
-
     static void hook() {
         thread::GlobalThreadPauser pauser;
-        (Ts::hook(false), ...);
+        (((++Ts::_AutoHookCount == 1) ? Ts::hook(false) : 0), ...);
     }
     static void unhook() {
         thread::GlobalThreadPauser pauser;
-        (Ts::unhook(false), ...);
+        (((--Ts::_AutoHookCount == 0) ? Ts::unhook(false) : 0), ...);
     }
-
-    HookRegistrar() noexcept {
-        if (++count == 1) {
-            hook();
-        }
-    }
-    ~HookRegistrar() {
-        if (--count == 0) {
-            unhook();
-        }
-    }
-    HookRegistrar(HookRegistrar const&) noexcept { ++count; }
+    HookRegistrar() noexcept { hook(); }
+    ~HookRegistrar() noexcept { unhook(); }
+    HookRegistrar(HookRegistrar const&) noexcept { ((++Ts::_AutoHookCount), ...); }
     HookRegistrar& operator=(HookRegistrar const& other) noexcept {
         if (this != std::addressof(other)) {
-            ++count;
+            ((++Ts::_AutoHookCount), ...);
         }
         return *this;
     }
-
     HookRegistrar(HookRegistrar&&) noexcept            = default;
     HookRegistrar& operator=(HookRegistrar&&) noexcept = default;
 };
 
+struct __declspec(empty_bases) Hook {};
+
 } // namespace ll::memory
 
 #define LL_HOOK_IMPL(REGISTER, FUNC_PTR, STATIC, CALL, DEF_TYPE, TYPE, PRIORITY, IDENTIFIER, RET_TYPE, ...)            \
-    struct DEF_TYPE TYPE {                                                                                             \
-        using FuncPtr      = ::ll::memory::FuncPtr;                                                                    \
-        using HookPriority = ::ll::memory::HookPriority;                                                               \
-        using OriginFuncType =                                                                                         \
-            ::ll::memory::AddConstAtMemberFunIfOriginIs<RET_TYPE FUNC_PTR(__VA_ARGS__), decltype(IDENTIFIER)>;         \
+    struct DEF_TYPE : public TYPE {                                                                                    \
+        using _FuncPtr          = ::ll::memory::FuncPtr;                                                               \
+        using HookPriority      = ::ll::memory::HookPriority;                                                          \
+        using _RawFuncType      = RET_TYPE FUNC_PTR(__VA_ARGS__);                                                      \
+        using _RawConstFuncType = ::ll::memory::AddConstAtMemberFunT<_RawFuncType>;                                    \
                                                                                                                        \
-        inline static FuncPtr        target__{};                                                                       \
-        inline static OriginFuncType originFunc__{};                                                                   \
+        template <class T>                                                                                             \
+        struct _ConstDetector {                                                                                        \
+            [[maybe_unused]] static constexpr bool value = false;                                                      \
+            explicit constexpr _ConstDetector(T) {}                                                                    \
+        };                                                                                                             \
+        template <class T>                                                                                             \
+        [[maybe_unused]] _ConstDetector(T) -> _ConstDetector<T>;                                                       \
+        [[maybe_unused]] _ConstDetector(_RawFuncType) -> _ConstDetector<_RawFuncType>;                                 \
+        template <>                                                                                                    \
+        struct _ConstDetector<_RawConstFuncType> {                                                                     \
+            [[maybe_unused]] static constexpr bool value = true;                                                       \
+            explicit constexpr _ConstDetector(_RawConstFuncType) {}                                                    \
+        };                                                                                                             \
+        template <class T = _RawFuncType, std::enable_if_t<std::is_member_function_pointer_v<T>, int> = 0>             \
+        [[maybe_unused]] _ConstDetector(_RawConstFuncType) -> _ConstDetector<_RawConstFuncType>;                       \
                                                                                                                        \
-        LL_HOOK_DEBUG_OUTPUT(IDENTIFIER);                                                                              \
+        static constexpr bool _IsConstMemberFunction = decltype(_ConstDetector{IDENTIFIER})::value;                    \
                                                                                                                        \
-        template <class Arg>                                                                                           \
+        using _OriginFuncType = std::conditional_t<_IsConstMemberFunction, _RawConstFuncType, _RawFuncType>;           \
+                                                                                                                       \
+        inline static _FuncPtr        _HookTarget{};                                                                   \
+        inline static _OriginFuncType _OriginalFunc{};                                                                 \
+                                                                                                                       \
+        inline static std::atomic_uint _AutoHookCount{};                                                               \
+                                                                                                                       \
+        template <class T>                                                                                             \
         static consteval void detector() {                                                                             \
-            if constexpr (requires {                                                                                   \
-                              ::ll::memory::virtualDetector<IDENTIFIER>();                                             \
-                              ll::memory::resolveIdentifier<OriginFuncType>(IDENTIFIER);                               \
-                          }) {                                                                                         \
-                if constexpr (::ll::memory::virtualDetector<IDENTIFIER>()) {                                           \
+            if constexpr (requires { ::ll::memory::virtualDetector<T, IDENTIFIER>(); }) {                              \
+                if constexpr (::ll::memory::virtualDetector<T, IDENTIFIER>()) {                                        \
                     static_assert(                                                                                     \
-                        ::ll::concepts::always_false<Arg>,                                                             \
-                        #IDENTIFIER " is a virtual function, for now you can't use function pointer to hook it."       \
+                        ::ll::concepts::always_false<T>,                                                               \
+                        #IDENTIFIER " is a virtual function, you need use prefix $ workaround to hook it."             \
                     );                                                                                                 \
                 }                                                                                                      \
             }                                                                                                          \
@@ -196,23 +175,23 @@ public:
                                                                                                                        \
         STATIC RET_TYPE detour(__VA_ARGS__);                                                                           \
                                                                                                                        \
-        static int hook(bool stopTheWorld = true) {                                                                    \
-            detector<DEF_TYPE>();                                                                                      \
-            target__ = ll::memory::resolveIdentifier<OriginFuncType>(IDENTIFIER);                                      \
-            if (target__ == nullptr) {                                                                                 \
+        static int hook(bool suspendThreads = true) {                                                                  \
+            detector<_OriginFuncType>();                                                                               \
+            _HookTarget = ::ll::memory::resolveIdentifier<_OriginFuncType>(IDENTIFIER);                                \
+            if (_HookTarget == nullptr) {                                                                              \
                 return -1;                                                                                             \
             }                                                                                                          \
-            return ll::memory::hook(                                                                                   \
-                target__,                                                                                              \
-                ll::memory::toFuncPtr(&DEF_TYPE::detour),                                                              \
-                reinterpret_cast<FuncPtr*>(&originFunc__),                                                             \
+            return ::ll::memory::hook(                                                                                 \
+                _HookTarget,                                                                                           \
+                ::ll::memory::toFuncPtr(&DEF_TYPE::detour),                                                            \
+                reinterpret_cast<_FuncPtr*>(&_OriginalFunc),                                                           \
                 PRIORITY,                                                                                              \
-                stopTheWorld                                                                                           \
+                suspendThreads                                                                                         \
             );                                                                                                         \
         }                                                                                                              \
                                                                                                                        \
-        static bool unhook(bool stopTheWorld = true) {                                                                 \
-            return ll::memory::unhook(target__, ll::memory::toFuncPtr(&DEF_TYPE::detour), stopTheWorld);               \
+        static bool unhook(bool suspendThreads = true) {                                                               \
+            return ::ll::memory::unhook(_HookTarget, ::ll::memory::toFuncPtr(&DEF_TYPE::detour), suspendThreads);      \
         }                                                                                                              \
     };                                                                                                                 \
     REGISTER;                                                                                                          \
@@ -220,7 +199,7 @@ public:
 
 #define LL_AUTO_REG_HOOK_IMPL(FUNC_PTR, STATIC, CALL, DEF_TYPE, ...)                                                   \
     LL_VA_EXPAND(LL_HOOK_IMPL(                                                                                         \
-        inline ll::memory::HookRegistrar<DEF_TYPE> DEF_TYPE##AutoRegister,                                             \
+        inline ::ll::memory::HookRegistrar<DEF_TYPE> DEF_TYPE##AutoRegister,                                           \
         FUNC_PTR,                                                                                                      \
         STATIC,                                                                                                        \
         CALL,                                                                                                          \
@@ -230,15 +209,15 @@ public:
 
 #define LL_MANUAL_REG_HOOK_IMPL(...) LL_VA_EXPAND(LL_HOOK_IMPL(, __VA_ARGS__))
 
-#define LL_STATIC_HOOK_IMPL(...) LL_VA_EXPAND(LL_MANUAL_REG_HOOK_IMPL((*), static, originFunc__, __VA_ARGS__))
+#define LL_STATIC_HOOK_IMPL(...) LL_VA_EXPAND(LL_MANUAL_REG_HOOK_IMPL((*), static, _OriginalFunc, __VA_ARGS__))
 
-#define LL_AUTO_STATIC_HOOK_IMPL(...) LL_VA_EXPAND(LL_AUTO_REG_HOOK_IMPL((*), static, originFunc__, __VA_ARGS__))
+#define LL_AUTO_STATIC_HOOK_IMPL(...) LL_VA_EXPAND(LL_AUTO_REG_HOOK_IMPL((*), static, _OriginalFunc, __VA_ARGS__))
 
-#define LL_INSTANCE_HOOK_IMPL(DEF_TYPE, ...)                                                                           \
-    LL_VA_EXPAND(LL_MANUAL_REG_HOOK_IMPL((DEF_TYPE::*), , (this->*originFunc__), DEF_TYPE, __VA_ARGS__))
+#define LL_INSTANCE_HOOK_IMPL(DEF_TYPE, TYPE, ...)                                                                     \
+    LL_VA_EXPAND(LL_MANUAL_REG_HOOK_IMPL((TYPE::*), , (this->*_OriginalFunc), DEF_TYPE, TYPE, __VA_ARGS__))
 
-#define LL_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, ...)                                                                      \
-    LL_VA_EXPAND(LL_AUTO_REG_HOOK_IMPL((DEF_TYPE::*), , (this->*originFunc__), DEF_TYPE, __VA_ARGS__))
+#define LL_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, TYPE, ...)                                                                \
+    LL_VA_EXPAND(LL_AUTO_REG_HOOK_IMPL((TYPE::*), , (this->*_OriginalFunc), DEF_TYPE, TYPE, __VA_ARGS__))
 
 /**
  * @brief Register a hook for a typed static function.
@@ -252,7 +231,7 @@ public:
  * @note register or unregister by calling DEF_TYPE::hook() and DEF_TYPE::unhook().
  */
 #define LL_TYPE_STATIC_HOOK(DEF_TYPE, PRIORITY, TYPE, IDENTIFIER, RET_TYPE, ...)                                       \
-    LL_VA_EXPAND(LL_STATIC_HOOK_IMPL(DEF_TYPE, : public TYPE, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
+    LL_VA_EXPAND(LL_STATIC_HOOK_IMPL(DEF_TYPE, TYPE, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
 
 /**
  * @brief Register a hook for a static function.
@@ -265,7 +244,7 @@ public:
  * @note register or unregister by calling DEF_TYPE::hook() and DEF_TYPE::unhook().
  */
 #define LL_STATIC_HOOK(DEF_TYPE, PRIORITY, IDENTIFIER, RET_TYPE, ...)                                                  \
-    LL_VA_EXPAND(LL_STATIC_HOOK_IMPL(DEF_TYPE, , PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
+    LL_VA_EXPAND(LL_STATIC_HOOK_IMPL(DEF_TYPE, ::ll::memory::Hook, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
 
 /**
  * @brief Register a hook for a typed static function.
@@ -273,7 +252,7 @@ public:
  * @see LL_TYPE_STATIC_HOOK for usage.
  */
 #define LL_AUTO_TYPE_STATIC_HOOK(DEF_TYPE, PRIORITY, TYPE, IDENTIFIER, RET_TYPE, ...)                                  \
-    LL_VA_EXPAND(LL_AUTO_STATIC_HOOK_IMPL(DEF_TYPE, : public TYPE, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
+    LL_VA_EXPAND(LL_AUTO_STATIC_HOOK_IMPL(DEF_TYPE, TYPE, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
 
 /**
  * @brief Register a hook for a static function.
@@ -281,7 +260,7 @@ public:
  * @see LL_STATIC_HOOK for usage.
  */
 #define LL_AUTO_STATIC_HOOK(DEF_TYPE, PRIORITY, IDENTIFIER, RET_TYPE, ...)                                             \
-    LL_VA_EXPAND(LL_AUTO_STATIC_HOOK_IMPL(DEF_TYPE, , PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
+    LL_VA_EXPAND(LL_AUTO_STATIC_HOOK_IMPL(DEF_TYPE, ::ll::memory::Hook, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
 
 /**
  * @brief Register a hook for a typed instance function.
@@ -295,7 +274,7 @@ public:
  * @note register or unregister by calling DEF_TYPE::hook() and DEF_TYPE::unhook().
  */
 #define LL_TYPE_INSTANCE_HOOK(DEF_TYPE, PRIORITY, TYPE, IDENTIFIER, RET_TYPE, ...)                                     \
-    LL_VA_EXPAND(LL_INSTANCE_HOOK_IMPL(DEF_TYPE, : public TYPE, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
+    LL_VA_EXPAND(LL_INSTANCE_HOOK_IMPL(DEF_TYPE, TYPE, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
 
 /**
  * @brief Register a hook for a instance function.
@@ -308,7 +287,7 @@ public:
  * @note register or unregister by calling DEF_TYPE::hook() and DEF_TYPE::unhook().
  */
 #define LL_INSTANCE_HOOK(DEF_TYPE, PRIORITY, IDENTIFIER, RET_TYPE, ...)                                                \
-    LL_VA_EXPAND(LL_INSTANCE_HOOK_IMPL(DEF_TYPE, , PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
+    LL_VA_EXPAND(LL_INSTANCE_HOOK_IMPL(DEF_TYPE, ::ll::memory::Hook, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
 
 /**
  * @brief Register a hook for a typed instance function.
@@ -316,7 +295,7 @@ public:
  * @see LL_TYPE_INSTANCE_HOOK for usage.
  */
 #define LL_AUTO_TYPE_INSTANCE_HOOK(DEF_TYPE, PRIORITY, TYPE, IDENTIFIER, RET_TYPE, ...)                                \
-    LL_VA_EXPAND(LL_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, : public TYPE, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
+    LL_VA_EXPAND(LL_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, TYPE, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
 
 /**
  * @brief Register a hook for a instance function.
@@ -324,4 +303,4 @@ public:
  * @see LL_INSTANCE_HOOK for usage.
  */
 #define LL_AUTO_INSTANCE_HOOK(DEF_TYPE, PRIORITY, IDENTIFIER, RET_TYPE, ...)                                           \
-    LL_VA_EXPAND(LL_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, , PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))
+    LL_VA_EXPAND(LL_AUTO_INSTANCE_HOOK_IMPL(DEF_TYPE, ::ll::memory::Hook, PRIORITY, IDENTIFIER, RET_TYPE, __VA_ARGS__))

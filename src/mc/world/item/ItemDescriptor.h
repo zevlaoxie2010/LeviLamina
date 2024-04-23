@@ -205,10 +205,10 @@ public:
     MCAPI bool operator==(class ItemDescriptor const& rhs) const;
 
     // symbol: ?sameItem@ItemDescriptor@@QEBA_NAEBV1@_N@Z
-    MCAPI bool sameItem(class ItemDescriptor const&, bool) const;
+    MCAPI bool sameItem(class ItemDescriptor const& otherItemDescriptor, bool) const;
 
     // symbol: ?sameItem@ItemDescriptor@@QEBA_NAEBVItemStack@@_N@Z
-    MCAPI bool sameItem(class ItemStack const& itemStack, bool) const;
+    MCAPI bool sameItem(class ItemStack const& item, bool) const;
 
     // symbol: ?save@ItemDescriptor@@QEBA?AV?$optional@VCompoundTag@@@std@@XZ
     MCAPI std::optional<class CompoundTag> save() const;

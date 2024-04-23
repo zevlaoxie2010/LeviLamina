@@ -26,19 +26,22 @@ public:
     // symbol: ?hasSurplus@ShareableComponent@@QEBAHAEAVActor@@AEBVItemStack@@AEAV3@_N@Z
     MCAPI int hasSurplus(
         class Actor&           owner,
-        class ItemStack const& itemStack,
+        class ItemStack const& item,
         class ItemStack&       resultStack,
         bool                   includeStackSizeofItem
     ) const;
 
     // symbol: ?itemBelongsInInventory@ShareableComponent@@QEBA_NAEAVActor@@AEBVItemStack@@_N@Z
-    MCAPI bool itemBelongsInInventory(class Actor& owner, class ItemStack const& item, bool) const;
+    MCAPI bool
+    itemBelongsInInventory(class Actor& owner, class ItemStack const& item, bool canPickupToHandOrEquipment) const;
 
     // symbol: ?wantsMore@ShareableComponent@@QEBAHAEBVActor@@AEBVItemStack@@@Z
     MCAPI int wantsMore(class Actor const& owner, class ItemStack const& item) const;
 
     // symbol: ?willPickup@ShareableComponent@@QEBA_NAEAVActor@@AEBVItemStack@@_N2@Z
-    MCAPI bool willPickup(class Actor& owner, class ItemStack const& itemStack, bool, bool) const;
+    MCAPI bool
+    willPickup(class Actor& owner, class ItemStack const& item, bool canPickupAnyItem, bool canPickupToHandOrEquipment)
+        const;
 
     // NOLINTEND
 
@@ -49,10 +52,10 @@ public:
 
     // symbol: ?_shouldReplaceItem@ShareableComponent@@AEBA_NAEBVItemStack@@0AEBVShareableDefinition@@_N@Z
     MCAPI bool _shouldReplaceItem(
-        class ItemStack const&,
+        class ItemStack const&           itemToReplace,
         class ItemStack const&           newItem,
         class ShareableDefinition const& shareable,
-        bool
+        bool                             canPickupAnyItem
     ) const;
 
     // NOLINTEND

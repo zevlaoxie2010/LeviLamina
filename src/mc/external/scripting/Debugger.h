@@ -64,13 +64,13 @@ public:
     MCAPI static char const* ToTypeName(struct JSContext* ctx, struct JSValue val);
 
     // symbol: ?TransportClose@Debugger@QuickJS@Scripting@@CAXPEAUJSRuntime@@PEAX@Z
-    MCAPI static void TransportClose(struct JSRuntime*, void*);
+    MCAPI static void TransportClose(struct JSRuntime* rt, void*);
 
     // symbol: ?TransportPeek@Debugger@QuickJS@Scripting@@CA_KPEAX@Z
     MCAPI static uint64 TransportPeek(void*);
 
     // symbol: ?TransportRead@Debugger@QuickJS@Scripting@@CA_KPEAXPEAD_K@Z
-    MCAPI static uint64 TransportRead(void*, char*, uint64);
+    MCAPI static uint64 TransportRead(void*, char* buffer, uint64 length);
 
     // symbol: ?TransportWrite@Debugger@QuickJS@Scripting@@CA_KPEAXPEBD_K@Z
     MCAPI static uint64 TransportWrite(void*, char const* buffer, uint64 length);

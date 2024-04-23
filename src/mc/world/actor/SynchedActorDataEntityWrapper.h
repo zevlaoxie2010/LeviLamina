@@ -1,14 +1,19 @@
 #pragma once
 
 #include "mc/_HeaderOutputPredefine.h"
+#include "mc/entity/gamerefs_entity/EntityRefTraits.h"
 
-// auto generated inclusion list
-#include "mc/entity/utilities/ActorFlags.h"
+struct SynchedActorDataComponent;
+struct ActorDataFlagComponent;
+struct ActorDataDirtyFlagsComponent;
+class EntityContext;
 
 class SynchedActorDataEntityWrapper {
 public:
-    int (**_vptr_SynchedActorDataEntityWrapper)(void);
-    gsl::not_null<class SynchedActorDataComponent*> mData;
+    gsl::not_null<SynchedActorDataComponent*>    mSynchedActorData;
+    gsl::not_null<ActorDataFlagComponent*>       mActorDataFlag;
+    gsl::not_null<ActorDataDirtyFlagsComponent*> mActorDataDirtyFlag;
+    WeakRef<EntityContext>                       mWeakEntity;
 
     template <typename T>
     MCAPI void define(ushort, T const&);
@@ -41,9 +46,6 @@ public:
     // symbol: ?getShort@SynchedActorDataEntityWrapper@@QEBAFG@Z
     MCAPI short getShort(ushort id) const;
 
-    // symbol: ?getStatusFlag@SynchedActorDataEntityWrapper@@QEBA_NW4ActorFlags@@@Z
-    MCAPI bool getStatusFlag(::ActorFlags flag) const;
-
     // symbol:
     // ?getString@SynchedActorDataEntityWrapper@@QEBAAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@G@Z
     MCAPI std::string const& getString(ushort) const;
@@ -70,9 +72,6 @@ public:
 
     // symbol: ?reader@SynchedActorDataEntityWrapper@@QEBA?AVSynchedActorDataReader@@XZ
     MCAPI class SynchedActorDataReader reader() const;
-
-    // symbol: ?setStatusFlag@SynchedActorDataEntityWrapper@@QEAAXW4ActorFlags@@_N@Z
-    MCAPI void setStatusFlag(::ActorFlags flag, bool value);
 
     // symbol: ?writer@SynchedActorDataEntityWrapper@@QEAA?AVSynchedActorDataWriter@@XZ
     MCAPI class SynchedActorDataWriter writer();

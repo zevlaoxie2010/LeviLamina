@@ -59,6 +59,9 @@ public:
     // symbol: ??0AABB@@QEAA@MMMMMM@Z
     MCAPI AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
 
+    // symbol: ?addAABB@AABB@@QEAAAEAV1@AEBV1@@Z
+    MCAPI class AABB& addAABB(class AABB const&);
+
     // symbol: ?axisInside@AABB@@QEBA?AVVec3@@AEBV1@V2@@Z
     MCAPI class Vec3 axisInside(class AABB const& other, class Vec3 axis) const;
 
@@ -68,6 +71,9 @@ public:
     // symbol: ?clipCollide@AABB@@QEBA?AVVec3@@AEBV1@AEBV2@_NPEAM@Z
     MCAPI class Vec3
     clipCollide(class AABB const& c, class Vec3 const& velocity, bool oneWay, float* penetration) const;
+
+    // symbol: ?cloneAndAddAABB@AABB@@QEBA?AV1@AEBV1@@Z
+    MCAPI class AABB cloneAndAddAABB(class AABB const&) const;
 
     // symbol: ?cloneAndExpandAlongDirection@AABB@@QEBA?AV1@AEBVVec3@@@Z
     MCAPI class AABB cloneAndExpandAlongDirection(class Vec3 const& direction) const;
@@ -80,6 +86,9 @@ public:
 
     // symbol: ?cloneAndGrow@AABB@@QEBA?AV1@AEBVVec3@@@Z
     MCAPI class AABB cloneAndGrow(class Vec3 const& distance) const;
+
+    // symbol: ?cloneAndSetBoundsAroundCenter@AABB@@QEBA?AV1@VVec3@@@Z
+    MCAPI class AABB cloneAndSetBoundsAroundCenter(class Vec3) const;
 
     // symbol: ?cloneAndShrink@AABB@@QEBA?AV1@AEBVVec3@@@Z
     MCAPI class AABB cloneAndShrink(class Vec3 const& offset) const;

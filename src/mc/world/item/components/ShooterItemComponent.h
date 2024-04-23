@@ -104,7 +104,13 @@ public:
     MCAPI class ShooterItemComponent& operator=(class ShooterItemComponent const&);
 
     // symbol: ?releaseUsing@ShooterItemComponent@@QEBA_NAEAVItemStack@@PEAVPlayer@@H@Z
-    MCAPI bool releaseUsing(class ItemStack& itemStack, class Player* player, int durationLeft) const;
+    MCAPI bool releaseUsing(class ItemStack& item, class Player* player, int durationLeft) const;
+
+    // symbol: ?use@ShooterItemComponent@@QEBA_NAEAVItemStack@@AEAVPlayer@@@Z
+    MCAPI bool use(class ItemStack& instance, class Player& player) const;
+
+    // symbol: ?useTimeDepleted@ShooterItemComponent@@QEBAXAEAVItemStack@@AEAVPlayer@@@Z
+    MCAPI void useTimeDepleted(class ItemStack&, class Player&) const;
 
     // symbol:
     // ?bindType@ShooterItemComponent@@SAXAEAUReflectionCtx@cereal@@AEBV?$vector@W4AllExperiments@@V?$allocator@W4AllExperiments@@@std@@@std@@V?$optional@VSemVersion@@@5@@Z
@@ -119,16 +125,22 @@ public:
     // private:
     // NOLINTBEGIN
     // symbol: ?_consumeAmmunition@ShooterItemComponent@@AEBAXPEAVPlayer@@AEBVItemStack@@H_N2@Z
-    MCAPI void _consumeAmmunition(class Player* player, class ItemStack const&, int, bool, bool) const;
+    MCAPI void _consumeAmmunition(
+        class Player*          player,
+        class ItemStack const& ammunition,
+        int                    slotIndex,
+        bool                   infiniteAmmo,
+        bool                   fromOffhand
+    ) const;
 
     // symbol: ?_getAmmunition@ShooterItemComponent@@AEBAHPEBVPlayer@@_NAEAVItemStack@@AEA_N@Z
-    MCAPI int _getAmmunition(class Player const* player, bool, class ItemStack&, bool&) const;
+    MCAPI int _getAmmunition(class Player const* player, bool, class ItemStack& ammo, bool& fromOffhand) const;
 
     // symbol: ?_getMaxUseDuration@ShooterItemComponent@@AEBAHAEBVItemStack@@@Z
     MCAPI int _getMaxUseDuration(class ItemStack const&) const;
 
     // symbol: ?_shootProjectiles@ShooterItemComponent@@AEBAXAEAVItemStack@@PEAVPlayer@@H@Z
-    MCAPI void _shootProjectiles(class ItemStack&, class Player* player, int durationLeft) const;
+    MCAPI void _shootProjectiles(class ItemStack& shooterStack, class Player* player, int durationLeft) const;
 
     // NOLINTEND
 };

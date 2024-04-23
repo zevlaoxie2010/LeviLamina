@@ -3,6 +3,7 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
+#include "mc/deps/core/common/bedrock/Result.h"
 #include "mc/nbt/Tag.h"
 
 class CompoundTagVariant;
@@ -33,14 +34,14 @@ public:
 
     [[nodiscard]] constexpr ListTag(List tags) {
         if (tags.empty()) {
-            mType = Tag::Type::End;
+            mType = Tag::End;
         } else {
             mType = tags[0]->getId();
             mList = std::move(tags);
         }
     }
     [[nodiscard]] constexpr ListTag(std::initializer_list<CompoundTagVariant> tags);
-    [[nodiscard]] constexpr ListTag(std::vector<CompoundTagVariant> const& tags);
+    [[nodiscard]] constexpr ListTag(std::vector<CompoundTagVariant> tags);
 
     [[nodiscard]] constexpr std::unique_ptr<Tag>&       operator[](size_t index) { return mList[index]; }
     [[nodiscard]] constexpr std::unique_ptr<Tag> const& operator[](size_t index) const { return mList[index]; }
@@ -61,8 +62,8 @@ public:
     // vIndex: 2, symbol: ?write@ListTag@@UEBAXAEAVIDataOutput@@@Z
     virtual void write(class IDataOutput& dos) const;
 
-    // vIndex: 3, symbol: ?load@ListTag@@UEAAXAEAVIDataInput@@@Z
-    virtual void load(class IDataInput& dis);
+    // vIndex: 3, symbol: ?load@ListTag@@UEAA?AV?$Result@XVerror_code@std@@@Bedrock@@AEAVIDataInput@@@Z
+    virtual class Bedrock::Result<void> load(class IDataInput& dis);
 
     // vIndex: 4, symbol: ?toString@ListTag@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     virtual std::string toString() const;
@@ -93,7 +94,7 @@ public:
     MCAPI std::unique_ptr<class ListTag> copyList() const;
 
     // symbol: ?erase@ListTag@@QEAAX_K@Z
-    MCAPI void erase(uint64);
+    MCAPI void erase(uint64 index);
 
     // symbol: ?forEachCompoundTag@ListTag@@QEBAXV?$function@$$A6AXAEBVCompoundTag@@@Z@std@@@Z
     MCAPI void forEachCompoundTag(std::function<void(class CompoundTag const&)> func) const;
@@ -102,10 +103,10 @@ public:
     MCAPI class Tag* get(int index) const;
 
     // symbol: ?getCompound@ListTag@@QEAAPEAVCompoundTag@@_K@Z
-    MCAPI class CompoundTag* getCompound(uint64);
+    MCAPI class CompoundTag* getCompound(uint64 index);
 
     // symbol: ?getCompound@ListTag@@QEBAPEBVCompoundTag@@_K@Z
-    MCAPI class CompoundTag const* getCompound(uint64) const;
+    MCAPI class CompoundTag const* getCompound(uint64 index) const;
 
     // symbol: ?getDouble@ListTag@@QEBANH@Z
     MCAPI double getDouble(int index) const;
@@ -115,6 +116,9 @@ public:
 
     // symbol: ?getInt@ListTag@@QEBAHH@Z
     MCAPI int getInt(int index) const;
+
+    // symbol: ?getInt64@ListTag@@QEBA_JH@Z
+    MCAPI int64 getInt64(int index) const;
 
     // symbol: ?getString@ListTag@@QEBAAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z
     MCAPI std::string const& getString(int) const;

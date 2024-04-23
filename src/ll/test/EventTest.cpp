@@ -27,18 +27,23 @@
 #include "ll/api/event/player/PlayerSwingEvent.h"
 #include "ll/api/event/player/PlayerUseItemEvent.h"
 #include "ll/api/event/player/PlayerUseItemOnEvent.h"
+#include "ll/api/event/world/BlockChangedEvent.h"
 #include "ll/api/event/world/SpawnMobEvent.h"
 #include "ll/api/io/FileUtils.h"
 #include "mc/codebuilder/MCRESULT.h"
 #include "mc/nbt/CompoundTag.h"
 #include "mc/world/actor/ActorDamageSource.h"
 #include "mc/world/item/registry/ItemStack.h"
+#include "mc/world/level/dimension/Dimension.h"
+
 
 #include "ll/api/base/FixedString.h"
 
 #include "ll/api/utils/HashUtils.h"
 
+#if !(defined(__INTELLISENSE__) || defined(__clangd__) || defined(__clang__))
 struct myTypeList2 : ll::meta::DynamicTypeList<myTypeList2> {};
+#endif
 
 using namespace ll::hash_utils;
 using namespace ll::hash_literals;
@@ -52,20 +57,22 @@ public:
     ~TestEventB() override = default;
 };
 
-class TestEvent1 : public TestEventB {
+class TestEvent1 final : public TestEventB {
 public:
     static constexpr ll::event::EventId CustomEventId{"My custom Id"};
+
+    ll::event::EventId getId() const override { return CustomEventId; }
 
     TestEvent1() { some = "TestEvent1 haha"; }
 };
 
-class TestEvent2 : public ll::event::Cancellable<TestEventB> {
+class TestEvent2 final : public ll::event::Cancellable<TestEventB> {
 public:
     TestEvent2() { some = "TestEvent2 haha"; }
     explicit TestEvent2(std::string_view v) { some.assign(v); }
 };
 
-class TestEvent3 : public ll::event::Event {
+class TestEvent3 final : public ll::event::Event {
 public:
 };
 
@@ -89,14 +96,14 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
     static std::atomic_uint times{};
 
     auto listener = ll::event::Listener<TestEventB>::create([](TestEventB& ev) {
-        ll::logger.debug("I'm 1, receive: {}, str: {}, {}", typeid(ev).name(), ev.some, times++);
+        ll::logger.debug("I'm 1, receive: {}, str: {}, {}", ev.getId().name, ev.some, times++);
     });
     bus.addListener<TestEvent1>(listener);
     bus.addListener<TestEvent2>(listener);
 
     auto listener2 = ll::event::Listener<TestEvent2>::create(
         [](TestEvent2& ev) {
-            ll::logger.debug("I'm 2, receive: {}, str: {}, {}", typeid(ev).name(), ev.some, times++);
+            ll::logger.debug("I'm 2, receive: {}, str: {}, {}", ev.getId().name, ev.some, times++);
 
             ll::logger.debug("I'm 2, this can cancel, now isCancelled: {}", ev.isCancelled());
             ll::logger.debug("try cancel");
@@ -143,7 +150,7 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
         }
     );
 
-    remover.add<DelayTask>(2min, [=, &bus] { auto file = fileWatcher; });
+    remover.add<DelayTask>(2min, [=] { auto file = fileWatcher; });
 
     bus.emplaceListener<ExecutingCommandEvent>([](ExecutingCommandEvent& ev) {
         ll::logger.debug("ExecutingCommandEvent: {}", ev.commandContext().mCommand);
@@ -193,11 +200,11 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
         ll::logger.debug("Player {} left click", ev.self().getRealName());
     });
     auto listenersp = Listener<PlayerSprintEvent>::create([](PlayerSprintEvent& ev) {
-        switch (do_hash(typeid(ev).name())) {
-        case do_hash(ll::reflection::type_raw_name_v<PlayerSprintingEvent>): {
+        switch (ev.getId().hash) {
+        case ll::event::getEventId<PlayerSprintingEvent>.hash: {
             ll::logger.debug("Player {} start sprint", ev.self().getRealName());
         } break;
-        case do_hash(ll::reflection::type_raw_name_v<PlayerSprintedEvent>): {
+        case ll::event::getEventId<PlayerSprintedEvent>.hash: {
             ll::logger.debug("Player {} stop sprint", ev.self().getRealName());
         } break;
         default:
@@ -211,10 +218,10 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
             .debug("Player {} MultiListener of {}", ev.self().getRealName(), ll::reflection::type_raw_name_v<decltype(ev)>);
     });
     bus.addListener(mul);
-
+#if !(defined(__INTELLISENSE__) || defined(__clangd__) || defined(__clang__))
     myTypeList2::push_back<float>();
     ll::logger.debug("{}", typeid(myTypeList2::value()).name());
-
+#endif
     auto dl = DynamicListener::create([](CompoundTag& nbt) {
         // nbt["cancelled"] = true;
         ll::logger.debug("{}", nbt.toSnbt(SnbtFormat::PrettyConsolePrint));
@@ -226,5 +233,10 @@ LL_AUTO_TYPE_INSTANCE_HOOK(
     bus.addListener(dl, getEventId<ActorHurtEvent>);
     bus.addListener(dl, getEventId<PlayerDestroyBlockEvent>);
     bus.addListener(dl, getEventId<PlayerPlacingBlockEvent>);
-    // bus.addListener(dl, getEventId<SpawnedMobEvent>);
+    bus.addListener(dl, getEventId<SpawnedMobEvent>);
+
+    bus.emplaceListener<BlockChangedEvent>([](BlockChangedEvent& ev) {
+        ll::logger
+            .debug("Block Changed Pos: {} Dimension: {}", ev.pos().toString(), ev.blockSource().getDimensionId().id);
+    });
 }

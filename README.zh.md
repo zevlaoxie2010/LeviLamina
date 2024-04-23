@@ -11,21 +11,12 @@ LeviLamina是一个非官方的插件加载器，旨在为Minecraft Bedrock Serv
 
 开发者可以轻松地用C++，JavaScript，Lua，Python，C#等语言编写插件。这种无缝集成赋予了他们轻松扩展和个性化BDS功能的能力，促进了直观的学习体验和无与伦比的灵活性。
 
-有关更多信息，请参阅[文档](https://levilamina.liteldev.com).
-
-## 目录
-
-- [安全](#安全)
-- [安装](#安装)
-  - [更新](#更新)
-- [使用方法](#使用方法)
-- [星星历史](#星星历史)
-- [感谢](#感谢)
-- [贡献](#贡献)
-  - [贡献者](#贡献者)
-- [许可证](#许可证)
+有关更多信息，请参阅[文档](https://levilamina.liteldev.com/zh/).
 
 ## 安全
+
+!!! warning
+    在安装和使用LeviLamina前，请务必阅读并理解以下免责声明。
 
 LeviLamina（以下简称“本软件”）由LiteLDev（以下简称“开发者”）开发和提供。本软件的设计目的是使用户能够通过加载插件来扩展Minecraft Bedrock Server BDS（以下简称“BDS”）的功能。本软件与Mojang Studios（以下简称“Mojang”）或Microsoft Corporation（以下简称“Microsoft”）没有任何关联。开发者对本软件加载的任何插件的内容、质量、功能、安全性或合法性不承担任何责任。用户应自行判断并承担所有相关风险。
 
@@ -50,18 +41,6 @@ cd myserver
 lip install github.com/LiteLDev/LeviLamina
 ```
 
-如需更多信息，请参阅[文档](https://levilamina.liteldev.com)。
-
-### 更新
-
-在涉及数据安全时，我们建议不要在当前位置更新LeviLamina。相反，我们建议创建一个新目录，在新目录中安装新版本的LeviLamina，并将旧位置的`worlds`目录复制到新目录中。然后，按照插件开发者提供的说明，将您使用的插件的配置文件和数据文件迁移到新目录中。
-
-然而，如果您坚持要在相同位置更新，您可以使用以下命令来更新LeviLamina：
-
-```sh
-lip install --upgrade github.com/LiteLDev/LeviLamina
-```
-
 ## 使用方法
 
 要启动服务器，只需运行`bedrock_server_mod.exe`：
@@ -70,15 +49,18 @@ lip install --upgrade github.com/LiteLDev/LeviLamina
 ./bedrock_server_mod.exe
 ```
 
-如需更多信息，请参阅[文档](https://levilamina.liteldev.com)。
+## 星标历史
 
-## 星星历史
-
-![星星历史图](https://api.star-history.com/svg?repos=LiteLDev/LeviLamina&type=Date)
+![星标历史图](https://api.star-history.com/svg?repos=LiteLDev/LeviLamina&type=Date)
 
 ## 感谢
 
-我们衷心感谢[所有捐赠者](https://5g8svn.sharepoint.com/:x:/s/LiteLDev/EXx2ndbuC-9Bj5SR-FlJ-HUBZWy0wODjQCDb8OkzuKTFJg?e=QBF6nQ)！
+我们衷心感谢[所有捐赠者](https://5g8svn.sharepoint.com/:x:/s/LiteLDev/EXx2ndbuC-9Bj5SR-FlJ-HUBZWy0wODjQCDb8OkzuKTFJg?e=QBF6nQ)和所有的开发者！
+
+**感谢 [JetBrains](https://www.jetbrains.com/)
+给开源开发者分配免费的IDE许可证，例如 [CLion](https://www.jetbrains.com/clion/)** 。
+
+[<img src="https://upload.cc/i1/2021/12/29/XNohu5.png" width="200"/>](https://www.jetbrains.com/)
 
 ## 贡献
 
@@ -94,4 +76,6 @@ LeviLamina遵循[Code of Conduct](https://www.contributor-covenant.org/version/2
 
 ## 许可证
 
-LGPL-3.0-only © LiteLDev
+版权所有 © 2023-2024 LiteLDev, 保留所有权利.
+
+本项目采用 LGPL-3.0 许可证发行 - 阅读 [COPYING](COPYING) 和 [COPYING.LESSER](COPYING.LESSER) 文件获取更多信息。

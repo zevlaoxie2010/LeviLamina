@@ -4,7 +4,7 @@
 
 A lightweight, modular and versatile plugin loader for Minecraft Bedrock Server BDS, formerly known as LiteLoaderBDS
 
-LeviLamina is an unofficial plugin loader designed to offer indispensable API support for Minecraft Bedrock Server BDS. It boasts a comprehensive API, an array of utility interfaces, a robust event system, and comprehensive support for basic interfaces. LeviLamina provides an expansive API, a powerful event system, and a wealth of encapsulated development infrastructure interfaces, forming a solid foundation for augmenting the Bedrock Edition BDS with additional gameplay features and functionalities. By leveraging plugins, the process of extending BDS functionality becomes effortless, with a user-friendly development process and an adaptable approach.
+LeviLamina is an unofficial plugin loader designed to offer indispensable API support for Minecraft Bedrock Dedicated Server. It boasts a comprehensive API, an array of utility interfaces, a robust event system, and comprehensive support for basic interfaces. LeviLamina provides an expansive API, a powerful event system, and a wealth of encapsulated development infrastructure interfaces, forming a solid foundation for augmenting the Bedrock Edition BDS with additional gameplay features and functionalities. By leveraging plugins, the process of extending BDS functionality becomes effortless, with a user-friendly development process and an adaptable approach.
 
 Developers can effortlessly author plugins in languages such as C++, JavaScript, Lua, Python, C#, and others. This seamless integration empowers them to effortlessly expand and personalize BDS functionality, facilitating an intuitive learning experience and unparalleled flexibility.
 
@@ -20,52 +20,17 @@ Users should comply with relevant laws and regulations when using this software,
 
 If you have any questions or comments about this disclaimer, please contact the developer.
 
-## Install
-
-This project uses [lip](https://github.com/lippkg/lip). Go check them out if you don't have them locally installed.
-
-First, create a new directory for your Minecraft server and enter it:
-
-```sh
-mkdir myserver
-cd myserver
-```
-
-Then, install LeviLamina bundled with Minecraft Bedrock Server using lip:
-
-```sh
-lip install github.com/LiteLDev/LeviLamina
-```
-
-For more information, please refer to [the documentation](https://levilamina.liteldev.com).
-
-### Updating
-
-When it comes to data security, we advise against updating LeviLamina in its current location. Instead, we recommend creating a new directory, installing the new version of LeviLamina there, and subsequently copying the `worlds` directory from the old location to the new one. Next, follow the instructions provided by the plugin developers to migrate the configuration files and data files of the plugins you are using to the new directory.
-
-However, if you insist on updating in the same location, you can utilize the following command to update LeviLamina:
-
-```sh
-lip install --upgrade github.com/LiteLDev/LeviLamina
-```
-
-## Usage
-
-To start the server, simply run `bedrock_server_mod.exe`:
-
-```sh
-./bedrock_server_mod.exe
-```
-
-For more information, please refer to [the documentation](https://levilamina.liteldev.com).
-
 ## Star History
 
 ![Star History Chart](https://api.star-history.com/svg?repos=LiteLDev/LeviLamina&type=Date)
 
-## Thanks
+## Acknowledgements
 
-We extend sincere thanks to [all donors](https://5g8svn.sharepoint.com/:x:/s/LiteLDev/EXx2ndbuC-9Bj5SR-FlJ-HUBZWy0wODjQCDb8OkzuKTFJg?e=QBF6nQ)!
+We extend sincere thanks to [all donors](https://5g8svn.sharepoint.com/:x:/s/LiteLDev/EXx2ndbuC-9Bj5SR-FlJ-HUBZWy0wODjQCDb8OkzuKTFJg?e=QBF6nQ) and all the developers who have contributed to this project.
+
+**Thanks to [JetBrains](https://www.jetbrains.com/) for allocating free open-source licences for IDEs such
+as [CLion](https://www.jetbrains.com/clion/)**.  
+[<img src="https://s1.imagehub.cc/images/2024/02/20/cd20ed7a227411430d760ee39df01795.png" alt="cd20ed7a227411430d760ee39df01795.png" width="200"/>](https://www.jetbrains.com/)
 
 ## Contributing
 
@@ -81,4 +46,6 @@ This project exists thanks to all the people who contribute.
 
 ## License
 
-LGPL-3.0-only © LiteLDev
+Copyright © 2023-2024 LiteLDev, All rights reserved.
+
+This project is licensed under the LGPL-3.0 License.

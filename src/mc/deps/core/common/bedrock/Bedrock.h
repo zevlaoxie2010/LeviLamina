@@ -3,6 +3,7 @@
 #include "mc/_HeaderOutputPredefine.h"
 
 // auto generated inclusion list
+#include "mc/deps/brstd/copyable_function.h"
 #include "mc/deps/core/PathBuffer.h"
 #include "mc/deps/core/common/bedrock/AsyncErrc.h"
 #include "mc/deps/core/common/bedrock/AsyncStatus.h"
@@ -20,7 +21,7 @@
 #include "mc/deps/core/common/bedrock/PlatformBootstrap.h"
 #include "mc/deps/core/common/bedrock/RequestPriority.h"
 #include "mc/deps/core/common/bedrock/ResponseBodyType.h"
-#include "mc/deps/core/common/bedrock/WorkerPoolManager.h"
+#include "mc/deps/core/common/bedrock/StaticOptimizedString.h"
 #include "mc/deps/core/common/bedrock/WorkerTaskStats.h"
 #include "mc/deps/core/common/bedrock/list.h"
 #include "mc/deps/core/common/bedrock/pubsub/ConnectPosition.h"
@@ -42,6 +43,8 @@ namespace Bedrock { class FilePickerManager; }
 namespace Bedrock { class IApplicationDataStores; }
 namespace Bedrock { class IIslandCore; }
 namespace Bedrock { class PlatformBootstrap; }
+namespace Bedrock { class StaticOptimizedString; }
+namespace Bedrock { class WorkerPoolHandleInterface; }
 namespace Bedrock { class WorkerPoolManager; }
 namespace Bedrock { struct CallStack; }
 namespace Bedrock::Http { class BinaryRequestBody; }
@@ -90,6 +93,7 @@ namespace Bedrock::Threading { class OSThreadPriority; }
 namespace Bedrock::Threading { class SharedRecursiveMutexBase; }
 namespace Bedrock::Threading::AsyncResult { class ToXAsyncBlock; }
 namespace Core { class Path; }
+namespace Core { class Result; }
 // clang-format on
 
 namespace Bedrock {

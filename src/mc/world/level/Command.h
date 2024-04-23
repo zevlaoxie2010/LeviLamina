@@ -3,7 +3,10 @@
 #include "mc/_HeaderOutputPredefine.h"
 #include "mc/server/commands/CommandFlag.h"
 #include "mc/server/commands/CommandPermissionLevel.h"
-#include "mc/server/commands/CommandRegistry.h"
+
+class CommandRegistry;
+class CommandOrigin;
+class CommandOutput;
 
 class Command {
 public:
@@ -11,11 +14,11 @@ public:
     Command& operator=(Command const&);
     Command(Command const&);
 
-    int                          mVersion;         // this+0x8
-    class CommandRegistry const* mRegistry;        // this+0x10
-    int                          mCommandSymbol;   // this+0x18
-    ::CommandPermissionLevel     mPermissionLevel; // this+0x1C
-    struct CommandFlag           mFlags;           // this+0x1E
+    int                      mVersion;         // this+0x8
+    CommandRegistry const*   mRegistry;        // this+0x10
+    int                      mCommandSymbol;   // this+0x18
+    ::CommandPermissionLevel mPermissionLevel; // this+0x1C
+    CommandFlag              mFlags;           // this+0x1E
 
 public:
     // NOLINTBEGIN
@@ -33,9 +36,6 @@ public:
 
     // symbol: ?getCommandName@Command@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     MCAPI std::string getCommandName() const;
-
-    // symbol: ?getVersion@Command@@QEBAHXZ
-    MCAPI int getVersion() const;
 
     // symbol: ?hasFlag@Command@@QEBA_NUCommandFlag@@@Z
     MCAPI bool hasFlag(struct CommandFlag flag) const;

@@ -4,6 +4,7 @@
 
 #include "ll/api/Logger.h"
 #include "ll/api/data/Version.h"
+#include "ll/api/i18n/I18n.h"
 #include "ll/api/service/ServerInfo.h"
 #include "ll/api/utils/ErrorUtils.h"
 #include "ll/api/utils/StacktraceUtils.h"
@@ -11,7 +12,7 @@
 #include "ll/api/utils/WinUtils.h"
 #include "ll/core/Config.h"
 
-#include "windows.h"
+#include <windows.h>
 
 #if _HAS_CXX23
 #include "DbgHelp.h"
@@ -24,14 +25,11 @@ using namespace utils;
 using namespace string_utils;
 Logger crashLogger("CrashLogger");
 
-bool CrashLogger::startCrashLoggerProcess() {
+void CrashLogger::initCrashLogger() {
+
     if (IsDebuggerPresent()) {
-        crashLogger.info("ll.crashLogger.existsingDebuggerDetected"_tr);
-        return true;
-    }
-    if (win_utils::isWine()) {
-        crashLogger.info("ll.crashLogger.wineDetected"_tr);
-        return true;
+        crashLogger.warn("Debugger detected, CrashLogger will not be enabled"_tr());
+        return;
     }
 
     STARTUPINFO si;
@@ -46,39 +44,23 @@ bool CrashLogger::startCrashLoggerProcess() {
 
     std::wstring cmd = string_utils::str2wstr(fmt::format(
         "{} {} \"{}\"",
-        R"(.\plugins\LeviLamina\data\CrashLogger.exe)",
+        globalConfig.modules.crashLogger.externalPath,
         GetCurrentProcessId(),
         ll::getBdsVersion().to_string()
     ));
     if (!CreateProcess(nullptr, cmd.data(), &sa, &sa, true, 0, nullptr, nullptr, &si, &pi)) {
-        crashLogger.error("ll.crashLogger.error.cannotCreateDaemonProcess"_tr);
+        crashLogger.error("Couldn't Create CrashLogger Daemon Process"_tr());
         error_utils::printException(crashLogger, error_utils::getWinLastError());
-        return false;
+        return;
     }
 
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
-    return true;
+
+    crashLogger.info("CrashLogger enabled successfully"_tr());
+    return;
 }
 
-void CrashLogger::initCrashLogger(bool enableCrashLogger) {
-
-    if (!enableCrashLogger) {
-        crashLogger.warn("ll.crashLogger.warning.crashLoggerDisabled.1"_tr);
-        crashLogger.warn("ll.crashLogger.warning.crashLoggerDisabled.2"_tr);
-        crashLogger.warn("ll.crashLogger.warning.crashLoggerDisabled.3"_tr);
-        crashLogger.warn("");
-        crashLogger.warn("ll.crashLogger.warning.crashLoggerDisabled.4"_tr);
-        return;
-    }
-    // Start CrashLogger
-    if (!startCrashLoggerProcess()) {
-        crashLogger.warn("ll.crashLogger.init.fail.msg"_tr);
-        crashLogger.warn("ll.crashLogger.init.fail.tip"_tr);
-    } else {
-        crashLogger.info("ll.crashLogger.init.success.msg"_tr);
-    }
-}
 #if _HAS_CXX23
 
 static struct CrashInfo {
@@ -94,7 +76,7 @@ static struct CrashInfo {
 
 static void dumpSystemInfo() {
     crashInfo.logger.info("System Info:");
-    crashInfo.logger.info("  |OS Version: {}", []() -> std::string {
+    crashInfo.logger.info("  |OS Version: {} {}", win_utils::getSystemName(), []() -> std::string {
         RTL_OSVERSIONINFOW osVersionInfoW = [] {
             RTL_OSVERSIONINFOW osVersionInfoW{};
             typedef uint(WINAPI * RtlGetVersionPtr)(PRTL_OSVERSIONINFOW);
@@ -305,7 +287,7 @@ static LONG unhandledExceptionFilter(_In_ struct _EXCEPTION_POINTERS* e) {
             throw error_utils::getWinLastError();
         }
     } catch (...) {
-        crashInfo.logger.error("!!! Error In CrashLogger !!!");
+        crashInfo.logger.error("!!! Error in CrashLogger !!!");
         ll::error_utils::printCurrentException(crashInfo.logger);
         crashInfo.logger.error("");
         crashInfo.logger.error("\n{}", ll::stacktrace_utils::toString(std::stacktrace::current()));
@@ -313,12 +295,28 @@ static LONG unhandledExceptionFilter(_In_ struct _EXCEPTION_POINTERS* e) {
     std::exit((int)e->ExceptionRecord->ExceptionCode);
 }
 
+static LONG uncatchableExceptionHandler(_In_ struct _EXCEPTION_POINTERS* e) {
+    static std::atomic_bool onceFlag{false};
+    auto const&             code = e->ExceptionRecord->ExceptionCode;
+    if (code == STATUS_HEAP_CORRUPTION || code == STATUS_STACK_BUFFER_OVERRUN
+        // need to add all can't catch status code
+    ) {
+        if (!onceFlag) {
+            onceFlag = true;
+            unhandledExceptionFilter(e);
+        }
+    }
+    return EXCEPTION_CONTINUE_SEARCH;
+}
+
 CrashLoggerNew::CrashLoggerNew() {
     if (IsDebuggerPresent()) {
-        crashLogger.warn("ll.crashLogger.init.fail.msg"_tr);
+        crashLogger.warn("Debugger detected, CrashLogger will not be enabled"_tr());
     } else {
+        AddVectoredExceptionHandler(0, uncatchableExceptionHandler);
+
         previous = SetUnhandledExceptionFilter(unhandledExceptionFilter);
-        crashLogger.info("ll.crashLogger.init.success.msg"_tr);
+        crashLogger.info("CrashLogger enabled successfully"_tr());
     }
 }
 

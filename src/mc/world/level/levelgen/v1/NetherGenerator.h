@@ -24,17 +24,17 @@ public:
         ThreadData();
     };
 
-    std::unique_ptr<PerlinNoise>        lperlinNoise1;     // this+0x68
-    std::unique_ptr<PerlinNoise>        lperlinNoise2;     // this+0x70
-    std::unique_ptr<PerlinNoise>        perlinNoise1;      // this+0x78
-    std::unique_ptr<PerlinNoise>        perlinNoise2;      // this+0x80
-    std::unique_ptr<PerlinNoise>        scaleNoise;        // this+0x88
-    std::unique_ptr<PerlinNoise>        depthNoise;        // this+0x90
-    std::unique_ptr<PerlinSimplexNoise> surfaceNoise;      // this+0x98
-    std::unique_ptr<PerlinSimplexNoise> mMaterialAdjNoise; // this+0xA0
+    std::unique_ptr<PerlinNoise>        mLperlinNoise1; // this+0x188
+    std::unique_ptr<PerlinNoise>        mLperlinNoise2;
+    std::unique_ptr<PerlinNoise>        mPerlinNoise1;
+    std::unique_ptr<PerlinNoise>        mPerlinNoise2;
+    std::unique_ptr<PerlinNoise>        mScaleNoise;
+    std::unique_ptr<PerlinNoise>        mDepthNoise;
+    std::unique_ptr<PerlinSimplexNoise> mSurfaceNoise;
+    std::unique_ptr<PerlinSimplexNoise> mMaterialAdjNoise;
     // Bedrock::Threading::InstancedThreadLocal<NetherGenerator::ThreadData>
-    char                         generatorHelpersPool[168]; // this+0xA8
-    std::unique_ptr<BiomeSource> mBiomeSource;              // this+0x150
+    char                         mGeneratorHelpersPool[168];
+    std::unique_ptr<BiomeSource> mBiomeSource; // this+0x270
 
 public:
     // prevent constructor by default
@@ -94,10 +94,8 @@ public:
     // vIndex: 37, symbol: ?prepareHeights@NetherGenerator@@UEAAXAEAVBlockVolume@@AEBVChunkPos@@_N@Z
     virtual void prepareHeights(class BlockVolume& box, class ChunkPos const& chunkPos, bool factorInBeardsAndShavers);
 
-    // symbol:
-    // ??0NetherGenerator@@QEAA@AEAVDimension@@IPEBVBiome@@V?$unique_ptr@VStructureFeatureRegistry@@U?$default_delete@VStructureFeatureRegistry@@@std@@@std@@@Z
-    MCAPI
-    NetherGenerator(class Dimension& dimension, uint seed, class Biome const*, std::unique_ptr<class StructureFeatureRegistry>);
+    // symbol: ??0NetherGenerator@@QEAA@AEAVDimension@@IPEBVBiome@@@Z
+    MCAPI NetherGenerator(class Dimension&, uint, class Biome const*);
 
     // symbol: ?buildSurfaces@NetherGenerator@@QEAAXAEAVBlockVolume@@AEAVLevelChunk@@AEBVChunkPos@@@Z
     MCAPI void buildSurfaces(class BlockVolume& blocks, class LevelChunk& levelChunk, class ChunkPos const& chunkPos);
@@ -117,13 +115,9 @@ public:
         class BlockVolume&    box,
         class ChunkPos const& chunkPos,
         bool                  factorInBeardsAndShavers,
-        std::vector<short>*,
-        int
+        std::vector<short>*   ZXheights,
+        int                   skipTopN
     );
-
-    // symbol:
-    // ?_makeBiomeSource@NetherGenerator@@CA?AV?$unique_ptr@VBiomeSource@@U?$default_delete@VBiomeSource@@@std@@@std@@AEAVDimension@@@Z
-    MCAPI static std::unique_ptr<class BiomeSource> _makeBiomeSource(class Dimension& dimension);
 
     // NOLINTEND
 };

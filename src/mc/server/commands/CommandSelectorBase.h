@@ -60,13 +60,18 @@ public:
         std::string const&               itemName,
         std::optional<int>               auxValue,
         class CommandIntegerRange const& quantity,
-        ::Puv::Legacy::EquipmentSlot,
+        ::Puv::Legacy::EquipmentSlot     equipmentSlot,
         class CommandIntegerRange const& slot
     );
 
     // symbol:
     // ?addHasPermissionFilters@CommandSelectorBase@@QEAAXAEBV?$vector@UHasPermissionFilter@@V?$allocator@UHasPermissionFilter@@@std@@@std@@@Z
     MCAPI void addHasPermissionFilters(std::vector<struct HasPermissionFilter> const& filters);
+
+    // symbol:
+    // ?addHasPropertyFilter@CommandSelectorBase@@QEAAXAEBVHashedString@@_NAEBV?$optional@V?$variant@VCommandRationalRange@@_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@std@@@Z
+    MCAPI void
+    addHasPropertyFilter(class HashedString const&, bool, std::optional<std::variant<class CommandRationalRange, bool, std::string>> const&);
 
     // symbol: ?addLevelFilter@CommandSelectorBase@@QEAAXAEBU?$pair@HH@std@@@Z
     MCAPI void addLevelFilter(std::pair<int, int> const& level);
@@ -126,6 +131,9 @@ public:
     // ?setExplicitIdSelector@CommandSelectorBase@@QEAAXAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
     MCAPI void setExplicitIdSelector(std::string const& playerName);
 
+    // symbol: ?setForceDimensionFiltering@CommandSelectorBase@@QEAAX_N@Z
+    MCAPI void setForceDimensionFiltering(bool);
+
     // symbol: ?setIncludeDeadPlayers@CommandSelectorBase@@QEAAX_N@Z
     MCAPI void setIncludeDeadPlayers(bool includeDead);
 
@@ -142,7 +150,7 @@ public:
     MCAPI void setRadiusMin(float rm);
 
     // symbol: ?setResultCount@CommandSelectorBase@@QEAAX_K_N@Z
-    MCAPI void setResultCount(uint64, bool);
+    MCAPI void setResultCount(uint64 count, bool);
 
     // symbol: ?setType@CommandSelectorBase@@QEAAXW4CommandSelectionType@@@Z
     MCAPI void setType(::CommandSelectionType type);

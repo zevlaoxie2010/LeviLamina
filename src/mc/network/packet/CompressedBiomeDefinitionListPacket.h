@@ -9,14 +9,16 @@
 
 class CompressedBiomeDefinitionListPacket : public ::BiomeDefinitionListPacket {
 public:
+    std::string definitions;
+
     // prevent constructor by default
     CompressedBiomeDefinitionListPacket& operator=(CompressedBiomeDefinitionListPacket const&);
     CompressedBiomeDefinitionListPacket(CompressedBiomeDefinitionListPacket const&);
 
 public:
     // NOLINTBEGIN
-    // vIndex: 0, symbol: ??1CompressedBiomeDefinitionListPacket@@UEAA@XZ
-    virtual ~CompressedBiomeDefinitionListPacket();
+    // vIndex: 0, symbol: __gen_??1CompressedBiomeDefinitionListPacket@@UEAA@XZ
+    virtual ~CompressedBiomeDefinitionListPacket() = default;
 
     // vIndex: 1, symbol: ?getId@CompressedBiomeDefinitionListPacket@@UEBA?AW4MinecraftPacketIds@@XZ
     virtual ::MinecraftPacketIds getId() const;
@@ -25,10 +27,10 @@ public:
     // ?getName@CompressedBiomeDefinitionListPacket@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     virtual std::string getName() const;
 
-    // vIndex: 3, symbol: ?write@CompressedBiomeDefinitionListPacket@@UEBAXAEAVBinaryStream@@@Z
+    // vIndex: 4, symbol: ?write@CompressedBiomeDefinitionListPacket@@UEBAXAEAVBinaryStream@@@Z
     virtual void write(class BinaryStream& stream) const;
 
-    // vIndex: 4, symbol:
+    // vIndex: 5, symbol:
     // ?read@CompressedBiomeDefinitionListPacket@@UEAA?AV?$Result@XVerror_code@std@@@Bedrock@@AEAVReadOnlyBinaryStream@@@Z
     virtual class Bedrock::Result<void> read(class ReadOnlyBinaryStream& stream);
 

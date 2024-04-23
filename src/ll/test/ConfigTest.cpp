@@ -31,6 +31,11 @@
 
 #include "mc/world/actor/DataItem.h"
 
+// [0, 8, 16, 96, 97, 98, 104, 136, 144, 160, 176, 184, 196, 208, 232, 248, 304, 328, 360, 392, 408]
+
+// ["structure", "version", "ver", "someFlag", "eeeeFlag", "ssbbFlag", "str", "plain", "amap", "bmap", "vec2", "vec3",
+// "pos", "box", "tuple", "pair", "array", "vector", "nullvector", "mulset", "hi"]
+
 template <class T>
 class TestClass {
 public:
@@ -86,11 +91,12 @@ public:
 // LL_AUTO_TYPE_INSTANCE_HOOK(Virtual, HookPriority::Normal, FillCommand, &FillCommand::execute, void, CommandOrigin
 // const&, CommandOutput&) {
 // }
-
+#if !(defined(__INTELLISENSE__) || defined(__clangd__) || defined(__clang__))
 struct myTypeList1 : ll::meta::DynamicTypeList<myTypeList1> {};
 struct myTypeList2 : ll::meta::DynamicTypeList<myTypeList2> {};
 struct myTypeList3 : ll::meta::TypeList<bool, int> {};
 struct myTypeList4 : ll::meta::TypeList<> {};
+#endif
 
 LL_AUTO_TYPE_INSTANCE_HOOK(ConfigTest, HookPriority::Normal, ServerInstance, &ServerInstance::startServerThread, void) {
     origin();
@@ -115,18 +121,14 @@ LL_AUTO_TYPE_INSTANCE_HOOK(ConfigTest, HookPriority::Normal, ServerInstance, &Se
 
     auto list = ll::string_utils::splitByPattern("structure.trs", ".");
 
-    // ll::reflection::visit(std::span{list}, helloReflection, [](auto&& a) {
-    //     if constexpr (std::floating_point<std::remove_cvref_t<decltype(a)>>) {
-    //         ll::logger.debug("ll::reflection::visit {} {}", typeid(decltype(a)).name(), a);
-    //     }
-    // });
-
     ll::logger.debug(
         "reflection NBT: {}",
         ll::reflection::serialize<CompoundTagVariant>(helloReflection).toSnbt(SnbtFormat::PrettyConsolePrint)
     );
 
-    ll::reflection::deserialize(helloReflection, ll::reflection::serialize<CompoundTagVariant>(helloReflection));
+    ll::logger.debug("reflection json: {}", ll::reflection::serialize<nlohmann::ordered_json>(helloReflection).dump(4));
+
+    // ll::reflection::deserialize(helloReflection, ll::reflection::serialize<CompoundTagVariant>(helloReflection));
 
     ll::logger.debug("0x{:X}", (uintptr_t)ll::memory::resolveIdentifier(&FillCommand::execute));
     ll::logger.debug("0x{:X}", (uintptr_t)ll::win_utils::getImageRange().data());
@@ -142,18 +144,21 @@ LL_AUTO_TYPE_INSTANCE_HOOK(ConfigTest, HookPriority::Normal, ServerInstance, &Se
     ll::logger.debug("{}", ll::reflection::getRawName<&ServerLevel::_subTick>());
     ll::logger.debug("{}", ll::reflection::getRawName<&ServerLevel::_checkBlockPermutationCap>());
 
-    try {
-        ll::reflection::deserialize(
-            helloReflection,
-            nlohmann::ordered_json::parse(R"({"structure":{"hello":""}})", nullptr, false, true)
-        );
-    } catch (...) {
-        ll::error_utils::printCurrentException(ll::logger);
-    }
+    // try {
+    //     ll::reflection::deserialize(
+    //         helloReflection,
+    //         nlohmann::ordered_json::parse(R"({"structure":{"hello":""}})", nullptr, false, true)
+    //     );
+    // } catch (...) {
+    //     ll::error_utils::printCurrentException(ll::logger);
+    // }
 
     ll::logger.debug("789\xDB\xFE");
     ll::logger.debug("789\xDB\xFE");
 
+    // ll::logger.debug("{}", ll::reflection::offset_array_v<TestClass<int>>);
+
+#if !(defined(__INTELLISENSE__) || defined(__clangd__) || defined(__clang__))
     myTypeList1::push_back<int>();
     myTypeList1::push_back<float>();
     ll::logger.debug("{}", ll::reflection::type_raw_name_v<decltype(myTypeList1::value())>);
@@ -186,4 +191,5 @@ LL_AUTO_TYPE_INSTANCE_HOOK(ConfigTest, HookPriority::Normal, ServerInstance, &Se
     myTypeList4::forEach([]<typename T>() { ll::logger.debug(typeid(T).name()); });
 
     myTypeList4::forEachIndexed([]<typename T>(size_t index) { ll::logger.debug("{} : {}", typeid(T).name(), index); });
+#endif
 }

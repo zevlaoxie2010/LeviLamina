@@ -24,8 +24,8 @@ public:
     // vIndex: 1, symbol: ?isEntitySource@ActorDamageSource@@UEBA_NXZ
     virtual bool isEntitySource() const;
 
-    // vIndex: 2, symbol: __unk_vfn_2
-    virtual void __unk_vfn_2();
+    // vIndex: 2, symbol: ?isChildEntitySource@ActorDamageSource@@UEBA_NXZ
+    virtual bool isChildEntitySource() const;
 
     // vIndex: 3, symbol: ?isBlockSource@ActorDamageSource@@UEBA_NXZ
     virtual bool isBlockSource() const;
@@ -87,9 +87,6 @@ public:
     // ?clone@ActorDamageSource@@UEBA?AV?$unique_ptr@VActorDamageSource@@U?$default_delete@VActorDamageSource@@@std@@@std@@XZ
     virtual std::unique_ptr<class ActorDamageSource> clone() const;
 
-    // symbol: ?isChildEntitySource@ActorDamageSource@@UEBA_NXZ
-    MCVAPI bool isChildEntitySource() const;
-
     // symbol: ??0ActorDamageSource@@QEAA@W4ActorDamageCause@@@Z
     MCAPI explicit ActorDamageSource(::ActorDamageCause cause);
 
@@ -105,8 +102,16 @@ public:
         generateDamageCauseCommandEnum(std::optional<struct Scripting::Version>);
 
     // symbol:
+    // ?generateNewDamageCauseCommandEnum@ActorDamageSource@@SA?AV?$vector@U?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4ActorDamageCause@@@std@@V?$allocator@U?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4ActorDamageCause@@@std@@@2@@std@@V?$optional@UVersion@Scripting@@@3@@Z
+    MCAPI static std::vector<std::pair<std::string, ::ActorDamageCause>>
+        generateNewDamageCauseCommandEnum(std::optional<struct Scripting::Version>);
+
+    // symbol:
     // ?generateVersionedDamageCauseCommandEnum@ActorDamageSource@@SA?AV?$vector@VVersionedActorDamageCause@@V?$allocator@VVersionedActorDamageCause@@@std@@@std@@XZ
     MCAPI static std::vector<class VersionedActorDamageCause> generateVersionedDamageCauseCommandEnum();
+
+    // symbol: ?getCauseMapVersionCutoffInclusive@ActorDamageSource@@SA?AW4ActorDamageCause@@UVersion@Scripting@@@Z
+    MCAPI static ::ActorDamageCause getCauseMapVersionCutoffInclusive(struct Scripting::Version);
 
     // symbol: ?isDamageCausedByMob@ActorDamageSource@@SA_NW4ActorDamageCause@@@Z
     MCAPI static bool isDamageCausedByMob(::ActorDamageCause cause);
